@@ -110,7 +110,6 @@ public class ConversationFragment extends Fragment {
         ((MainActivity) activity).onSectionAttached(
                 getArguments().getInt(ARG_SECTION_NUMBER));
         db = new ItemDataSource(this.mActivity.getApplicationContext());
-
         createList();
     }
 

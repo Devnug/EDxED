@@ -22,7 +22,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
     private final FragmentActivity mActivity;
     public ItemDataSource db;
 
-    private static final String TAG = "ConversationAdapter";
+    private static final String TAG = "ScheduleAdapter";
 
     public ScheduleAdapter(List<ViewModel> items, int itemLayout, FragmentActivity mActivity) {
         this.items = items;
@@ -112,6 +112,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
                 }
             });
             remGoogleCal = (TextView) itemView.findViewById(R.id.rem_google_calendar);
+            final View itView = itemView;
             remGoogleCal.setOnClickListener(new View.OnClickListener() {
 
                 @Override
@@ -122,7 +123,8 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
                     currentItem.setAttending("false");
                     remGoogleCal.setVisibility(View.GONE);
                     googleCal.setVisibility(View.VISIBLE);
-                    ConversationFragment.removeEvent(currentItem);
+                    ScheduleFragment.removeCard(itView);
+                    ScheduleFragment.removeEvent(currentItem);
                 }
             });
             imageView = (ImageView)itemView.findViewById(R.id.pic);
