@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">EDxED</string>
+
+    <string name="title_section1">About</string>
+    <string name="title_section2">Conversations</string>
+    <string name="title_section3">Event Organizers</string>
+    <string name="title_section4">Schedule</string>
+    <string name="title_section5">Sponsors</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_example">Example action</string>
+
+    <string name="action_settings">Settings</string>
+
+    <string name="about_title">ABOUT EDxEDNYC 2015</string>
+    <string name="about_title2">EDxEDNYC CONFERENCE June 4, 2015</string>
+    <string name="about_text">The mission of EDxEDNYC 2015 is to build best practices,
+        network with other innovative thinkers within New York City and to continue conversations
+        around student engagement and inquiry. This conference is for educators by educators, with a focus on fostering discussion,
+        questioning, reflective leadership and design-thinking within our schools.</string>
+    <string name="direction_title">THE PROFESSIONAL LEARNING CONFERENCE EVENT</string>
+    <string name="date">JUNE 4, 2015 9am-3:30pm</string>
+    <string name="location">at Hudson High School of Learning Technologies</string>
+    <string name="address">351 West 19th St.\n1st Floor\nNew York, NY 10011\n</string>
+    <string name="telephone">T: 212.388.3330</string>
+    <string name="email">E: EDxED@hudson.com</string>
+    <string name="show_more">Show more</string>
+    <string name="add_cal">Add to Schedule</string>
+    <string name="rem_cal">Remove from Schedule</string>
+
+    <string name="add_to_cal">Would you like to add this event to your Google Calendar?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="empty">There is nothing here!  Add events to your schedule!</string>
+
+</resources>
