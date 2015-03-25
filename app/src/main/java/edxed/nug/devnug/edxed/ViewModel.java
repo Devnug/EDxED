@@ -49,7 +49,7 @@ public class ViewModel {
     public int determineImg() {
         if(name.toLowerCase().indexOf("anne taliaferro") != -1)
             return R.drawable.anne;
-        if(name.toLowerCase().indexOf("christopher purcell") != -1)
+        if(name.toLowerCase().indexOf("christopher purcell") != -1 || name.toLowerCase().indexOf("chris purcell") != -1)
             return R.drawable.christopher;
         if(name.toLowerCase().indexOf("gina angelillo") != -1)
             return R.drawable.gina;
