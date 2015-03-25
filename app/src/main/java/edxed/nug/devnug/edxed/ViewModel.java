@@ -13,6 +13,9 @@ public class ViewModel {
     private String room;
     private String session;
     private String attending;
+    private String twitterHandle;
+    private String jobTitle;
+    private String email;
     private int img;
 
     public ViewModel() {
@@ -30,6 +33,15 @@ public class ViewModel {
         room = "TBD";
         session = "Session 1";
         attending = theAttending;
+        // Test with phil...for now...
+        img = determineImg();
+    }
+
+    public ViewModel(String theName, String theJobTitle, String theTwitterHandle, String theEmail) {
+        name = theName;
+        jobTitle = theJobTitle;
+        twitterHandle = theTwitterHandle;
+        email = theEmail;
         // Test with phil...for now...
         img = determineImg();
     }
@@ -59,6 +71,12 @@ public class ViewModel {
             return R.drawable.walter;
         if(name.toLowerCase().indexOf("michael ponella") != -1)
             return R.drawable.michael;
+        if(name.toLowerCase().indexOf("nancy amling") != -1)
+            return R.drawable.nancy;
+        if(name.toLowerCase().indexOf("dr. gary haber") != -1)
+            return R.drawable.haber;
+        if(name.toLowerCase().indexOf("vanessa letourneau") != -1)
+            return R.drawable.vanessa;
         return R.drawable.nopic;
     }
 
@@ -108,5 +126,25 @@ public class ViewModel {
 
     public String getSession() {
         return session;
+    }
+
+    public String getTwitterHandle() {
+        return twitterHandle;
+    }
+
+    public String getJobTitle() {
+        return jobTitle;
+    }
+
+    public void setJobTitle(String jobTitle) {
+        this.jobTitle = jobTitle;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

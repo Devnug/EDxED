@@ -26,6 +26,8 @@ public class ItemDataSource {
     private String[] allColumns = { ItemDbHelper.COLUMN_ID,
             ItemDbHelper.KEY_NAME, ItemDbHelper.KEY_TITLE, ItemDbHelper.KEY_DESC, ItemDbHelper.KEY_ROOM, ItemDbHelper.KEY_SESSION,
             ItemDbHelper.KEY_ATTENDING, ItemDbHelper.KEY_EVENT_ID, ItemDbHelper.KEY_PIC};
+    private String[] allOrgColumns = { ItemDbHelper.COLUMN_ID,
+            ItemDbHelper.KEY_NAME, ItemDbHelper.KEY_JOB_TITLE, ItemDbHelper.KEY_TWITTER, ItemDbHelper.KEY_EMAIL, ItemDbHelper.KEY_PIC};
     private static final String TAG = "ItemDataSource ::";
 
     public ItemDataSource(Context context) {
@@ -128,7 +130,7 @@ public class ItemDataSource {
         //Cursor cursor2 = database.query(edxed.nug.devnug.edxed.ItemDbHelper.DICTIONARY_TABLE_NAME, allColumns, edxed.nug.devnug.edxed.ItemDbHelper.KEY_NAME + " LIKE '%" + name + "%'", null, null, null, null);
         //cursor2.moveToFirst();
         //Initial Database
-            String sql = "INSERT INTO conversationlist (_id, name, title, description, room, session, attending, eventID, pic)  VALUES ('" + 1 + "','" + "HALLEY ANNE CURTIS" + "','" + "INTERNATIONAL TRAVEL" + "','" + "Traveling internationally expands students'' world views and brings classroom learning to life, so how can you bring this opportunity to your school? At this session, you''ll learn about the logistics of planning an international trip through the school system. Additionally, you''ll hear about how Hudson provided financial support to make travel possible for students from a variety of backgrounds. You''ll leave with the basic supports and inspiration you need to bring international travel to your students!" + "','" + "TBD" + "','" + "SESSION 1" + "','" + "false" + "','" + "" + "','" + "" + "')";
+        String sql = "INSERT INTO conversationlist (_id, name, title, description, room, session, attending, eventID, pic)  VALUES ('" + 1 + "','" + "HALLEY ANNE CURTIS" + "','" + "INTERNATIONAL TRAVEL" + "','" + "Traveling internationally expands students'' world views and brings classroom learning to life, so how can you bring this opportunity to your school? At this session, you''ll learn about the logistics of planning an international trip through the school system. Additionally, you''ll hear about how Hudson provided financial support to make travel possible for students from a variety of backgrounds. You''ll leave with the basic supports and inspiration you need to bring international travel to your students!" + "','" + "TBD" + "','" + "SESSION 1" + "','" + "false" + "','" + "" + "','" + "" + "')";
             this.database.execSQL(sql);
             this.database.execSQL("INSERT INTO conversationlist (_id, name, title, description, room, session, attending, eventID, pic)  VALUES ('" + 2 + "','" + "JENNIFER GUNN" + "','" + "THE BIG IDEA PROJECT" + "','" + "The Big Idea Project is a student-designed passion project that allows students to discover their passions and conduct deep research and experimentation on topics they love or have yet to have the space to discover. This session will share The Big Idea Project model, as well as the lessons and successes we acquired along the way. Presentation participants will discuss practical solutions for launching a long-term independent project model with built-in supports and learning competencies. Furthermore, participants will gain access to our wealth of open-source materials." + "','" + "TBD" + "','" + "SESSION 1" + "','" + "false" + "','" + "" + "','" + "" + "')");
             this.database.execSQL("INSERT INTO conversationlist (_id, name, title, description, room, session, attending, eventID, pic)  VALUES ('" + 3 + "','" + "CHRISTOPHER PURCELL" + "','" + "MULTIPLE ACCESS POINTS" + "','" + "Incorporating multiple access points into our instruction allows all of our students the opportunity to engage in their learning of both knowledge and skills. Participants will examine strategies and resources in developing multiple access points for content, process, and product." + "','" + "TBD" + "','" + "SESSION 1" + "','" + "false" + "','" + "" + "','" + "" + "')");
@@ -146,6 +148,38 @@ public class ItemDataSource {
             //int num = database.updateWithOnConflict(edxed.nug.devnug.edxed.ItemDbHelper.DICTIONARY_TABLE_NAME, values, edxed.nug.devnug.edxed.ItemDbHelper.KEY_NAME + " LIKE '" + name + "'", null, SQLiteDatabase.CONFLICT_REPLACE);
 
             //Log.d(DEBUG_TAG, "num of rows affected: " + num);
+	    /*
+	    Cursor cursor = database.query(edxed.nug.devnug.edxed.ItemDbHelper.DICTIONARY_TABLE_NAME,
+	        allColumns, edxed.nug.devnug.edxed.ItemDbHelper.COLUMN_ID + " = " + insertId, null,
+	        null, null, null);
+	    cursor.moveToFirst();
+	    Item newItem = cursorToItem(cursor);
+	    cursor.close();
+	    */
+
+        //return newItem;
+    }
+
+    public void createOrgBaseTable() {
+        ContentValues values = new ContentValues();
+        //Cursor cursor2 = database.query(edxed.nug.devnug.edxed.ItemDbHelper.DICTIONARY_TABLE_NAME, allColumns, edxed.nug.devnug.edxed.ItemDbHelper.KEY_NAME + " LIKE '%" + name + "%'", null, null, null, null);
+        //cursor2.moveToFirst();
+        //Initial Database
+        String sql = "INSERT INTO organizerslist (_id, name, job_title, twitter_handle, email, pic)  VALUES ('" + 1 + "','" + "NANCY AMLING" + "','" + "PRINCIPAL" + "','" + "@amlingnancy" + "','" + "" + "','" + "" + "')";
+        this.database.execSQL(sql);
+        this.database.execSQL("INSERT INTO organizerslist (_id, name, job_title, twitter_handle, email, pic)  VALUES ('" + 2 + "','" + "WALTER BROWN" + "','" + "ASSISTANT PRINCIPAL" + "','" + "@wbrownhhs" + "','" + "" + "','" + "" + "')");
+        this.database.execSQL("INSERT INTO organizerslist (_id, name, job_title, twitter_handle, email, pic)  VALUES ('" + 3 + "','" + "DR. GARY HABER" + "','" + "ASSISTANT PRINCIPAL" + "','" + "@garyhaberdc" + "','" + "" + "','" + "" + "')");
+        this.database.execSQL("INSERT INTO organizerslist (_id, name, job_title, twitter_handle, email, pic)  VALUES ('" + 4 + "','" + "PHIL LINDER" + "','" + "TEACHER" + "','" + "@thehistorydude" + "','" + "" + "','" + "" + "')");
+        this.database.execSQL("INSERT INTO organizerslist (_id, name, job_title, twitter_handle, email, pic)  VALUES ('" + 5 + "','" + "THOMAS RODNEY" + "','" + "TEACHER" + "','" + "" + "','" + "trodney@hudsonhs.com" + "','" + "" + "')");
+        this.database.execSQL("INSERT INTO organizerslist (_id, name, job_title, twitter_handle, email, pic)  VALUES ('" + 6 + "','" + "TIM COMER" + "','" + "TEACHER" + "','" + "@cambrianed" + "','" + "" + "','" + "" + "')");
+        this.database.execSQL("INSERT INTO organizerslist (_id, name, job_title, twitter_handle, email, pic)  VALUES ('" + 7 + "','" + "CHRIS PURCELL" + "','" + "TEACHER" + "','" + "@mr_purcell" + "','" + "" + "','" + "" + "')");
+        this.database.execSQL("INSERT INTO organizerslist (_id, name, job_title, twitter_handle, email, pic)  VALUES ('" + 8 + "','" + "VANESSA LETOURNEAU" + "','" + "TEACHER" + "','" + "@vletourneau437" + "','" + "" + "','" + "" + "')");
+        this.database.execSQL("INSERT INTO organizerslist (_id, name, job_title, twitter_handle, email, pic)  VALUES ('" + 9 + "','" + "JENNIFER GUNN" + "','" + "TEACHER" + "','" + "@jenniferlmgunn" + "','" + "" + "','" + "" + "')");
+        this.database.execSQL("INSERT INTO organizerslist (_id, name, job_title, twitter_handle, email, pic)  VALUES ('" + 10 + "','" + "GINA ANGELILLO" + "','" + "TEACHER" + "','" + "@cultivatinggina" + "','" + "" + "','" + "" + "')");
+        //Log.d(DEBUG_TAG, item.getItemName());
+        //int num = database.updateWithOnConflict(edxed.nug.devnug.edxed.ItemDbHelper.DICTIONARY_TABLE_NAME, values, edxed.nug.devnug.edxed.ItemDbHelper.KEY_NAME + " LIKE '" + name + "'", null, SQLiteDatabase.CONFLICT_REPLACE);
+
+        //Log.d(DEBUG_TAG, "num of rows affected: " + num);
 	    /*
 	    Cursor cursor = database.query(edxed.nug.devnug.edxed.ItemDbHelper.DICTIONARY_TABLE_NAME,
 	        allColumns, edxed.nug.devnug.edxed.ItemDbHelper.COLUMN_ID + " = " + insertId, null,
@@ -267,6 +301,14 @@ public class ItemDataSource {
     {
         Cursor cursor = database.query(ItemDbHelper.CONVERSATION_TABLE_NAME,
                 allColumns, null, null,
+                null, null, null);
+        return cursor;
+    }
+
+    public Cursor queryAllOrg()
+    {
+        Cursor cursor = database.query(ItemDbHelper.ORGANIZERS_TABLE_NAME,
+                allOrgColumns, null, null,
                 null, null, null);
         return cursor;
     }

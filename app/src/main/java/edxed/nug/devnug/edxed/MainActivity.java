@@ -42,10 +42,11 @@ public class MainActivity extends ActionBarActivity
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
         db = new ItemDataSource(this);
-        //db.resetTable();
+        //db.resetAllTables();
         // Create database on first run
         if(!db.hasEntries()) {
             db.createBaseTable();
+            db.createOrgBaseTable();
         }
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
@@ -67,7 +68,7 @@ public class MainActivity extends ActionBarActivity
                     .commit();
         if(position == 2)
             fragmentManager.beginTransaction()
-                    .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
+                    .replace(R.id.container, OrganizersFragment.newInstance(position + 1))
                     .commit();
         if(position == 3)
             fragmentManager.beginTransaction()

@@ -33,6 +33,17 @@ public class ItemDbHelper extends SQLiteOpenHelper {
             + KEY_EVENT_ID + " TEXT, "
             + KEY_PIC + " BLOB);";
 
+    public static final String KEY_JOB_TITLE = "job_title";
+    public static final String KEY_TWITTER = "twitter_handle";
+    public static final String KEY_EMAIL = "email";
+    public static final String ORGANIZERS_TABLE_NAME = "organizerslist";
+    public static final String ORGANIZERS_TABLE_CREATE = "CREATE TABLE IF NOT EXISTS " + ORGANIZERS_TABLE_NAME + " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + KEY_NAME + " TEXT, "
+            + KEY_JOB_TITLE + " TEXT, "
+            + KEY_TWITTER + " TEXT, "
+            + KEY_EMAIL + " TEXT, "
+            + KEY_PIC + " BLOB);";
+
     public static final String DEBUG_TAG = "edxed.nug.devnug.edxed.ItemDbHelper :: ";
 
     public static ItemDbHelper getInstance(Context ctx) {
@@ -58,6 +69,7 @@ public class ItemDbHelper extends SQLiteOpenHelper {
         Log.d(DEBUG_TAG, "onOpen");
         //db.execSQL(UNUSUAL_TABLE_CREATE);
         db.execSQL(CONVERSATION_TABLE_CREATE);
+        db.execSQL(ORGANIZERS_TABLE_CREATE);
 
     }
 
@@ -84,11 +96,11 @@ public class ItemDbHelper extends SQLiteOpenHelper {
         //delete tables
         //db.execSQL("DROP TABLE IF EXISTS " + UNUSUAL_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + CONVERSATION_TABLE_NAME);
-        //db.execSQL("DROP TABLE IF EXISTS " + UNUSUAL_TABLE_DATA);
+        db.execSQL("DROP TABLE IF EXISTS " + ORGANIZERS_TABLE_NAME);
 
         //recreate tables
-        db.execSQL(CONVERSATION_TABLE_CREATE);
-        //db.execSQL(UNUSUAL_TABLE_CREATE);
+        //db.execSQL(CONVERSATION_TABLE_CREATE);
+        //db.execSQL(ORGANIZERS_TABLE_CREATE);
         //db.execSQL(UNUSUAL_TABLE_DATA_CREATE);
     }
 
