@@ -25,7 +25,7 @@ public class ItemDataSource {
     private ItemDbHelper dbHelper;
     private String[] allColumns = { ItemDbHelper.COLUMN_ID,
             ItemDbHelper.KEY_NAME, ItemDbHelper.KEY_TITLE, ItemDbHelper.KEY_DESC, ItemDbHelper.KEY_ROOM, ItemDbHelper.KEY_SESSION,
-            ItemDbHelper.KEY_ATTENDING, ItemDbHelper.KEY_EVENT_ID, ItemDbHelper.KEY_PIC};
+            ItemDbHelper.KEY_ATTENDING, ItemDbHelper.KEY_EVENT_ID, ItemDbHelper.KEY_PIC, ItemDbHelper.KEY_LAST_UPDATE};
     private String[] allOrgColumns = { ItemDbHelper.COLUMN_ID,
             ItemDbHelper.KEY_NAME, ItemDbHelper.KEY_JOB_TITLE, ItemDbHelper.KEY_TWITTER, ItemDbHelper.KEY_EMAIL, ItemDbHelper.KEY_PIC};
     private static final String TAG = "ItemDataSource ::";
@@ -47,84 +47,46 @@ public class ItemDataSource {
         return database.isOpen();
     }
 
-    /*
-    public void createItem(Item item) {
+    
+    public void createItem(ViewModel item) {
         ContentValues values = new ContentValues();
-        /**
+        
          if(database.isOpen())
-         Log.d(DEBUG_TAG, "open");
+         Log.d(TAG, "open");
          else
-         Log.d(DEBUG_TAG, "closed");
+         Log.d(TAG, "closed");
 
-
-        if(item.getItemName().indexOf("\\") != -1)
-        {
-            //Log.d(DEBUG_TAG, item.getItemName() + '\u00e9');
-            int temp = item.getItemName().indexOf("\\");
-            int hexVal = Integer.parseInt(item.getItemName().substring(temp+2, temp + 6), 16);
-            char letter = (char)hexVal;
-            String name = item.getItemName().substring(0, temp) + letter + item.getItemName().substring(temp + 6);
-            item.setItemName(name);
-            Log.d(DEBUG_TAG, name);
-        }
-        String name = item.getItemName();
-        if(item.getItemName().indexOf("'") != -1) {
-            name = item.getItemName().replace("'", "''");
-        }
 
         //Cursor cursor2 = database.query(edxed.nug.devnug.edxed.ItemDbHelper.DICTIONARY_TABLE_NAME, allColumns, edxed.nug.devnug.edxed.ItemDbHelper.KEY_NAME + " LIKE '%" + name + "%'", null, null, null, null);
         //cursor2.moveToFirst();
-        if(canUpdateRow(item, name)) {
+        if(canUpdateRow(item)) {
 
-            values.put(ItemDbHelper.KEY_NAME, item.getItemName());
+            values.put(ItemDbHelper.KEY_NAME, item.getName());
             values.put(ItemDbHelper.KEY_DESC, item.getDesc());
-            values.put(ItemDbHelper.KEY_UNIQUE, item.getUniquePrice());
-            values.put(ItemDbHelper.KEY_UNCRAFT, item.getUncraftPrice());
-            values.put(ItemDbHelper.KEY_VINTAGE, item.getVintagePrice());
-            values.put(ItemDbHelper.KEY_GENUINE, item.getGenuinePrice());
-            values.put(ItemDbHelper.KEY_STRANGE, item.getStrangePrice());
-            values.put(ItemDbHelper.KEY_HAUNTED, item.getHauntedPrice());
-            values.put(ItemDbHelper.KEY_COLLECTOR, item.getCollectorPrice());
-            values.put(ItemDbHelper.KEY_LAST_UPDATE, item.getLastUpdated());
-            values.put(ItemDbHelper.KEY_PICURL, item.getItemPicURL());
-            values.put(ItemDbHelper.KEY_CLASSEQUIP, item.getClassEquip());
-            values.put(ItemDbHelper.KEY_UNIQUE_MON, item.getUniqueDPrice());
-            values.put(ItemDbHelper.KEY_UNCRAFT_MON, item.getUncraftDPrice());
-            values.put(ItemDbHelper.KEY_VINTAGE_MON, item.getVintageDPrice());
-            values.put(ItemDbHelper.KEY_GENUINE_MON, item.getGenuineDPrice());
-            values.put(ItemDbHelper.KEY_STRANGE_MON, item.getStrangeDPrice());
-            values.put(ItemDbHelper.KEY_HAUNTED_MON, item.getHauntedDPrice());
-            values.put(ItemDbHelper.KEY_COLLECTOR_MON, item.getCollectorDPrice());
-            values.put(ItemDbHelper.KEY_ITEMTYPE, item.getType());
-            values.put(ItemDbHelper.KEY_HASUNUSUAL, item.getUnusual());
-            //Log.d(DEBUG_TAG, item.getItemName());
+            values.put(ItemDbHelper.KEY_TITLE, item.getTitle());
+            values.put(ItemDbHelper.KEY_ROOM, item.getRoom());
+            values.put(ItemDbHelper.KEY_SESSION, item.getSession());
+            values.put(ItemDbHelper.KEY_LAST_UPDATE, item.getLastUpdate());
+            Log.d(TAG, "Updating " + item.getName() + " with room " + item.getRoom() + "with last update " + item.getLastUpdate());
 
-            int num = database.updateWithOnConflict(ItemDbHelper.DICTIONARY_TABLE_NAME, values, ItemDbHelper.KEY_NAME + " LIKE '" + name + "'", null, SQLiteDatabase.CONFLICT_REPLACE);
+            int num = database.updateWithOnConflict(ItemDbHelper.CONVERSATION_TABLE_NAME, values, ItemDbHelper.KEY_NAME + " LIKE '" + item.getName() + "'", null, SQLiteDatabase.CONFLICT_REPLACE);
             if(num == 0) {
-                long insertId = database.insertWithOnConflict(ItemDbHelper.DICTIONARY_TABLE_NAME, "", values, SQLiteDatabase.CONFLICT_REPLACE);
-                Cursor cursor = database.query(ItemDbHelper.DICTIONARY_TABLE_NAME,
+                long insertId = database.insertWithOnConflict(ItemDbHelper.CONVERSATION_TABLE_NAME, "", values, SQLiteDatabase.CONFLICT_REPLACE);
+                Cursor cursor = database.query(ItemDbHelper.CONVERSATION_TABLE_NAME,
                         allColumns, ItemDbHelper.COLUMN_ID + " = " + insertId, null,
                         null, null, null);
                 cursor.moveToFirst();
-                Item newItem = cursorToItem(cursor);
+                //ViewItem newItem = cursorToItem(cursor);
                 cursor.close();
             }
-            MainActivity.itemsUpdated++;
+            //MainActivity.itemsUpdated++;
             //int num = database.updateWithOnConflict(edxed.nug.devnug.edxed.ItemDbHelper.DICTIONARY_TABLE_NAME, values, edxed.nug.devnug.edxed.ItemDbHelper.KEY_NAME + " LIKE '" + name + "'", null, SQLiteDatabase.CONFLICT_REPLACE);
 
-            Log.d(DEBUG_TAG, "num of rows affected: " + num);
-	    /*
-	    Cursor cursor = database.query(edxed.nug.devnug.edxed.ItemDbHelper.DICTIONARY_TABLE_NAME,
-	        allColumns, edxed.nug.devnug.edxed.ItemDbHelper.COLUMN_ID + " = " + insertId, null,
-	        null, null, null);
-	    cursor.moveToFirst();
-	    Item newItem = cursorToItem(cursor);
-	    cursor.close();
-
-        }
+            Log.d(TAG, "num of rows affected: " + num);
+	    }
         //return newItem;
     }
-    */
+    
     public void createBaseTable() {
         ContentValues values = new ContentValues();
         //Cursor cursor2 = database.query(edxed.nug.devnug.edxed.ItemDbHelper.DICTIONARY_TABLE_NAME, allColumns, edxed.nug.devnug.edxed.ItemDbHelper.KEY_NAME + " LIKE '%" + name + "%'", null, null, null, null);
@@ -144,10 +106,10 @@ public class ItemDataSource {
             this.database.execSQL("INSERT INTO conversationlist (_id, name, title, description, room, session, attending, eventID, pic)  VALUES ('" + 11 + "','" + "THOMAS RODNEY" + "','" + "TECHNOLOGY USE IN THE MATH CLASSROOM" + "','" + "Technology, such as calculators, standard software programs, and the Internet, can be effectively used to enhance instruction in a number of ways. Participants will share best practices and discuss the benefits and capabilities of technology in the classroom." + "','" + "TBD" + "','" + "SESSION 1" + "','" + "false" + "','" + "" + "','" + "" + "')");
             this.database.execSQL("INSERT INTO conversationlist (_id, name, title, description, room, session, attending, eventID, pic)  VALUES ('" + 12 + "','" + "GINA ANGELILLO" + "','" + "GOOGLE CLASSROOM" + "','" + "With Google Classroom, teachers can seamlessly integrate Google Docs, Google Drive, and Gmail to create assignments, provide feedback for in progress and completed work, and communicate with their students directly and with whole class announcements--all without using a single piece of paper. Participants will set up Google Classroom teacher accounts and learn how to create, assign, and collect student assignments digitally. " + "','" + "TBD" + "','" + "SESSION 1" + "','" + "false" + "','" + "" + "','" + "" + "')");
             this.database.execSQL("INSERT INTO conversationlist (_id, name, title, description, room, session, attending, eventID, pic)  VALUES ('" + 13 + "','" + "KATE SALUTE" + "','" + "CONTENT, PROCESS & PRODUCT" + "','" + "The conversation will be around students demonstrating their understanding in a variety of ways without compromising Common Core standards. This method engages students in the process, the content and drives them to produce quality work. Bring your best project assignments! Small content groups with hands on project starters and 10 slides in 100 seconds to present their product." + "','" + "TBD" + "','" + "SESSION 1" + "','" + "false" + "','" + "" + "','" + "" + "')");
-            //Log.d(DEBUG_TAG, item.getItemName());
+            //Log.d(TAG, item.getItemName());
             //int num = database.updateWithOnConflict(edxed.nug.devnug.edxed.ItemDbHelper.DICTIONARY_TABLE_NAME, values, edxed.nug.devnug.edxed.ItemDbHelper.KEY_NAME + " LIKE '" + name + "'", null, SQLiteDatabase.CONFLICT_REPLACE);
 
-            //Log.d(DEBUG_TAG, "num of rows affected: " + num);
+            //Log.d(TAG, "num of rows affected: " + num);
 	    /*
 	    Cursor cursor = database.query(edxed.nug.devnug.edxed.ItemDbHelper.DICTIONARY_TABLE_NAME,
 	        allColumns, edxed.nug.devnug.edxed.ItemDbHelper.COLUMN_ID + " = " + insertId, null,
@@ -176,10 +138,10 @@ public class ItemDataSource {
         this.database.execSQL("INSERT INTO organizerslist (_id, name, job_title, twitter_handle, email, pic)  VALUES ('" + 8 + "','" + "VANESSA LETOURNEAU" + "','" + "TEACHER" + "','" + "@vletourneau437" + "','" + "" + "','" + "" + "')");
         this.database.execSQL("INSERT INTO organizerslist (_id, name, job_title, twitter_handle, email, pic)  VALUES ('" + 9 + "','" + "JENNIFER GUNN" + "','" + "TEACHER" + "','" + "@jenniferlmgunn" + "','" + "" + "','" + "" + "')");
         this.database.execSQL("INSERT INTO organizerslist (_id, name, job_title, twitter_handle, email, pic)  VALUES ('" + 10 + "','" + "GINA ANGELILLO" + "','" + "TEACHER" + "','" + "@cultivatinggina" + "','" + "" + "','" + "" + "')");
-        //Log.d(DEBUG_TAG, item.getItemName());
+        //Log.d(TAG, item.getItemName());
         //int num = database.updateWithOnConflict(edxed.nug.devnug.edxed.ItemDbHelper.DICTIONARY_TABLE_NAME, values, edxed.nug.devnug.edxed.ItemDbHelper.KEY_NAME + " LIKE '" + name + "'", null, SQLiteDatabase.CONFLICT_REPLACE);
 
-        //Log.d(DEBUG_TAG, "num of rows affected: " + num);
+        //Log.d(TAG, "num of rows affected: " + num);
 	    /*
 	    Cursor cursor = database.query(edxed.nug.devnug.edxed.ItemDbHelper.DICTIONARY_TABLE_NAME,
 	        allColumns, edxed.nug.devnug.edxed.ItemDbHelper.COLUMN_ID + " = " + insertId, null,
@@ -211,39 +173,39 @@ public class ItemDataSource {
 
     }
 
-    /*
-    public boolean canUpdateRow(Item item, String name) {
+
+    public boolean canUpdateRow(ViewModel item) {
         //int lastUpdateColumn = cursor.getColumnIndex(edxed.nug.devnug.edxed.ItemDbHelper.KEY_LAST_UPDATE);
-        //Log.d(DEBUG_TAG, "Column index: " + lastUpdateColumn);
-        Cursor cursor = database.query(ItemDbHelper.CONVERSATION_TABLE_NAME, allColumns, ItemDbHelper.KEY_NAME + " LIKE '" + name + "'", null, null, null, null);
+        //Log.d(TAG, "Column index: " + lastUpdateColumn);
+        Cursor cursor = database.query(ItemDbHelper.CONVERSATION_TABLE_NAME, allColumns, ItemDbHelper.KEY_NAME + " LIKE '" + item.getName() + "'", null, null, null, null);
         cursor.moveToFirst();
-        //Log.d(DEBUG_TAG, "Cursor: " + cursor.getCount());
+        //Log.d(TAG, "Cursor: " + cursor.getCount());
         if(cursor.getCount() == 0) {
-            Log.d(DEBUG_TAG, "UPDATING NAME: " + item.getItemName());
+            Log.d(TAG, "UPDATING NAME: " + item.getName());
             return true;
         }
         int lastUpdateColumn = cursor.getColumnIndex(ItemDbHelper.KEY_LAST_UPDATE);
-        String lastUpdateCol = cursor.getString(lastUpdateColumn);
-        String lastUp = item.getLastUpdated();
-        //Log.d(DEBUG_TAG, "CURSOR COUNT = " + cursor.getCount());
-        if(lastUpdateCol == null || lastUp == null && cursor.getCount() == 1) {
-            //Log.d(DEBUG_TAG, "UPDATING NAME: " + item.getItemName());
+        int lastUpdateCol = cursor.getInt(lastUpdateColumn);
+        int lastUp = item.getLastUpdate();
+        //Log.d(TAG, "CURSOR COUNT = " + cursor.getCount());
+        if(lastUpdateCol == 1 || lastUp == 1 && cursor.getCount() == 1) {
+            //Log.d(TAG, "UPDATING NAME: " + item.getItemName());
             return false;
         }
         cursor.close();
-        if(lastUp == null) {
-            Log.d(DEBUG_TAG, "UPDATING NAME: " + item.getItemName());
+        if(lastUp == 1) {
+            Log.d(TAG, "UPDATING NAME: " + item.getName());
             return true;
         }
-        //Log.d(DEBUG_TAG, "Last update: " + Long.valueOf(lastUpdateCol).longValue() + "Item last Update: " + Long.valueOf(lastUp).longValue());
+        //Log.d(TAG, "Last update: " + Long.valueOf(lastUpdateCol).longValue() + "Item last Update: " + Long.valueOf(lastUp).longValue());
         // MainActivity.lastUpdateLong < Long.valueOf(lastUp).longValue()
-        if(Long.valueOf(lastUpdateCol).longValue() < Long.valueOf(lastUp).longValue() ) {
-            Log.d(DEBUG_TAG, "UPDATING NAME: " + item.getItemName());
+        if(lastUpdateCol < lastUp) {
+            Log.d(TAG, "UPDATING NAME: " + item.getName());
             return true;
         }
         return false;
     }
-    */
+
     /*
     public List<Item> getAllItems() {
         List<Item> comments = new ArrayList<Item>();
@@ -350,14 +312,14 @@ public class ItemDataSource {
         if(name.indexOf("'") != -1){
             name = name.substring(0, name.indexOf("'")) + "'" + name.substring(name.indexOf("'"));
         }
-        Log.d(DEBUG_TAG, name);
+        Log.d(TAG, name);
         Cursor cursor = database.query(ItemDbHelper.DICTIONARY_TABLE_NAME, allColumns, ItemDbHelper.KEY_NAME + " LIKE '" + name + "'", null, null, null, null);
         return cursor;
 
     }
 
     public Cursor getUrl(String url) {
-        Log.d(DEBUG_TAG, url);
+        Log.d(TAG, url);
         Cursor cursor = database.query(ItemDbHelper.DICTIONARY_TABLE_NAME, allColumns, ItemDbHelper.KEY_NAME + " LIKE '%" + url + "%'", null, null, null, null);
         return cursor;
     }
@@ -465,22 +427,22 @@ public class ItemDataSource {
         if(class_flag.equals("all"))
             class_flag = "";
         Cursor cursor = null;
-        Log.d(DEBUG_TAG, "type_flag = " + type_flag);
-        Log.d(DEBUG_TAG, "class_flag = " + class_flag);
+        Log.d(TAG, "type_flag = " + type_flag);
+        Log.d(TAG, "class_flag = " + class_flag);
 		/*
 		if(class_flag.equals("[]"))
 		{
-			Log.d(DEBUG_TAG, "Show just Misc");
+			Log.d(TAG, "Show just Misc");
 			cursor = database.query(edxed.nug.devnug.edxed.ItemDbHelper.DICTIONARY_TABLE_NAME,
 			        allColumns, edxed.nug.devnug.edxed.ItemDbHelper.KEY_CLASSEQUIP + " LIKE '%" + class_flag + "%'", null,
 			        null, null, null);
 		}
 
         if(class_flag.equals("tool") || class_flag.equals("crate")) {
-            Log.d(DEBUG_TAG, "This should be tool -> " + class_flag);
+            Log.d(TAG, "This should be tool -> " + class_flag);
 
             if(type_flag.equals("all")) {
-                Log.d(DEBUG_TAG, "Do we get here?");
+                Log.d(TAG, "Do we get here?");
                 cursor = database.query(ItemDbHelper.DICTIONARY_TABLE_NAME,
                         allColumns, ItemDbHelper.KEY_ITEMTYPE + " LIKE '%" + class_flag + "%'", null,
                         null, null, ItemDbHelper.KEY_NAME);
@@ -523,63 +485,63 @@ public class ItemDataSource {
         }
         else if(type_flag.equals("all") && class_flag.equals(""))
         {
-            Log.d(DEBUG_TAG, "1");
+            Log.d(TAG, "1");
             cursor = database.query(ItemDbHelper.DICTIONARY_TABLE_NAME,
                     allColumns, null , null,
                     null, null, ItemDbHelper.KEY_NAME);
         }
         else if(type_flag.equals("all") && !class_flag.equals(""))
         {
-            Log.d(DEBUG_TAG, "2");
+            Log.d(TAG, "2");
             cursor = database.query(ItemDbHelper.DICTIONARY_TABLE_NAME,
                     allColumns, ItemDbHelper.KEY_CLASSEQUIP + " LIKE '%" + class_flag + "%'", null,
                     null, null, ItemDbHelper.KEY_NAME);
         }
         else if(type_flag.equals("unique"))
         {
-            Log.d(DEBUG_TAG, "3");
+            Log.d(TAG, "3");
             cursor = database.query(ItemDbHelper.DICTIONARY_TABLE_NAME,
                     allColumns, ItemDbHelper.KEY_UNIQUE + " NOT LIKE 'n%' AND " + ItemDbHelper.KEY_CLASSEQUIP + " LIKE '%" + class_flag + "%'", null,
                     null, null, ItemDbHelper.KEY_NAME);
         }
         else if(type_flag.equals("uncraft"))
         {
-            Log.d(DEBUG_TAG, "4");
+            Log.d(TAG, "4");
             cursor = database.query(ItemDbHelper.DICTIONARY_TABLE_NAME,
                     allColumns, ItemDbHelper.KEY_UNCRAFT + " NOT LIKE 'n%' AND " + ItemDbHelper.KEY_CLASSEQUIP + " LIKE '%" + class_flag + "%'", null,
                     null, null, ItemDbHelper.KEY_NAME);
         }
         else if(type_flag.equals("vintage"))
         {
-            Log.d(DEBUG_TAG, "5");
+            Log.d(TAG, "5");
             cursor = database.query(ItemDbHelper.DICTIONARY_TABLE_NAME,
                     allColumns, ItemDbHelper.KEY_VINTAGE + " NOT LIKE 'n%' AND " + ItemDbHelper.KEY_CLASSEQUIP + " LIKE '%" + class_flag + "%'", null,
                     null, null, ItemDbHelper.KEY_NAME);
         }
         else if(type_flag.equals("strange"))
         {
-            Log.d(DEBUG_TAG, "6");
+            Log.d(TAG, "6");
             cursor = database.query(ItemDbHelper.DICTIONARY_TABLE_NAME,
                     allColumns, ItemDbHelper.KEY_STRANGE + " NOT LIKE 'n%' AND " + ItemDbHelper.KEY_CLASSEQUIP + " LIKE '%" + class_flag + "%'", null,
                     null, null, ItemDbHelper.KEY_NAME);
         }
         else if(type_flag.equals("genuine"))
         {
-            Log.d(DEBUG_TAG, "7");
+            Log.d(TAG, "7");
             cursor = database.query(ItemDbHelper.DICTIONARY_TABLE_NAME,
                     allColumns, ItemDbHelper.KEY_GENUINE + " NOT LIKE 'n%' AND " + ItemDbHelper.KEY_CLASSEQUIP + " LIKE '%" + class_flag + "%'", null,
                     null, null, ItemDbHelper.KEY_NAME);
         }
         else if(type_flag.equals("haunted"))
         {
-            Log.d(DEBUG_TAG, "8");
+            Log.d(TAG, "8");
             cursor = database.query(ItemDbHelper.DICTIONARY_TABLE_NAME,
                     allColumns, ItemDbHelper.KEY_HAUNTED + " NOT LIKE 'n%' AND " + ItemDbHelper.KEY_CLASSEQUIP + " LIKE '%" + class_flag + "%'", null,
                     null, null, ItemDbHelper.KEY_NAME);
         }
         else if(type_flag.equals("collector"))
         {
-            Log.d(DEBUG_TAG, "9");
+            Log.d(TAG, "9");
             cursor = database.query(ItemDbHelper.DICTIONARY_TABLE_NAME,
                     allColumns, ItemDbHelper.KEY_COLLECTOR + " NOT LIKE 'n%' AND " + ItemDbHelper.KEY_CLASSEQUIP + " LIKE '%" + class_flag + "%'", null,
                     null, null, ItemDbHelper.KEY_NAME);

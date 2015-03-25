@@ -1,6 +1,8 @@
 package edxed.nug.devnug.edxed;
 
 import android.app.Activity;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -8,6 +10,7 @@ import android.support.v4.app.FragmentManager;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,6 +20,7 @@ import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class MainActivity extends ActionBarActivity
@@ -32,6 +36,7 @@ public class MainActivity extends ActionBarActivity
      */
     private CharSequence mTitle;
     private Context mContext;
+    private static final String TAG = "MAIN_ACTIVITY";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +57,21 @@ public class MainActivity extends ActionBarActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+        updateList();
+    }
+
+    public void updateList() {
+        ConnectivityManager connMgr = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        Log.d(TAG, networkInfo.toString());
+        //Log.d(DEBUG_TAG, stringUrl);
+        if (networkInfo != null && networkInfo.isConnected()) {
+            new DownloadWebpageText(this).execute("");
+            Log.d(TAG, "true");
+        } else {
+            //Toast.makeText(this, )textView.setText("No network connection available.");
+        }
     }
 
     @Override
@@ -178,5 +198,7 @@ public class MainActivity extends ActionBarActivity
         }
     }
     **/
+
+
 
 }

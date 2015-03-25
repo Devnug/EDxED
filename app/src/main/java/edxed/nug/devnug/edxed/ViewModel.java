@@ -17,6 +17,7 @@ public class ViewModel {
     private String jobTitle;
     private String email;
     private int img;
+    private int lastUpdate = 1;
 
     public ViewModel() {
         name = "";
@@ -26,11 +27,11 @@ public class ViewModel {
         img = determineImg();
     }
 
-    public ViewModel(String theName, String theTitle, String theDesc, String theImg, String theAttending) {
+    public ViewModel(String theName, String theTitle, String theDesc, String theRoom, String theAttending) {
         name = theName;
         title = theTitle;
         desc = theDesc;
-        room = "TBD";
+        room = theRoom;
         session = "Session 1";
         attending = theAttending;
         // Test with phil...for now...
@@ -42,6 +43,17 @@ public class ViewModel {
         jobTitle = theJobTitle;
         twitterHandle = theTwitterHandle;
         email = theEmail;
+        // Test with phil...for now...
+        img = determineImg();
+    }
+
+    public ViewModel(String theName, String newTitle, String newDesc, String newRoom, String newSession, int update) {
+        name = theName;
+        title = newTitle;
+        desc = newDesc;
+        room = newRoom;
+        session = newSession;
+        lastUpdate = update;
         // Test with phil...for now...
         img = determineImg();
     }
@@ -109,6 +121,8 @@ public class ViewModel {
     }
 
     public String getRoom() {
+        if(room.equals("") || room.equals(null))
+            return "TBD";
         return room;
     }
 
@@ -146,5 +160,9 @@ public class ViewModel {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public int getLastUpdate() {
+        return lastUpdate;
     }
 }
