@@ -143,7 +143,7 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
                     //ViewHolder view = new ViewHolder(v);
                     Log.d(TAG, "currentItem attending: " + currentItem.getAttending());
                     //Log.d(TAG, "view attending: " + view.currentItem.getAttending());
-                    if(currentItem.getAttending().equals("false")) {
+                    if(currentItem.getAttending().equals("false") || currentItem.getAttending().equals(null)) {
                         desc.setVisibility(View.VISIBLE);
                         googleCal.setVisibility(View.VISIBLE);
                     }

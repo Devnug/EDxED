@@ -25,7 +25,7 @@ public class ItemDataSource {
     private ItemDbHelper dbHelper;
     private String[] allColumns = { ItemDbHelper.COLUMN_ID,
             ItemDbHelper.KEY_NAME, ItemDbHelper.KEY_TITLE, ItemDbHelper.KEY_DESC, ItemDbHelper.KEY_ROOM, ItemDbHelper.KEY_SESSION,
-            ItemDbHelper.KEY_ATTENDING, ItemDbHelper.KEY_EVENT_ID, ItemDbHelper.KEY_PIC, ItemDbHelper.KEY_LAST_UPDATE};
+            ItemDbHelper.KEY_ATTENDING, ItemDbHelper.KEY_EVENT_ID, ItemDbHelper.KEY_PIC, ItemDbHelper.KEY_LAST_UPDATE, ItemDbHelper.KEY_STRAND};
     private String[] allOrgColumns = { ItemDbHelper.COLUMN_ID,
             ItemDbHelper.KEY_NAME, ItemDbHelper.KEY_JOB_TITLE, ItemDbHelper.KEY_TWITTER, ItemDbHelper.KEY_EMAIL, ItemDbHelper.KEY_PIC};
     private static final String TAG = "ItemDataSource ::";
@@ -61,6 +61,7 @@ public class ItemDataSource {
         //cursor2.moveToFirst();
         if(canUpdateRow(item)) {
 
+            //values.put(ItemDbHelper.COLUMN_ID, item.getId());
             values.put(ItemDbHelper.KEY_NAME, item.getName());
             values.put(ItemDbHelper.KEY_DESC, item.getDesc());
             values.put(ItemDbHelper.KEY_TITLE, item.getTitle());
@@ -70,14 +71,10 @@ public class ItemDataSource {
             Log.d(TAG, "Updating " + item.getName() + " with room " + item.getRoom() + "with last update " + item.getLastUpdate());
 
             int num = database.updateWithOnConflict(ItemDbHelper.CONVERSATION_TABLE_NAME, values, ItemDbHelper.KEY_NAME + " LIKE '" + item.getName() + "'", null, SQLiteDatabase.CONFLICT_REPLACE);
+            values.put(ItemDbHelper.COLUMN_ID, item.getId());
+            values.put(ItemDbHelper.KEY_ATTENDING, "false");
             if(num == 0) {
-                long insertId = database.insertWithOnConflict(ItemDbHelper.CONVERSATION_TABLE_NAME, "", values, SQLiteDatabase.CONFLICT_REPLACE);
-                Cursor cursor = database.query(ItemDbHelper.CONVERSATION_TABLE_NAME,
-                        allColumns, ItemDbHelper.COLUMN_ID + " = " + insertId, null,
-                        null, null, null);
-                cursor.moveToFirst();
-                //ViewItem newItem = cursorToItem(cursor);
-                cursor.close();
+                database.insertWithOnConflict(ItemDbHelper.CONVERSATION_TABLE_NAME, "", values, SQLiteDatabase.CONFLICT_REPLACE);
             }
             //MainActivity.itemsUpdated++;
             //int num = database.updateWithOnConflict(edxed.nug.devnug.edxed.ItemDbHelper.DICTIONARY_TABLE_NAME, values, edxed.nug.devnug.edxed.ItemDbHelper.KEY_NAME + " LIKE '" + name + "'", null, SQLiteDatabase.CONFLICT_REPLACE);

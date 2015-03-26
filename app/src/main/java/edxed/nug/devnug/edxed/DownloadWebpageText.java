@@ -79,7 +79,7 @@ public  class DownloadWebpageText extends AsyncTask<String, String, String> {
     // onPostExecute displays the results of the AsyncTask.
     @SuppressWarnings("unchecked")
     protected void onPostExecute(String result) {
-        updateDatabase();
+        //updateDatabase();
         pdia.dismiss();
         //textView.setText(result);
         //new updateDatabase().execute(itemArray);
@@ -166,9 +166,9 @@ public  class DownloadWebpageText extends AsyncTask<String, String, String> {
                 JSONObject obj = jArray.getJSONObject(i);
                 //System.out.println("What is the tool? " + obj.getString("itemClass"));
                 Log.d(TAG, obj.getString("name") + " " + obj.getString("title") + " " + obj.getString("desc") + " " + obj.getString("room") + " " + obj.getString("session") + " " + obj.getInt("last_update"));
-                itemArray.add(new ViewModel(obj.getString("name"), obj.getString("title"), obj.getString("desc"), obj.getString("room"), obj.getString("session"), obj.getInt("last_update")));
+                itemArray.add(new ViewModel(obj.getString("name"), obj.getString("title"), obj.getString("desc"), obj.getString("room"), obj.getString("session"), obj.getInt("last_update"), obj.getInt("_id")));
             }
-
+            updateDatabase();
             //int response = entity..getResponseCode();
             Log.d(TAG, "The response is: " + response);
             //is = conn.getInputStream();

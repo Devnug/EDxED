@@ -11,7 +11,7 @@ public class ItemDbHelper extends SQLiteOpenHelper {
 
     private static ItemDbHelper mInstance = null;
 
-    public static final int DATABASE_VERSION = 2;
+    public static final int DATABASE_VERSION = 3;
     public static final String DATABASE_NAME = "EDxEDDB.db";
     public static final String COLUMN_ID = "_id";
     public static final String KEY_NAME = "name";
@@ -23,6 +23,7 @@ public class ItemDbHelper extends SQLiteOpenHelper {
     public static final String KEY_ROOM = "room";
     public static final String KEY_EVENT_ID = "eventId";
     public static final String KEY_LAST_UPDATE = "last_update";
+    public static final String KEY_STRAND = "strand";
     public static final String CONVERSATION_TABLE_NAME = "conversationlist";
     public static final String CONVERSATION_TABLE_CREATE = "CREATE TABLE IF NOT EXISTS " + CONVERSATION_TABLE_NAME + " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + KEY_NAME + " TEXT, "
@@ -33,7 +34,8 @@ public class ItemDbHelper extends SQLiteOpenHelper {
             + KEY_ATTENDING + " TEXT, "
             + KEY_EVENT_ID + " TEXT, "
             + KEY_PIC + " BLOB, "
-            + KEY_LAST_UPDATE + ");";
+            + KEY_LAST_UPDATE + "INT, "
+            + KEY_STRAND + "TEXT);";
 
     public static final String KEY_JOB_TITLE = "job_title";
     public static final String KEY_TWITTER = "twitter_handle";

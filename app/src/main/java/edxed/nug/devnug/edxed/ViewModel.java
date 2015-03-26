@@ -16,6 +16,8 @@ public class ViewModel {
     private String twitterHandle;
     private String jobTitle;
     private String email;
+    private String strand;
+    private int id;
     private int img;
     private int lastUpdate = 1;
 
@@ -47,13 +49,15 @@ public class ViewModel {
         img = determineImg();
     }
 
-    public ViewModel(String theName, String newTitle, String newDesc, String newRoom, String newSession, int update) {
+    public ViewModel(String theName, String newTitle, String newDesc, String newRoom, String newSession, int update, int theId) {
         name = theName;
         title = newTitle;
         desc = newDesc;
         room = newRoom;
         session = newSession;
         lastUpdate = update;
+        id = theId;
+        attending = "false";
         // Test with phil...for now...
         img = determineImg();
     }
@@ -164,5 +168,13 @@ public class ViewModel {
 
     public int getLastUpdate() {
         return lastUpdate;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
