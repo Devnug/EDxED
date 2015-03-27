@@ -139,7 +139,7 @@ public class ConversationFragment extends Fragment {
             int eventIdColumn = c.getColumnIndex(ItemDbHelper.KEY_EVENT_ID);
             Log.d(TAG, "Name: " + c.getString(nameColumn));
             do {
-                list.add(new ViewModel(c.getString(nameColumn),c.getString(titleColumn), c.getString(descColumn), c.getString(roomColumn), c.getString(attendingColumn)));
+                list.add(new ViewModel(c.getString(nameColumn),c.getString(titleColumn), c.getString(descColumn), c.getString(roomColumn), c.getString(attendingColumn), c.getString(sessionColumn)));
 
             } while(c.moveToNext());
         }
@@ -169,49 +169,72 @@ public class ConversationFragment extends Fragment {
         db.updateAttending(item.getName());
     }
 
+    public static void removeEvent(String session) { db.removeSession(session); }
+
     public static void addEvent(final Context context, ViewModel item) {
         // Intent calIntent = new Intent(Intent.ACTION_INSERT);
         // calIntent.setData(CalendarContract.Events.CONTENT_URI);
         // context.startActivity(calIntent);
-        db.updateAttending(item.getName());
         final ViewModel viewItem = item;
-        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
-        builder.setMessage(R.string.add_to_cal)
-                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        Intent intent = new Intent(Intent.ACTION_INSERT);
-                        intent.setData(CalendarContract.Events.CONTENT_URI);
-                        //intent.setType("vnd.android.cursor.item/event");
-                        intent.putExtra(CalendarContract.Events.TITLE, viewItem.getTitle());
-                        intent.putExtra(CalendarContract.Events.EVENT_LOCATION, viewItem.getRoom());
-                        intent.putExtra(CalendarContract.Events.DESCRIPTION, "EDxED NYC");
 
-                        // Setting dates
-                        //Log.d(TAG, "ID = " + CalendarContract.Calendars.);
-                        GregorianCalendar calDate = new GregorianCalendar(2015, 5, 4);
-                        intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME,
-                                calDate.getTimeInMillis());
-                        intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME,
-                                calDate.getTimeInMillis() + 60*60*1000);
+        if(!db.isOpenSpot(item.getSession())) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+            builder.setMessage(R.string.conflict_on_cal)
+                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            removeEvent(viewItem.getSession());
+                            addEvent(context, viewItem);
+                        }
+                    })
+                    .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
 
-                        // Make it a full day event
-                        intent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, true);
+                        }
+                    });
+            // Create the AlertDialog object and return it
+            builder.create().show();
+        }
+        else {
+            db.updateAttending(item.getName());
+            //final ViewModel viewItem = item;
+            AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+            builder.setMessage(R.string.add_to_cal)
+                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            Intent intent = new Intent(Intent.ACTION_INSERT);
+                            intent.setData(CalendarContract.Events.CONTENT_URI);
+                            //intent.setType("vnd.android.cursor.item/event");
+                            intent.putExtra(CalendarContract.Events.TITLE, viewItem.getTitle());
+                            intent.putExtra(CalendarContract.Events.EVENT_LOCATION, viewItem.getRoom());
+                            intent.putExtra(CalendarContract.Events.DESCRIPTION, "EDxED NYC");
 
-                        // Making it private and shown as busy
-                        //intent.putExtra(CalendarContract.Events.ACCESS_LEVEL, CalendarContract.Events.ACCESS_PUBLIC);
-                        //intent.putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY);
+                            // Setting dates
+                            //Log.d(TAG, "ID = " + CalendarContract.Calendars.);
+                            GregorianCalendar calDate = new GregorianCalendar(2015, 5, 4);
+                            intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME,
+                                    calDate.getTimeInMillis());
+                            intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME,
+                                    calDate.getTimeInMillis() + 60 * 60 * 1000);
 
-                        //intent.res
-                        context.startActivity(intent);
-                    }
-                })
-                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // User cancelled the dialog
-                    }
-                });
-        // Create the AlertDialog object and return it
-        builder.create().show();
+                            // Make it a full day event
+                            intent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, true);
+
+                            // Making it private and shown as busy
+                            //intent.putExtra(CalendarContract.Events.ACCESS_LEVEL, CalendarContract.Events.ACCESS_PUBLIC);
+                            //intent.putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY);
+
+                            //intent.res
+                            context.startActivity(intent);
+                        }
+                    })
+                    .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // User cancelled the dialog
+                        }
+                    });
+            // Create the AlertDialog object and return it
+            builder.create().show();
+        }
 
         /*
         Intent intent = new Intent(Intent.ACTION_INSERT);

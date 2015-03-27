@@ -29,6 +29,7 @@
     <string name="show_more">Show more</string>
     <string name="add_cal">Add to Schedule</string>
     <string name="rem_cal">Remove from Schedule</string>
+    <string name="conflict_on_cal">Another conversation has already been added for this sessions.  Would you like to replace it?</string>
 
     <string name="add_to_cal">Would you like to add this event to your Google Calendar?</string>
     <string name="yes">Yes</string>

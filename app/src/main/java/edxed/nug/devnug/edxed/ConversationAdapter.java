@@ -54,6 +54,7 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
         holder.desc.setText(item.getDesc());
         holder.imageView.setImageResource(item.getImg());
         holder.room.setText("Room: " + item.getRoom());
+        holder.session.setText("Session: " + item.getSession());
         //Use below for when we have pictures for each person
         /*
         holder.image.setImageBitmap(null);
@@ -102,7 +103,6 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
             desc = (TextView) itemView.findViewById(R.id.desc);
             room = (TextView) itemView.findViewById(R.id.room);
             session = (TextView) itemView.findViewById(R.id.session);
-            session.setText("Session 1");
             room.setText("Room: ");
             googleCal = (TextView) itemView.findViewById(R.id.google_calendar);
             googleCal.setOnClickListener(new View.OnClickListener() {

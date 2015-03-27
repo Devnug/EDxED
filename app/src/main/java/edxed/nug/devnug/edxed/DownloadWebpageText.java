@@ -95,6 +95,10 @@ public  class DownloadWebpageText extends AsyncTask<String, String, String> {
     // the web page content as a InputStream, which it returns as
     // a string.
     private void downloadUrl(String myurl) throws IOException {
+        if(!db.hasEntries()) {
+            db.createBaseTable();
+            db.createOrgBaseTable();
+        }
         InputStream is = null;
         // Only display the first 500 characters of the retrieved
         // web page content.

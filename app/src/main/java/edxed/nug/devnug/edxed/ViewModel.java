@@ -29,12 +29,12 @@ public class ViewModel {
         img = determineImg();
     }
 
-    public ViewModel(String theName, String theTitle, String theDesc, String theRoom, String theAttending) {
+    public ViewModel(String theName, String theTitle, String theDesc, String theRoom, String theAttending, String theSession) {
         name = theName;
         title = theTitle;
         desc = theDesc;
         room = theRoom;
-        session = "Session 1";
+        session = theSession;
         attending = theAttending;
         // Test with phil...for now...
         img = determineImg();

@@ -11,7 +11,7 @@ public class ItemDbHelper extends SQLiteOpenHelper {
 
     private static ItemDbHelper mInstance = null;
 
-    public static final int DATABASE_VERSION = 3;
+    public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "EDxEDDB.db";
     public static final String COLUMN_ID = "_id";
     public static final String KEY_NAME = "name";
@@ -34,8 +34,8 @@ public class ItemDbHelper extends SQLiteOpenHelper {
             + KEY_ATTENDING + " TEXT, "
             + KEY_EVENT_ID + " TEXT, "
             + KEY_PIC + " BLOB, "
-            + KEY_LAST_UPDATE + "INT, "
-            + KEY_STRAND + "TEXT);";
+            + KEY_LAST_UPDATE + " INT, "
+            + KEY_STRAND + " TEXT);";
 
     public static final String KEY_JOB_TITLE = "job_title";
     public static final String KEY_TWITTER = "twitter_handle";

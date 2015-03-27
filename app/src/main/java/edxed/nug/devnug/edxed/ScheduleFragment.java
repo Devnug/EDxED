@@ -119,7 +119,7 @@ public class ScheduleFragment extends Fragment {
             int eventIdColumn = c.getColumnIndex(ItemDbHelper.KEY_EVENT_ID);
             Log.d(TAG, "Name: " + c.getString(nameColumn));
             do {
-                list.add(new ViewModel(c.getString(nameColumn),c.getString(titleColumn), c.getString(descColumn), "", c.getString(attendingColumn)));
+                list.add(new ViewModel(c.getString(nameColumn),c.getString(titleColumn), c.getString(descColumn), "", c.getString(attendingColumn), c.getString(sessionColumn)));
 
             } while(c.moveToNext());
         }
