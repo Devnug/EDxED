@@ -43,8 +43,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/hor_div"
+            android:autoLink="web"
             android:layout_alignBottom="@+id/pic"
             android:gravity="right"
+            android:textColor="@color/blue"
             android:paddingRight="6dp"/>
         <TextView
             android:id="@+id/email"
@@ -52,6 +54,8 @@
             android:layout_height="match_parent"
             android:layout_above="@+id/hor_div"
             android:layout_alignBottom="@+id/pic"
+            android:textColor="@color/blue"
+            android:autoLink="email"
             android:gravity="right"
             android:paddingRight="6dp"/>
     </RelativeLayout>

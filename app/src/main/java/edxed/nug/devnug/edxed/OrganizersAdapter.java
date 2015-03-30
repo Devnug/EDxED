@@ -1,5 +1,7 @@
 package edxed.nug.devnug.edxed;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -80,7 +82,7 @@ public class OrganizersAdapter extends RecyclerView.Adapter<OrganizersAdapter.Vi
             public TextView twitter;
             public TextView email;
             public ImageView imageView;
-            public View view;
+            public final View view;
             public ViewModel currentItem;
 
             public ViewHolder(View itemView) {
@@ -91,7 +93,18 @@ public class OrganizersAdapter extends RecyclerView.Adapter<OrganizersAdapter.Vi
                 twitter = (TextView) itemView.findViewById(R.id.twitter);
                 email = (TextView) itemView.findViewById(R.id.email);
                 imageView = (ImageView) itemView.findViewById(R.id.pic);
+                twitter.setOnClickListener(new View.OnClickListener() {
 
+                    @Override
+                    public void onClick(View v) {
+                        Log.d(TAG, "To Twitter");
+                        final View contextView = v;
+                        Uri address= Uri.parse("http://www.twitter.com/" + currentItem.getTwitterHandle().substring(1));
+                        Intent browser= new Intent(Intent.ACTION_VIEW, address);
+                        v.getContext().startActivity(browser);
+
+                    }
+                });
             }
 
 

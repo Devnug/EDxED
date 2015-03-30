@@ -44,7 +44,9 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
         ViewModel item = items.get(position);
         Typeface type = Typeface.createFromAsset(mActivity.getAssets(), "fonts/PacificaCondensedRegular.ttf");
         holder.name.setTypeface(type);
-        holder.name.setText(item.getTitle() + " WITH " + item.getName());
+        holder.name.setText(item.getName());
+        holder.title.setTypeface(type);
+        holder.title.setText(item.getTitle());
         //holder.title.setText(item.getTitle());
         holder.desc.setText(item.getDesc());
         holder.imageView.setImageResource(item.getImg());
