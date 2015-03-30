@@ -171,7 +171,7 @@ public class ConversationFragment extends Fragment {
 
     public static void removeEvent(String session) { db.removeSession(session); }
 
-    public static void addEvent(final Context context, ViewModel item) {
+    public static boolean addEvent(final Context context, ViewModel item) {
         // Intent calIntent = new Intent(Intent.ACTION_INSERT);
         // calIntent.setData(CalendarContract.Events.CONTENT_URI);
         // context.startActivity(calIntent);
@@ -234,7 +234,9 @@ public class ConversationFragment extends Fragment {
                     });
             // Create the AlertDialog object and return it
             builder.create().show();
+            return true;
         }
+        return false;
 
         /*
         Intent intent = new Intent(Intent.ACTION_INSERT);

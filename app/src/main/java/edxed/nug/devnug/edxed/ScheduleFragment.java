@@ -78,7 +78,7 @@ public class ScheduleFragment extends Fragment {
             empty = (TextView) rootView.findViewById(R.id.empty);
             empty.setVisibility(View.VISIBLE);
         }
-        adapter = new ScheduleAdapter(list,R.layout.item2, mActivity);
+        adapter = new ScheduleAdapter(list, R.layout.item2, mActivity);
         return rootView;
     }
 
@@ -108,6 +108,17 @@ public class ScheduleFragment extends Fragment {
     //  Creates a base list and populates the ArrayList list to ensure that the cardview has entries
     public void createList() {
         list = new ArrayList<ViewModel>();
+        boolean session1 = false;
+        boolean session2 = false;
+        boolean session3 = false;
+        list.add(new ViewModel("Registration","", "", "", "true", "8:15-9:00"));
+        list.add(new ViewModel("Keynote - Marisol Bradbury","", "", "", "true", "9-9:30"));
+        list.add(new ViewModel("Session 1","", "", "", "true", "9:30-11:00"));
+        list.add(new ViewModel("Lunch","", "", "", "true", "11:00-12:00"));
+        list.add(new ViewModel("Session 2","", "", "", "true", "12:00-1:30"));
+        list.add(new ViewModel("Session 3","", "", "", "true", "1:30-3:05"));
+        list.add(new ViewModel("Closing Remarks","", "", "", "true", "3:10-3:30"));
+        Log.d(TAG, list.get(0).getName());
         Cursor c = db.queryAttending();
         if(c.moveToFirst()) {
             int nameColumn = c.getColumnIndex(ItemDbHelper.KEY_NAME);
@@ -119,9 +130,71 @@ public class ScheduleFragment extends Fragment {
             int eventIdColumn = c.getColumnIndex(ItemDbHelper.KEY_EVENT_ID);
             Log.d(TAG, "Name: " + c.getString(nameColumn));
             do {
-                list.add(new ViewModel(c.getString(nameColumn),c.getString(titleColumn), c.getString(descColumn), "", c.getString(attendingColumn), c.getString(sessionColumn)));
-
+                if(c.getString(sessionColumn).equals("1")) {
+                    list.add(3, new ViewModel(c.getString(nameColumn), c.getString(titleColumn), c.getString(descColumn), c.getString(roomColumn), c.getString(attendingColumn), c.getString(sessionColumn)));
+                    session1 = true;
+                }
+                if(c.getString(sessionColumn).equals("2")) {
+                    for(int i = 0; i < list.size(); i++) {
+                        if(list.get(i).getName().equals("Session 2")) {
+                            list.add(i+1, new ViewModel(c.getString(nameColumn), c.getString(titleColumn), c.getString(descColumn), c.getString(roomColumn), c.getString(attendingColumn), c.getString(sessionColumn)));
+                            session2 = true;
+                        }
+                    }
+                }
+                if(c.getString(sessionColumn).equals("3")) {
+                    for(int i = 0; i < list.size(); i++) {
+                        if(list.get(i).getName().equals("Session 3")) {
+                            list.add(i+1, new ViewModel(c.getString(nameColumn), c.getString(titleColumn), c.getString(descColumn), c.getString(roomColumn), c.getString(attendingColumn), c.getString(sessionColumn)));
+                            session3 = true;
+                        }
+                    }
+                }
             } while(c.moveToNext());
+            if(!session1) {
+                for(int i = 0; i < list.size(); i++) {
+                    if(list.get(i).getName().equals("Session 1")) {
+                        list.add(i+1, new ViewModel("You have not chosen a conversation yet for Session 1!", "", "", "", "", ""));
+                    }
+                }
+            }
+            if(!session2) {
+                for(int i = 0; i < list.size(); i++) {
+                    if(list.get(i).getName().equals("Session 2")) {
+                        list.add(i+1, new ViewModel("You have not chosen a conversation yet for Session 2!", "", "", "", "", ""));
+                    }
+                }
+            }
+            if(!session3) {
+                for(int i = 0; i < list.size(); i++) {
+                    if(list.get(i).getName().equals("Session 3")) {
+                        list.add(i+1, new ViewModel("You have not chosen a conversation yet for Session 3!", "", "", "", "", ""));
+                    }
+                }
+            }
+        }
+        else {
+            if(!session1) {
+                for(int i = 0; i < list.size(); i++) {
+                    if(list.get(i).getName().equals("Session 1")) {
+                        list.add(i+1, new ViewModel("You have not chosen a conversation yet for Session 1!", "", "", "", "", ""));
+                    }
+                }
+            }
+            if(!session2) {
+                for(int i = 0; i < list.size(); i++) {
+                    if(list.get(i).getName().equals("Session 2")) {
+                        list.add(i+1, new ViewModel("You have not chosen a conversation yet for Session 2!", "", "", "", "", ""));
+                    }
+                }
+            }
+            if(!session3) {
+                for(int i = 0; i < list.size(); i++) {
+                    if(list.get(i).getName().equals("Session 3")) {
+                        list.add(i+1, new ViewModel("You have not chosen a conversation yet for Session 3!", "", "", "", "", ""));
+                    }
+                }
+            }
         }
         c.close();
     }

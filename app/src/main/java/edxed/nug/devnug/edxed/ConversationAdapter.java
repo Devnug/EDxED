@@ -1,12 +1,6 @@
 package edxed.nug.devnug.edxed;
 
-import android.content.ClipData;
-import android.content.ContentValues;
-import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.provider.CalendarContract;
+import android.graphics.Typeface;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -17,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
@@ -49,12 +42,14 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         ViewModel item = items.get(position);
+        Typeface type = Typeface.createFromAsset(mActivity.getAssets(), "fonts/PacificaCondensedRegular.ttf");
+        holder.name.setTypeface(type);
         holder.name.setText(item.getTitle() + " WITH " + item.getName());
         //holder.title.setText(item.getTitle());
         holder.desc.setText(item.getDesc());
         holder.imageView.setImageResource(item.getImg());
         holder.room.setText("Room: " + item.getRoom());
-        holder.session.setText("Session: " + item.getSession());
+        holder.session.setText("Session " + item.getSession());
         //Use below for when we have pictures for each person
         /*
         holder.image.setImageBitmap(null);
@@ -111,11 +106,13 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
                 public void onClick(View v) {
                     Log.d(TAG, "Added to Schedule");
                     final View contextView = v;
-                    Toast.makeText(v.getContext(), "Added to Schedule", Toast.LENGTH_LONG).show();
-                    googleCal.setVisibility(View.GONE);
-                    remGoogleCal.setVisibility(View.VISIBLE);
-                    currentItem.setAttending("true");
-                    ConversationFragment.addEvent(v.getContext(),currentItem);
+                    if(ConversationFragment.addEvent(v.getContext(),currentItem)) {
+                        Toast.makeText(v.getContext(), "Added to Schedule", Toast.LENGTH_LONG).show();
+                        googleCal.setVisibility(View.GONE);
+                        remGoogleCal.setVisibility(View.VISIBLE);
+                        currentItem.setAttending("true");
+                        //ConversationFragment.addEvent(v.getContext(), currentItem);
+                    }
 
                 }
             });
