@@ -20,7 +20,8 @@
             android:layout_height="75sp"
             android:id="@+id/pic"
             android:paddingTop="6sp"
-            android:paddingBottom="6sp"/>
+            android:paddingBottom="6sp"
+            android:visibility="gone"/>
         <TextView
             android:id="@+id/title"
             android:layout_width="match_parent"
@@ -42,14 +43,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingLeft="6dp"
-            android:layout_above="@+id/hor_div"/>
+            android:layout_below="@id/name"/>
 
         <TextView
             android:id="@+id/session"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/hor_div"
-            android:layout_alignBottom="@+id/pic"
+            android:layout_below="@id/name"
             android:gravity="right"
             android:paddingRight="6dp"/>
 
@@ -58,7 +59,7 @@
             android:id="@+id/hor_div"
             android:layout_height="1dip"
             android:background="#ff5d5d5d"
-            android:layout_below="@+id/pic"/>
+            android:layout_below="@+id/room"/>
         <TextView
             android:id="@+id/desc"
             android:layout_width="match_parent"

@@ -60,7 +60,8 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
         switch(getItemViewType(position)) {
             case VIEW_TYPE_FIRST:
                 ViewModel item = items.get(position);
-                holder.name.setText(item.getTitle() + " WITH " + item.getName());
+                holder.title.setText(item.getTitle());
+                holder.name.setText(item.getName());
                 //holder.title.setText(item.getTitle());
                 holder.desc.setText(item.getDesc());
                 holder.imageView.setImageResource(item.getImg());

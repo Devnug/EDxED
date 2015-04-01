@@ -56,6 +56,12 @@ public class ItemDataSource {
          else
          Log.d(TAG, "closed");
 
+        if(item.getName().indexOf("'") != -1) {
+
+            item.setName(item.getName().substring(0,item.getName().indexOf("'") + 1) + "'" + item.getName().substring(item.getName().indexOf("'") + 1));
+            Log.d(TAG, "New name: " + item.getName());
+        }
+
 
         //Cursor cursor2 = database.query(edxed.nug.devnug.edxed.ItemDbHelper.DICTIONARY_TABLE_NAME, allColumns, edxed.nug.devnug.edxed.ItemDbHelper.KEY_NAME + " LIKE '%" + name + "%'", null, null, null, null);
         //cursor2.moveToFirst();
@@ -287,7 +293,7 @@ public class ItemDataSource {
     {
         Cursor cursor = database.query(ItemDbHelper.CONVERSATION_TABLE_NAME,
                 allColumns, null, null,
-                null, null, null);
+                null, null, ItemDbHelper.KEY_SESSION + " ASC");
         return cursor;
     }
 
