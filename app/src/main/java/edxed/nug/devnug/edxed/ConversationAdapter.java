@@ -43,11 +43,10 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
     public void onBindViewHolder(ViewHolder holder, int position) {
         ViewModel item = items.get(position);
         Typeface type = Typeface.createFromAsset(mActivity.getAssets(), "fonts/PacificaCondensedRegular.ttf");
-        //holder.name.setTypeface(type);
+        holder.name.setTypeface(type);
         holder.name.setText(item.getName());
-        //holder.title.setTypeface(type);
+        holder.title.setTypeface(type);
         holder.title.setText(item.getTitle());
-        //holder.title.setText(item.getTitle());
         holder.desc.setText(item.getDesc());
         holder.imageView.setImageResource(item.getImg());
         holder.room.setText("Room: " + item.getRoom());

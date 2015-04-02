@@ -1,5 +1,6 @@
 package edxed.nug.devnug.edxed;
 
+import android.graphics.Typeface;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -60,7 +61,10 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
         switch(getItemViewType(position)) {
             case VIEW_TYPE_FIRST:
                 ViewModel item = items.get(position);
+                Typeface type = Typeface.createFromAsset(mActivity.getAssets(), "fonts/PacificaCondensedRegular.ttf");
+                holder.name.setTypeface(type);
                 holder.title.setText(item.getTitle());
+                holder.title.setTypeface(type);
                 holder.name.setText(item.getName());
                 //holder.title.setText(item.getTitle());
                 holder.desc.setText(item.getDesc());

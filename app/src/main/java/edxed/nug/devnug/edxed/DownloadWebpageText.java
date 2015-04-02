@@ -162,9 +162,9 @@ public  class DownloadWebpageText extends AsyncTask<String, String, String> {
             HttpEntity entity = response.getEntity();
 
             String result = EntityUtils.toString(entity);
-            //System.out.println(result);
+            // System.out.println(result);
             // Create a JSON object from the request response
-            //JSONObject jsonObject = new JSONObject(result);
+            // JSONObject jsonObject = new JSONObject(result);
             JSONArray jArray = new JSONArray(result);
             for(int i = 0; i < jArray.length(); i++) {
                 JSONObject obj = jArray.getJSONObject(i);
@@ -178,7 +178,7 @@ public  class DownloadWebpageText extends AsyncTask<String, String, String> {
             //is = conn.getInputStream();
 
             // Convert the InputStream into a string
-            //readIt(is, len);
+            // readIt(is, len);
 
             // Makes sure that the InputStream is closed after the app is
             // finished using it.
