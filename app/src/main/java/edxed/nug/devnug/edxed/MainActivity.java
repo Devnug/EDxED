@@ -64,13 +64,14 @@ public class MainActivity extends ActionBarActivity
         ConnectivityManager connMgr = (ConnectivityManager)
                 getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        Log.d(TAG, networkInfo.toString());
+        //Log.d(TAG, networkInfo.toString());
         //Log.d(DEBUG_TAG, stringUrl);
         if (networkInfo != null && networkInfo.isConnected()) {
             new DownloadWebpageText(this).execute("");
             Log.d(TAG, "true");
         } else {
-            //Toast.makeText(this, )textView.setText("No network connection available.");
+            Toast.makeText(this, "No network connection available", Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, textView.setText("No network connection available.");
         }
     }
 
