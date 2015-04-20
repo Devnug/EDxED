@@ -39,24 +39,13 @@
             android:layout_below="@+id/about_title2"
             android:paddingBottom="24dp" />
 
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/direction_title"
-            android:text="@string/direction_title"
-            android:layout_below="@+id/about_text"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            android:gravity="center" />
-
         <TextView
             android:paddingBottom="6dip"
             android:layout_width="fill_parent"
             android:id="@+id/hor_div"
             android:layout_height="2dip"
             android:background="#ff000000"
-            android:layout_below="@+id/direction_title"/>
+            android:layout_below="@+id/about_text"/>
 
         <TextView
             android:layout_width="wrap_content"

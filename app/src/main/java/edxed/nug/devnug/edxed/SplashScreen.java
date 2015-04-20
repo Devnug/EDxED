@@ -3,6 +3,7 @@ package edxed.nug.devnug.edxed;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.widget.DrawerLayout;
 
 import edxed.nug.devnug.edxed.ItemDataSource;
@@ -41,6 +42,21 @@ public class SplashScreen extends Activity implements LoadingTask.LoadingTaskFin
     private void startApp() {
         Intent intent = new Intent(SplashScreen.this, MainActivity.class);
         startActivity(intent);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                //Create an intent that will start the main activity.
+                Intent mainIntent = new Intent(SplashScreen.this, MainActivity.class);
+                SplashScreen.this.startActivity(mainIntent);
+
+                //Finish splash activity so user cant go back to it.
+                SplashScreen.this.finish();
+
+                //Apply splash exit (fade out) and main entry (fade in) animation transitions.
+                overridePendingTransition(R.anim.mainfadein, R.anim.splashfadeout);
+            }
+        }, 3000);
     }
 
 }

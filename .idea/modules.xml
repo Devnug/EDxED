@@ -4,6 +4,10 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/EDxED.iml" filepath="$PROJECT_DIR$/EDxED.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/twitter4j-async-4.0.3/twitter4j-async-4.0.3.iml" filepath="$PROJECT_DIR$/twitter4j-async-4.0.3/twitter4j-async-4.0.3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/twitter4j-core-4.0.3/twitter4j-core-4.0.3.iml" filepath="$PROJECT_DIR$/twitter4j-core-4.0.3/twitter4j-core-4.0.3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/twitter4j-media-support-4.0.3/twitter4j-media-support-4.0.3.iml" filepath="$PROJECT_DIR$/twitter4j-media-support-4.0.3/twitter4j-media-support-4.0.3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/twitter4j-stream-4.0.3/twitter4j-stream-4.0.3.iml" filepath="$PROJECT_DIR$/twitter4j-stream-4.0.3/twitter4j-stream-4.0.3.iml" />
     </modules>
   </component>
 </project>
