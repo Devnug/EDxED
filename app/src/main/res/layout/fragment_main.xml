@@ -96,6 +96,7 @@
             android:text="@string/email"
             android:layout_below="@+id/telephone"
             android:autoLink="email"/>
+
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>

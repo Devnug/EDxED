@@ -1,8 +1,11 @@
 package edxed.nug.devnug.edxed;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,7 +51,7 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
         holder.title.setTypeface(type);
         holder.title.setText(item.getTitle());
         holder.desc.setText(item.getDesc());
-        holder.imageView.setImageResource(item.getImg());
+        //holder.imageView.setImageResource(item.getImg());
         holder.room.setText("Room: " + item.getRoom());
         holder.session.setText("Session " + item.getSession());
         //Use below for when we have pictures for each person
@@ -63,6 +66,11 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
             being clicked are opened.  However all cards will now hide the description tag when they are
             no longer in view.
          */
+        Log.d(TAG, "imgString: " + item.getImgString());
+        byte[] decodedString = Base64.decode(item.getImgString(), Base64.DEFAULT);
+        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        holder.imageView.setImageBitmap(decodedByte);
+
         holder.showMore.setVisibility(View.VISIBLE);
         holder.desc.setVisibility(View.GONE);
         holder.googleCal.setVisibility(View.GONE);
@@ -131,7 +139,11 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
                     ConversationFragment.removeEvent(currentItem);
                 }
             });
+            //Log.d(TAG, "imgString: " + currentItem.getImgString());
+            //byte[] decodedString = Base64.decode(currentItem.getImgString(), Base64.URL_SAFE);
+            //Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
             imageView = (ImageView)itemView.findViewById(R.id.pic);
+            //imageView.setImageBitmap(decodedByte);
             //imageView.setImageResource(currentItem.getImg());
             showMore = (TextView) view.findViewById(R.id.show_more);
             showMore.setOnClickListener(new View.OnClickListener() {

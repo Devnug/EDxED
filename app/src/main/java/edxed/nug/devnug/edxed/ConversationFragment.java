@@ -130,6 +130,7 @@ public class ConversationFragment extends Fragment {
         list = new ArrayList<ViewModel>();
         Cursor c = db.queryAll();
         if(c.moveToFirst()) {
+            int idColumn = c.getColumnIndex(ItemDbHelper.COLUMN_ID);
             int nameColumn = c.getColumnIndex(ItemDbHelper.KEY_NAME);
             int titleColumn = c.getColumnIndex(ItemDbHelper.KEY_TITLE);
             int descColumn = c.getColumnIndex(ItemDbHelper.KEY_DESC);
@@ -137,9 +138,10 @@ public class ConversationFragment extends Fragment {
             int sessionColumn = c.getColumnIndex(ItemDbHelper.KEY_SESSION);
             int attendingColumn = c.getColumnIndex(ItemDbHelper.KEY_ATTENDING);
             int eventIdColumn = c.getColumnIndex(ItemDbHelper.KEY_EVENT_ID);
+            int picColumn = c.getColumnIndex(ItemDbHelper.KEY_PIC);
             Log.d(TAG, "Name: " + c.getString(nameColumn));
             do {
-                list.add(new ViewModel(c.getString(nameColumn),c.getString(titleColumn), c.getString(descColumn), c.getString(roomColumn), c.getString(attendingColumn), c.getString(sessionColumn)));
+                list.add(new ViewModel(c.getString(nameColumn),c.getString(titleColumn), c.getString(descColumn), c.getString(roomColumn), c.getString(attendingColumn), c.getString(sessionColumn), 0, c.getInt(idColumn), c.getString(picColumn)));
 
             } while(c.moveToNext());
         }

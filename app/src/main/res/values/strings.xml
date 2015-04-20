@@ -1,11 +1,12 @@
 <resources>
-    <string name="app_name">EDxED</string>
+    <string name="app_name">EDxEDNYC</string>
 
     <string name="title_section1">About</string>
-    <string name="title_section2">Conversations</string>
-    <string name="title_section3">Event Organizers</string>
-    <string name="title_section4">Schedule</string>
-    <string name="title_section5">Sponsors</string>
+    <string name="title_section2">Activity Feed</string>
+    <string name="title_section3">Conversations</string>
+    <string name="title_section4">Event Organizers</string>
+    <string name="title_section5">Schedule</string>
+    <string name="title_section6">Sponsors</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

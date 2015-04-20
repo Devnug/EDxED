@@ -106,7 +106,7 @@ public class OrganizersFragment extends Fragment {
         if(c.moveToFirst()) {
             int nameColumn = c.getColumnIndex(ItemDbHelper.KEY_NAME);
             int jobTitleColumn = c.getColumnIndex(ItemDbHelper.KEY_JOB_TITLE);
-
+            int pictureColumn  = c.getColumnIndex(ItemDbHelper.KEY_PIC);
             int twitterColumn = c.getColumnIndex(ItemDbHelper.KEY_TWITTER);
             int emailColumn = c.getColumnIndex(ItemDbHelper.KEY_EMAIL);
             Log.d(TAG, "Name: " + c.getString(nameColumn));

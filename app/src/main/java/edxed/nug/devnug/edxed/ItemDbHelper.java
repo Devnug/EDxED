@@ -33,7 +33,7 @@ public class ItemDbHelper extends SQLiteOpenHelper {
             + KEY_SESSION + " TEXT, "
             + KEY_ATTENDING + " TEXT, "
             + KEY_EVENT_ID + " TEXT, "
-            + KEY_PIC + " BLOB, "
+            + KEY_PIC + " TEXT, "
             + KEY_LAST_UPDATE + " INT, "
             + KEY_STRAND + " TEXT);";
 

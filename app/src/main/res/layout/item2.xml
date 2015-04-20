@@ -22,7 +22,7 @@
             android:id="@+id/pic"
             android:paddingTop="6sp"
             android:paddingBottom="6sp"
-            android:visibility="gone"/>
+            />
         <TextView
             android:id="@+id/title"
             android:layout_width="match_parent"

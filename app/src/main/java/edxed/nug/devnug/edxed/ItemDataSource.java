@@ -74,6 +74,8 @@ public class ItemDataSource {
             values.put(ItemDbHelper.KEY_ROOM, item.getRoom());
             values.put(ItemDbHelper.KEY_SESSION, item.getSession());
             values.put(ItemDbHelper.KEY_LAST_UPDATE, item.getLastUpdate());
+            values.put(ItemDbHelper.KEY_PIC, item.getImgString());
+            Log.d(TAG, item.getImgString());
             Log.d(TAG, "Updating " + item.getName() + " with room " + item.getRoom() + "with last update " + item.getLastUpdate());
 
             int num = database.updateWithOnConflict(ItemDbHelper.CONVERSATION_TABLE_NAME, values, ItemDbHelper.KEY_NAME + " LIKE '" + item.getName() + "'", null, SQLiteDatabase.CONFLICT_REPLACE);

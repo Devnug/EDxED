@@ -85,17 +85,21 @@ public class MainActivity extends ActionBarActivity
                 .commit();
         if(position == 1)
             fragmentManager.beginTransaction()
-                    .replace(R.id.container, ConversationFragment.newInstance(position + 1))
+                    .replace(R.id.container, ActivityFeedFragment.newInstance(position + 1))
                     .commit();
         if(position == 2)
             fragmentManager.beginTransaction()
-                    .replace(R.id.container, OrganizersFragment.newInstance(position + 1))
+                    .replace(R.id.container, ConversationFragment.newInstance(position + 1))
                     .commit();
         if(position == 3)
             fragmentManager.beginTransaction()
-                    .replace(R.id.container, ScheduleFragment.newInstance(position + 1))
+                    .replace(R.id.container, OrganizersFragment.newInstance(position + 1))
                     .commit();
         if(position == 4)
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container, ScheduleFragment.newInstance(position + 1))
+                    .commit();
+        if(position == 5)
             fragmentManager.beginTransaction()
                     .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
                     .commit();
@@ -117,6 +121,9 @@ public class MainActivity extends ActionBarActivity
                 break;
             case 5:
                 mTitle = getString(R.string.title_section5);
+                break;
+            case 6:
+                mTitle = getString(R.string.title_section6);
                 break;
         }
     }
