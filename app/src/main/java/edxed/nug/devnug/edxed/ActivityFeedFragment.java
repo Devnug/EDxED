@@ -1,6 +1,7 @@
 package edxed.nug.devnug.edxed;
 
 import android.app.Activity;
+import android.app.DownloadManager;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -26,6 +27,14 @@ import org.json.JSONObject;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
+
+import twitter4j.Query;
+import twitter4j.QueryResult;
+import twitter4j.Status;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.TwitterFactory;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -58,6 +67,38 @@ public class ActivityFeedFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_activity_feed, container, false);
+        // The factory instance is re-useable and thread safe.
+        Twitter twitter = TwitterFactory.getSingleton();
+        Query query = new Query("source:twitter4j yusukey");
+        QueryResult result = null;
+        try {
+            result = twitter.search(query);
+        } catch (TwitterException e) {
+            e.printStackTrace();
+        }
+        for (Status status : result.getTweets()) {
+            System.out.println("@" + status.getUser().getScreenName() + ":" + status.getText());
+        }
+        /*
+        Twitter twitter = new TwitterFactory().getSingleton();
+        try {
+            Query query = new Query("#edxednyc");
+            QueryResult result;
+            do {
+                result = twitter.search(query);
+                List<Status> tweets = result.getTweets();
+                for (Status tweet : tweets) {
+                    System.out.println("@" + tweet.getUser().getScreenName() + " - " + tweet.getText());
+                }
+            } while ((query = result.nextQuery()) != null);
+            System.exit(0);
+        } catch (TwitterException te) {
+            te.printStackTrace();
+            System.out.println("Failed to search tweets: " + te.getMessage());
+            System.exit(-1);
+        }
+        */
+        /*
         ArrayList<Tweet> tweets = null;
         try {
             tweets = getTweets("android", 1);
@@ -67,6 +108,7 @@ public class ActivityFeedFragment extends Fragment {
         context = this.getActivity().getApplicationContext();
         ListView listView = (ListView) container.findViewById(R.id.ListViewId);
         listView.setAdapter(new UserItemAdapter(this.getActivity().getApplicationContext(), R.layout.listitem, tweets));
+        */
         return rootView;
     }
 
@@ -132,7 +174,6 @@ public class ActivityFeedFragment extends Fragment {
         HttpGet get = new HttpGet(searchUrl);
 
         ResponseHandler<String> responseHandler = new BasicResponseHandler();
-
         String responseBody = null;
         JSONArray obj = null;
         try{

@@ -4,9 +4,10 @@
     <string name="title_section1">About</string>
     <string name="title_section2">Activity Feed</string>
     <string name="title_section3">Conversations</string>
-    <string name="title_section4">Event Organizers</string>
-    <string name="title_section5">Schedule</string>
-    <string name="title_section6">Sponsors</string>
+    <string name="title_section4">Feedback</string>
+    <string name="title_section5">Event Organizers</string>
+    <string name="title_section6">Schedule</string>
+    <string name="title_section7">Sponsors</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -36,5 +37,10 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="empty">There is nothing here!  Add events to your schedule!</string>
+    <string name="new_feedback">New Feedback</string>
+    <string name="feedback_title2">What kind of feedback is this?</string>
+    <string name="feedback_radio1">Suggestion</string>
+    <string name="feedback_radio2">Problem</string>
+    <string name="feedback_send">Send</string>
 
 </resources>

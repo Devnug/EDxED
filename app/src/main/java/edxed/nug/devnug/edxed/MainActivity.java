@@ -93,13 +93,17 @@ public class MainActivity extends ActionBarActivity
                     .commit();
         if(position == 3)
             fragmentManager.beginTransaction()
-                    .replace(R.id.container, OrganizersFragment.newInstance(position + 1))
+                    .replace(R.id.container, FeedbackFragment.newInstance(position + 1))
                     .commit();
         if(position == 4)
             fragmentManager.beginTransaction()
-                    .replace(R.id.container, ScheduleFragment.newInstance(position + 1))
+                    .replace(R.id.container, OrganizersFragment.newInstance(position + 1))
                     .commit();
         if(position == 5)
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container, ScheduleFragment.newInstance(position + 1))
+                    .commit();
+        if(position == 6)
             fragmentManager.beginTransaction()
                     .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
                     .commit();
@@ -123,6 +127,9 @@ public class MainActivity extends ActionBarActivity
                 mTitle = getString(R.string.title_section5);
                 break;
             case 6:
+                mTitle = getString(R.string.title_section6);
+                break;
+            case 7:
                 mTitle = getString(R.string.title_section6);
                 break;
         }

@@ -1,2 +1,0 @@
-configurations.create("default")
-artifacts.add("default", file('twitter4j-media-support-4.0.3.jar'))

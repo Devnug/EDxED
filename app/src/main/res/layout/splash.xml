@@ -9,12 +9,4 @@
         android:src="@drawable/splash"
         android:layout_centerInParent="true" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Loading Data"
-        android:id="@+id/loadingText"
-        android:layout_below="@+id/spash_pic"
-        android:layout_centerHorizontal="true" />
-
 </RelativeLayout>

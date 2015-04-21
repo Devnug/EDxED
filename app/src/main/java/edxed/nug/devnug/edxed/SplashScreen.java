@@ -36,12 +36,12 @@ public class SplashScreen extends Activity implements LoadingTask.LoadingTaskFin
 
     private void completeSplash(){
         startApp();
-        finish(); // Don't forget to finish this Splash Activity so the user can't return to it!
+        //finish(); // Don't forget to finish this Splash Activity so the user can't return to it!
     }
 
     private void startApp() {
-        Intent intent = new Intent(SplashScreen.this, MainActivity.class);
-        startActivity(intent);
+        //Intent intent = new Intent(SplashScreen.this, MainActivity.class);
+        //startActivity(intent);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -51,10 +51,11 @@ public class SplashScreen extends Activity implements LoadingTask.LoadingTaskFin
                 SplashScreen.this.startActivity(mainIntent);
 
                 //Finish splash activity so user cant go back to it.
-                SplashScreen.this.finish();
+                //SplashScreen.this.finish();
 
                 //Apply splash exit (fade out) and main entry (fade in) animation transitions.
-                overridePendingTransition(R.anim.mainfadein, R.anim.splashfadeout);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                SplashScreen.this.finish();
             }
         }, 3000);
     }
