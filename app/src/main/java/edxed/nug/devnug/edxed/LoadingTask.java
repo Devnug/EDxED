@@ -176,6 +176,7 @@ public class LoadingTask extends AsyncTask<String, Integer, Integer> {
         } catch (JSONException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+            Log.d(TAG, "Error when reading json");
         } finally {
             if (is != null) {
                 is.close();

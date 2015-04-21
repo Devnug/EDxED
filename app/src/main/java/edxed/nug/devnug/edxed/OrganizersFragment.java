@@ -29,7 +29,7 @@ import java.util.GregorianCalendar;
  * A placeholder fragment containing a simple view.
  */
 public class OrganizersFragment extends Fragment {
-    private static final String TAG = "Organizers Fragment";
+    private static final String TAG = "OrganizersFragment";
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mRecyclerviewAdapter;
     private LinearLayoutManager mLinearLayoutManager;

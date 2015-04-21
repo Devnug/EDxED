@@ -61,3 +61,4 @@ public class SplashScreen extends Activity implements LoadingTask.LoadingTaskFin
     }
 
 }
+

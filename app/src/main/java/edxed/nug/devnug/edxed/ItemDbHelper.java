@@ -19,6 +19,7 @@ public class ItemDbHelper extends SQLiteOpenHelper {
     public static final String KEY_TITLE = "title";
     public static final String KEY_SESSION = "session";
     public static final String KEY_PIC = "pic";
+    public static final String KEY_PIC2 = "pic2";
     public static final String KEY_ATTENDING = "attending";
     public static final String KEY_ROOM = "room";
     public static final String KEY_EVENT_ID = "eventId";
@@ -34,6 +35,7 @@ public class ItemDbHelper extends SQLiteOpenHelper {
             + KEY_ATTENDING + " TEXT, "
             + KEY_EVENT_ID + " TEXT, "
             + KEY_PIC + " TEXT, "
+            + KEY_PIC2 + " TEXT, "
             + KEY_LAST_UPDATE + " INT, "
             + KEY_STRAND + " TEXT);";
 

@@ -24,7 +24,7 @@ public class OrganizersAdapter extends RecyclerView.Adapter<OrganizersAdapter.Vi
     private final FragmentActivity mActivity;
     public ItemDataSource db;
 
-    private static final String TAG = "ConversationAdapter";
+    private static final String TAG = "OrganizersAdapter";
 
     public OrganizersAdapter(List<ViewModel> items, int itemLayout, FragmentActivity mActivity) {
         this.items = items;

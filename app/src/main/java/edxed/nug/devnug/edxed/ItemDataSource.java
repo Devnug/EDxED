@@ -25,7 +25,7 @@ public class ItemDataSource {
     private ItemDbHelper dbHelper;
     private String[] allColumns = { ItemDbHelper.COLUMN_ID,
             ItemDbHelper.KEY_NAME, ItemDbHelper.KEY_TITLE, ItemDbHelper.KEY_DESC, ItemDbHelper.KEY_ROOM, ItemDbHelper.KEY_SESSION,
-            ItemDbHelper.KEY_ATTENDING, ItemDbHelper.KEY_EVENT_ID, ItemDbHelper.KEY_PIC, ItemDbHelper.KEY_LAST_UPDATE, ItemDbHelper.KEY_STRAND};
+            ItemDbHelper.KEY_ATTENDING, ItemDbHelper.KEY_EVENT_ID, ItemDbHelper.KEY_PIC, ItemDbHelper.KEY_PIC2, ItemDbHelper.KEY_LAST_UPDATE, ItemDbHelper.KEY_STRAND};
     private String[] allOrgColumns = { ItemDbHelper.COLUMN_ID,
             ItemDbHelper.KEY_NAME, ItemDbHelper.KEY_JOB_TITLE, ItemDbHelper.KEY_TWITTER, ItemDbHelper.KEY_EMAIL, ItemDbHelper.KEY_PIC};
     private static final String TAG = "ItemDataSource ::";
@@ -135,7 +135,7 @@ public class ItemDataSource {
         String sql = "INSERT INTO organizerslist (_id, name, job_title, twitter_handle, email, pic)  VALUES ('" + 1 + "','" + "NANCY AMLING" + "','" + "PRINCIPAL" + "','" + "@amlingnancy" + "','" + "" + "','" + "" + "')";
         this.database.execSQL(sql);
         this.database.execSQL("INSERT INTO organizerslist (_id, name, job_title, twitter_handle, email, pic)  VALUES ('" + 2 + "','" + "DR. GARY HABER" + "','" + "ASSISTANT PRINCIPAL" + "','" + "@garyhaberdc" + "','" + "" + "','" + "" + "')");
-        this.database.execSQL("INSERT INTO organizerslist (_id, name, job_title, twitter_handle, email, pic)  VALUES ('" + 3 + "','" + "WALTER BROWN" + "','" + "ASSISTANT PRINCIPAL" + "','" + "@wbrownhhs" + "','" + "" + "','" + "" + "')");
+        this.database.execSQL("INSERT INTO organizerslist (_id, name, job_title, twitter_handle, email, pic)  VALUES ('" + 3 + "','" + "WALTER BROWN" + "','" + "ASSISTANT PRINCIPAL, IA" + "','" + "@wbrownhhs" + "','" + "" + "','" + "" + "')");
         this.database.execSQL("INSERT INTO organizerslist (_id, name, job_title, twitter_handle, email, pic)  VALUES ('" + 4 + "','" + "PHIL LINDER" + "','" + "EDUCATOR" + "','" + "@thehistorydude" + "','" + "" + "','" + "" + "')");
         this.database.execSQL("INSERT INTO organizerslist (_id, name, job_title, twitter_handle, email, pic)  VALUES ('" + 5 + "','" + "THOMAS RODNEY" + "','" + "EDUCATOR" + "','" + "" + "','" + "trodney@hudsonhs.com" + "','" + "" + "')");
         this.database.execSQL("INSERT INTO organizerslist (_id, name, job_title, twitter_handle, email, pic)  VALUES ('" + 6 + "','" + "TIM COMER" + "','" + "EDUCATOR" + "','" + "@cambrianed" + "','" + "" + "','" + "" + "')");

@@ -67,10 +67,12 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
             no longer in view.
          */
         Log.d(TAG, "imgString: " + item.getImgString());
-        byte[] decodedString = Base64.decode(item.getImgString(), Base64.DEFAULT);
-        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-        holder.imageView.setImageBitmap(decodedByte);
-
+        // Error pulling picture?
+        if (item.getImgString() != null) {
+            byte[] decodedString = Base64.decode(item.getImgString(), Base64.DEFAULT);
+            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            holder.imageView.setImageBitmap(decodedByte);
+        }
         holder.showMore.setVisibility(View.VISIBLE);
         holder.desc.setVisibility(View.GONE);
         holder.googleCal.setVisibility(View.GONE);
