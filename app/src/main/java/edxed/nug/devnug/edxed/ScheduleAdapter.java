@@ -68,7 +68,19 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
                 holder.name.setText(item.getName());
                 //holder.title.setText(item.getTitle());
                 holder.desc.setText(item.getDesc());
-                holder.imageView.setImageResource(item.getImg());
+                //holder.imageView.setImageResource(item.getImg());
+                ImageView view1 = holder.imageView;
+                //holder.imageView.setImageResource(item.getImg());
+                //view1.setImageResource(item.getImg());
+                ImageView view2 = holder.imageView2;
+                //holder.imageView.setImageResource(item.getImg());
+                //view2.setImageResource(item.getImg2());
+                Log.d(TAG, "img2 value: " + item.getImg2() + " for " + item.getName());
+                if(item.getImg2() != -1) {
+                    view1.setImageResource(item.getImg2());
+                    view2.setImageResource(item.getImg());
+                }
+
                 holder.room.setText("Room: " + item.getRoom());
                 holder.session.setText("Session " + item.getSession());
                 /*
@@ -137,6 +149,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
         public TextView googleCal;
         public TextView remGoogleCal;
         public ImageView imageView;
+        public ImageView imageView2;
         public View view;
         public ViewModel currentItem;
         public boolean divider;
@@ -183,6 +196,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
                     }
                 });
                 imageView = (ImageView) itemView.findViewById(R.id.pic);
+                imageView2 = (ImageView) itemView.findViewById(R.id.pic2);
                 //imageView.setImageResource(currentItem.getImg());
                 showMore = (TextView) view.findViewById(R.id.show_more);
                 showMore.setOnClickListener(new View.OnClickListener() {

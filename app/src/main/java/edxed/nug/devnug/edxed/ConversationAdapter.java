@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
+import android.text.Layout;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -52,7 +53,19 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
         holder.title.setText(item.getTitle());
         holder.desc.setText(item.getDesc());
         Log.d(TAG, "Img value: " + item.getImg());
-        holder.imageView.setImageResource(item.getImg());
+        ImageView view1 = holder.imageView;
+        //holder.imageView.setImageResource(item.getImg());
+        view1.setImageResource(item.getImg());
+        ImageView view2 = holder.imageView2;
+        //holder.imageView.setImageResource(item.getImg());
+        view2.setImageResource(item.getImg2());
+        Log.d(TAG, "img2 value: " + item.getImg2() + " for " + item.getName());
+        if(item.getImg2() != -1) {
+            view2.setImageResource(item.getImg());
+            view1.setImageResource(item.getImg2());
+        }
+        //else
+            //view2.setVisibility(View.INVISIBLE);
         holder.room.setText("Room: " + item.getRoom());
         holder.session.setText("Session " + item.getSession());
         //Use below for when we have pictures for each person
@@ -155,7 +168,9 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
             //byte[] decodedString = Base64.decode(currentItem.getImgString(), Base64.URL_SAFE);
             //Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
             imageView = (ImageView)itemView.findViewById(R.id.pic);
-            //imageView = (ImageView)itemView.findViewById(R.id.pic2);
+            imageView2 = (ImageView)itemView.findViewById(R.id.pic2);
+            //if(currentItem.getName().indexOf("&") == -1)
+            //        imageView2.setVisibility(View.GONE);
             //imageView.setImageBitmap(decodedByte);
             //imageView.setImageResource(currentItem.getImg());
             showMore = (TextView) view.findViewById(R.id.show_more);

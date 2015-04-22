@@ -53,6 +53,7 @@ public class ViewModel {
         email = theEmail;
         // Test with phil...for now...
         img = determineImg();
+
     }
 
     public ViewModel(String theName, String newTitle, String newDesc, String newRoom, String newSession, int update, int theId, String theImgString, String theImgString2) {
@@ -68,6 +69,9 @@ public class ViewModel {
         imgString2 = theImgString;
         // Test with phil...for now...
         img = determineImg();
+        if(name.indexOf("&") != -1 && name.toLowerCase().indexOf("goulding") == -1) {
+            img2 = determineImg(name.substring(name.indexOf("&") + 1).trim());
+        }
     }
 
     public ViewModel(String theName, String newTitle, String newDesc, String newRoom, String theAttending, String newSession, int update, int theId, String theImgString, String theImgString2) {
@@ -83,6 +87,9 @@ public class ViewModel {
         imgString2 = theImgString2;
         // Test with phil...for now...
         img = determineImg();
+        if(name.indexOf("&") != -1 && name.toLowerCase().indexOf("goulding") == -1) {
+            img2 = determineImg(name.substring(name.indexOf("&") + 1).trim());
+        }
     }
 
     public int determineImg() {
@@ -116,42 +123,36 @@ public class ViewModel {
             return R.drawable.haber;
         if(name.toLowerCase().indexOf("vanessa letourneau") != -1)
             return R.drawable.vanessa;
+        if(name.toLowerCase().indexOf("ross burman") != -1)
+            return R.drawable.ross;
+        if(name.toLowerCase().indexOf("lori-stahl-van brackle") != -1)
+            return R.drawable.lori_stahl;
+        if(name.toLowerCase().indexOf("myrlene michel") != -1)
+            return R.drawable.myrlene;
+        if(name.toLowerCase().indexOf("jason levy") != -1)
+            return R.drawable.jason;
+        if(name.toLowerCase().indexOf("gerard aroito") != -1)
+            return R.drawable.gerard;
+        if(name.toLowerCase().indexOf("amy demarco") != -1)
+            return R.drawable.amy;
+        if(name.toLowerCase().indexOf("ruth groebner") != -1)
+            return R.drawable.ruth;
+        if(name.toLowerCase().indexOf("dr. denver j. fowler") != -1)
+            return R.drawable.denver;
+        if(name.toLowerCase().indexOf("melda n. yildiz") != -1)
+            return R.drawable.melda;
+        if(name.toLowerCase().indexOf("jesse spevack") != -1)
+            return R.drawable.jesse;
+        if(name.toLowerCase().indexOf("adam ward") != -1)
+            return R.drawable.adam;
+        if(name.toLowerCase().indexOf("kyeatta garrett-bey") != -1)
+            return R.drawable.kyeatta;
         return R.drawable.nopic;
     }
 
     public int determineImg(String name) {
-        if(name.toLowerCase().indexOf("anne taliaferro") != -1)
-            return R.drawable.anne;
-        if(name.toLowerCase().indexOf("christopher purcell") != -1 || name.toLowerCase().indexOf("chris purcell") != -1)
-            return R.drawable.christopher;
-        if(name.toLowerCase().indexOf("gina angelillo") != -1)
-            return R.drawable.gina;
-        if(name.toLowerCase().indexOf("halley anne curtis") != -1)
-            return R.drawable.halley;
-        if(name.toLowerCase().indexOf("jennifer gunn") != -1)
-            return R.drawable.jennifer;
-        if(name.toLowerCase().indexOf("kate salute") != -1)
-            return R.drawable.kate;
-        if(name.toLowerCase().indexOf("phil linder") != -1)
-            return R.drawable.phil;
-        if(name.toLowerCase().indexOf("sarah katz") != -1)
-            return R.drawable.sarah;
-        if(name.toLowerCase().indexOf("thomas rodney") != -1)
-            return R.drawable.thomas;
-        if(name.toLowerCase().indexOf("tim comer") != -1)
-            return R.drawable.tim;
-        if(name.toLowerCase().indexOf("walter brown") != -1)
-            return R.drawable.walter;
-        if(name.toLowerCase().indexOf("michael ponella") != -1)
-            return R.drawable.michael;
-        if(name.toLowerCase().indexOf("nancy amling") != -1)
-            return R.drawable.nancy;
-        if(name.toLowerCase().indexOf("dr. gary haber") != -1)
-            return R.drawable.haber;
-        if(name.toLowerCase().indexOf("vanessa letourneau") != -1)
-            return R.drawable.vanessa;
         if(name.toLowerCase().indexOf("robert kane") != -1)
-               return R.drawable.nopic; //replace with robert when picture is added
+               return R.drawable.robert; //replace with robert when picture is added
         return R.drawable.nopic;
     }
 
