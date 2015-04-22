@@ -161,7 +161,7 @@ public class LoadingTask extends AsyncTask<String, Integer, Integer> {
                 JSONObject obj = jArray.getJSONObject(i);
                 //System.out.println("What is the tool? " + obj.getString("itemClass"));
                 Log.d(TAG, obj.getString("name") + " " + obj.getString("title") + " " + obj.getString("desc") + " " + obj.getString("room") + " " + obj.getString("session") + " " + obj.getInt("last_update") + " " + obj.getString("pic") + " " + obj.getString("strand"));
-                itemArray.add(new ViewModel(obj.getString("name"), obj.getString("title"), obj.getString("desc"), obj.getString("room"), obj.getString("session"), obj.getInt("last_update"), obj.getInt("_id"), obj.getString("pic")));
+                itemArray.add(new ViewModel(obj.getString("name"), obj.getString("title"), obj.getString("desc"), obj.getString("room"), obj.getString("session"), obj.getInt("last_update"), obj.getInt("_id"), obj.getString("pic"), obj.getString("pic2")));
             }
             updateDatabase();
             //int response = entity..getResponseCode();

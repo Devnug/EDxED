@@ -19,22 +19,21 @@
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:id="@+id/pic2"
+            android:id="@+id/pic"
             android:layout_alignParentRight="true"
             android:paddingTop="6sp"
             android:paddingBottom="6sp"
-            android:visibility="gone"
             />
 
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:id="@+id/pic"
+            android:id="@+id/pic2"
             android:layout_alignParentRight="true"
-            android:layout_toLeftOf="@+id/pic2"
             android:paddingTop="6sp"
             android:paddingBottom="6sp"
-            />
+            android:visibility="gone" />
+
         <TextView
             android:id="@+id/title"
             android:layout_width="match_parent"

@@ -139,9 +139,10 @@ public class ConversationFragment extends Fragment {
             int attendingColumn = c.getColumnIndex(ItemDbHelper.KEY_ATTENDING);
             int eventIdColumn = c.getColumnIndex(ItemDbHelper.KEY_EVENT_ID);
             int picColumn = c.getColumnIndex(ItemDbHelper.KEY_PIC);
+            int pic2Column = c.getColumnIndex(ItemDbHelper.KEY_PIC2);
             Log.d(TAG, "Name: " + c.getString(nameColumn));
             do {
-                list.add(new ViewModel(c.getString(nameColumn),c.getString(titleColumn), c.getString(descColumn), c.getString(roomColumn), c.getString(attendingColumn), c.getString(sessionColumn), 0, c.getInt(idColumn), c.getString(picColumn)));
+                list.add(new ViewModel(c.getString(nameColumn),c.getString(titleColumn), c.getString(descColumn), c.getString(roomColumn), c.getString(attendingColumn), c.getString(sessionColumn), 0, c.getInt(idColumn), c.getString(picColumn), c.getString(pic2Column)));
 
             } while(c.moveToNext());
         }

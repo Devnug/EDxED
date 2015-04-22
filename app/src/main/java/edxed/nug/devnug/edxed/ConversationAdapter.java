@@ -51,7 +51,8 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
         holder.title.setTypeface(type);
         holder.title.setText(item.getTitle());
         holder.desc.setText(item.getDesc());
-        //holder.imageView.setImageResource(item.getImg());
+        Log.d(TAG, "Img value: " + item.getImg());
+        holder.imageView.setImageResource(item.getImg());
         holder.room.setText("Room: " + item.getRoom());
         holder.session.setText("Session " + item.getSession());
         //Use below for when we have pictures for each person
@@ -66,13 +67,21 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
             being clicked are opened.  However all cards will now hide the description tag when they are
             no longer in view.
          */
+        /*
         Log.d(TAG, "imgString: " + item.getImgString());
         // Error pulling picture?
-        if (item.getImgString() != null) {
+        if (item.getImgString() != "") {
             byte[] decodedString = Base64.decode(item.getImgString(), Base64.DEFAULT);
             Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
             holder.imageView.setImageBitmap(decodedByte);
         }
+        if (item.getImgString2() != "") {
+            byte[] decodedString = Base64.decode(item.getImgString2(), Base64.DEFAULT);
+            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            holder.imageView2.setImageBitmap(decodedByte);
+            holder.imageView2.setVisibility(View.VISIBLE);
+        }
+        */
         holder.showMore.setVisibility(View.VISIBLE);
         holder.desc.setVisibility(View.GONE);
         holder.googleCal.setVisibility(View.GONE);
@@ -98,6 +107,7 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
         public TextView googleCal;
         public TextView remGoogleCal;
         public ImageView imageView;
+        public ImageView imageView2;
         public View view;
         public ViewModel currentItem;
 
@@ -145,6 +155,7 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
             //byte[] decodedString = Base64.decode(currentItem.getImgString(), Base64.URL_SAFE);
             //Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
             imageView = (ImageView)itemView.findViewById(R.id.pic);
+            //imageView = (ImageView)itemView.findViewById(R.id.pic2);
             //imageView.setImageBitmap(decodedByte);
             //imageView.setImageResource(currentItem.getImg());
             showMore = (TextView) view.findViewById(R.id.show_more);

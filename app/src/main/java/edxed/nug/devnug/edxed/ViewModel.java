@@ -18,6 +18,7 @@ public class ViewModel {
     private String email;
     private String strand;
     private String imgString;
+    private String imgString2;
     private int id;
     private int img;
     private int img2 = -1;
@@ -54,7 +55,7 @@ public class ViewModel {
         img = determineImg();
     }
 
-    public ViewModel(String theName, String newTitle, String newDesc, String newRoom, String newSession, int update, int theId, String theImgString) {
+    public ViewModel(String theName, String newTitle, String newDesc, String newRoom, String newSession, int update, int theId, String theImgString, String theImgString2) {
         name = theName;
         title = newTitle;
         desc = newDesc;
@@ -64,11 +65,12 @@ public class ViewModel {
         id = theId;
         attending = "false";
         imgString = theImgString;
+        imgString2 = theImgString;
         // Test with phil...for now...
         img = determineImg();
     }
 
-    public ViewModel(String theName, String newTitle, String newDesc, String newRoom, String theAttending, String newSession, int update, int theId, String theImgString) {
+    public ViewModel(String theName, String newTitle, String newDesc, String newRoom, String theAttending, String newSession, int update, int theId, String theImgString, String theImgString2) {
         name = theName;
         title = newTitle;
         desc = newDesc;
@@ -78,6 +80,7 @@ public class ViewModel {
         id = theId;
         attending = theAttending;
         imgString = theImgString;
+        imgString2 = theImgString2;
         // Test with phil...for now...
         img = determineImg();
     }
@@ -256,5 +259,13 @@ public class ViewModel {
 
     public void setImg2(int img2) {
         this.img2 = img2;
+    }
+
+    public String getImgString2() {
+        return imgString2;
+    }
+
+    public void setImgString2(String imgString2) {
+        this.imgString2 = imgString2;
     }
 }

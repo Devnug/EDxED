@@ -75,6 +75,7 @@ public class ItemDataSource {
             values.put(ItemDbHelper.KEY_SESSION, item.getSession());
             values.put(ItemDbHelper.KEY_LAST_UPDATE, item.getLastUpdate());
             values.put(ItemDbHelper.KEY_PIC, item.getImgString());
+            values.put(ItemDbHelper.KEY_PIC2, item.getImgString2());
             Log.d(TAG, item.getImgString());
             Log.d(TAG, "Updating " + item.getName() + " with room " + item.getRoom() + "with last update " + item.getLastUpdate());
 
