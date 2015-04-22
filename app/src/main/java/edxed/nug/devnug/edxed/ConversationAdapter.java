@@ -60,6 +60,7 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
         //holder.imageView.setImageResource(item.getImg());
         view2.setImageResource(item.getImg2());
         Log.d(TAG, "img2 value: " + item.getImg2() + " for " + item.getName());
+        //switch the order of the photos so that the first name matches with the first photo
         if(item.getImg2() != -1) {
             view2.setImageResource(item.getImg());
             view1.setImageResource(item.getImg2());
@@ -68,12 +69,6 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
             //view2.setVisibility(View.INVISIBLE);
         holder.room.setText("Room: " + item.getRoom());
         holder.session.setText("Session " + item.getSession());
-        //Use below for when we have pictures for each person
-        /*
-        holder.image.setImageBitmap(null);
-        Picasso.with(holder.image.getContext()).cancelRequest(holder.image);
-        Picasso.with(holder.image.getContext()).load(item.getImage()).into(holder.image);
-        */
 
         /*
             The following is used as a workaround to some trouble I'm having with cards other then those

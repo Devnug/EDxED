@@ -131,7 +131,7 @@ public class ViewModel {
             return R.drawable.myrlene;
         if(name.toLowerCase().indexOf("jason levy") != -1)
             return R.drawable.jason;
-        if(name.toLowerCase().indexOf("gerard aroito") != -1)
+        if(name.toLowerCase().indexOf("gerard ardito") != -1)
             return R.drawable.gerard;
         if(name.toLowerCase().indexOf("amy demarco") != -1)
             return R.drawable.amy;
@@ -147,12 +147,16 @@ public class ViewModel {
             return R.drawable.adam;
         if(name.toLowerCase().indexOf("kyeatta garrett-bey") != -1)
             return R.drawable.kyeatta;
+        if(name.toLowerCase().indexOf("leia petty") != -1)
+            return R.drawable.leia;
         return R.drawable.nopic;
     }
 
     public int determineImg(String name) {
         if(name.toLowerCase().indexOf("robert kane") != -1)
-               return R.drawable.robert; //replace with robert when picture is added
+               return R.drawable.robert;
+        if(name.toLowerCase().indexOf("melissa tortora") != -1)
+            return R.drawable.melissa;
         return R.drawable.nopic;
     }
 
@@ -167,6 +171,8 @@ public class ViewModel {
     public String getTitle() {
         return title;
     }
+
+    public void setTitle(String title) { this.title = title; }
 
     public String getDesc() {
         return desc;

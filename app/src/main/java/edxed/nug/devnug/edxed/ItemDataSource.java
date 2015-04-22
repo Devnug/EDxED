@@ -61,6 +61,17 @@ public class ItemDataSource {
             item.setName(item.getName().substring(0,item.getName().indexOf("'") + 1) + "'" + item.getName().substring(item.getName().indexOf("'") + 1));
             Log.d(TAG, "New name: " + item.getName());
         }
+        if(item.getTitle().indexOf("'") != -1) {
+
+            item.setTitle(item.getTitle().substring(0,item.getTitle().indexOf("'") + 1) + "'" + item.getTitle().substring(item.getTitle().indexOf("'") + 1));
+            Log.d(TAG, "New title: " + item.getTitle());
+        }
+        if(item.getDesc().indexOf("'") != -1) {
+
+            item.setDesc(item.getDesc().substring(0,item.getDesc().indexOf("'") + 1) + "'" + item.getDesc().substring(item.getDesc().indexOf("'") + 1));
+            Log.d(TAG, "New desc: " + item.getDesc());
+        }
+
 
 
         //Cursor cursor2 = database.query(edxed.nug.devnug.edxed.ItemDbHelper.DICTIONARY_TABLE_NAME, allColumns, edxed.nug.devnug.edxed.ItemDbHelper.KEY_NAME + " LIKE '%" + name + "%'", null, null, null, null);
