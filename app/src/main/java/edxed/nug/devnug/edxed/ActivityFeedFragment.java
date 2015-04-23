@@ -7,6 +7,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,17 +39,24 @@ import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
+import twitter4j.conf.ConfigurationBuilder;
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class ActivityFeedFragment extends Fragment {
+public class ActivityFeedFragment extends Fragment implements LoadingTwitterTask.LoadingTwitterTaskFinishedListener{
     /**
      * The fragment argument representing the section number for this
      * fragment.
      */
 
     private Context context;
+    static FragmentActivity mActivity;
+    ArrayList<Tweet> list = new ArrayList<Tweet>();
+    private RecyclerView mRecyclerView;
+    ActivityFeedAdapter adapter;
+    static ActivityFeedFragment mFragment;
+    private LinearLayoutManager mLinearLayoutManager;
     private static final String ARG_SECTION_NUMBER = "section_number";
 
     /**
@@ -67,48 +78,8 @@ public class ActivityFeedFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_activity_feed, container, false);
-        // The factory instance is re-useable and thread safe.
-        Twitter twitter = TwitterFactory.getSingleton();
-        Query query = new Query("source:twitter4j yusukey");
-        QueryResult result = null;
-        try {
-            result = twitter.search(query);
-        } catch (TwitterException e) {
-            e.printStackTrace();
-        }
-        for (Status status : result.getTweets()) {
-            System.out.println("@" + status.getUser().getScreenName() + ":" + status.getText());
-        }
-        /*
-        Twitter twitter = new TwitterFactory().getSingleton();
-        try {
-            Query query = new Query("#edxednyc");
-            QueryResult result;
-            do {
-                result = twitter.search(query);
-                List<Status> tweets = result.getTweets();
-                for (Status tweet : tweets) {
-                    System.out.println("@" + tweet.getUser().getScreenName() + " - " + tweet.getText());
-                }
-            } while ((query = result.nextQuery()) != null);
-            System.exit(0);
-        } catch (TwitterException te) {
-            te.printStackTrace();
-            System.out.println("Failed to search tweets: " + te.getMessage());
-            System.exit(-1);
-        }
-        */
-        /*
-        ArrayList<Tweet> tweets = null;
-        try {
-            tweets = getTweets("android", 1);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        context = this.getActivity().getApplicationContext();
-        ListView listView = (ListView) container.findViewById(R.id.ListViewId);
-        listView.setAdapter(new UserItemAdapter(this.getActivity().getApplicationContext(), R.layout.listitem, tweets));
-        */
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
+        adapter = new ActivityFeedAdapter(list,R.layout.tweet_item, mActivity);
         return rootView;
     }
 
@@ -117,94 +88,36 @@ public class ActivityFeedFragment extends Fragment {
         super.onAttach(activity);
         ((MainActivity) activity).onSectionAttached(
                 getArguments().getInt(ARG_SECTION_NUMBER));
+        this.mActivity = (FragmentActivity)activity;
+        new LoadingTwitterTask(mActivity, this).execute("www.google.co.uk");
     }
 
-    public class UserItemAdapter extends ArrayAdapter<Tweet> {
-        private ArrayList<Tweet> tweets;
-
-        public UserItemAdapter(Context context, int textViewResourceId, ArrayList<Tweet> tweets) {
-            super(context, textViewResourceId, tweets);
-            this.tweets = tweets;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            View v = convertView;
-            if (v == null) {
-                LayoutInflater vi = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                v = vi.inflate(R.layout.listitem, null);
-            }
-
-            Tweet tweet = tweets.get(position);
-            if (tweet != null) {
-                TextView username = (TextView) v.findViewById(R.id.username);
-                TextView message = (TextView) v.findViewById(R.id.message);
-                ImageView image = (ImageView) v.findViewById(R.id.avatar);
-
-                if (username != null) {
-                    username.setText(tweet.username);
-                }
-
-                if(message != null) {
-                    message.setText(tweet.message);
-                }
-
-                if(image != null) {
-                    image.setImageBitmap(getBitmap(tweet.image_url));
-                }
-            }
-            return v;
-        }
+    @Override
+    public void onTaskFinished(QueryResult result) {
+        System.out.println("Finished!");
+        createList(result);
+        //mActivity.getSupportFragmentManager().beginTransaction().detach(mFragment).attach(mFragment).commit();
     }
 
-    public Bitmap getBitmap(String bitmapUrl) {
-        try {
-            URL url = new URL(bitmapUrl);
-            return BitmapFactory.decodeStream(url.openConnection().getInputStream());
-        }
-        catch(Exception ex) {return null;}
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        //mRecyclerviewAdapter = new RecyclerView.Adapter(list);
+        mLinearLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(mLinearLayoutManager);
+        mRecyclerView.setAdapter(adapter);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+
     }
 
-    public ArrayList<Tweet> getTweets(String searchTerm, int page) throws JSONException {
-        String searchUrl = "https://api.twitter.com/1.1/search/tweets.json?q=%23edxednyc";
-
-        ArrayList<Tweet> tweets = new ArrayList<Tweet>();
-
-        HttpClient client = new DefaultHttpClient();
-        HttpGet get = new HttpGet(searchUrl);
-
-        ResponseHandler<String> responseHandler = new BasicResponseHandler();
-        String responseBody = null;
-        JSONArray obj = null;
-        try{
-            responseBody = client.execute(get, responseHandler);
-            obj = new JSONArray(responseBody);
-        }catch(Exception ex) {
-            ex.printStackTrace();
+    public void createList(QueryResult result) {
+        for (twitter4j.Status status : result.getTweets()) {
+            list.add(new Tweet(status.getUser().getScreenName(),"@" + status.getUser().getScreenName(), status.getCreatedAt(), status.getText()));
+            //System.out.println("@" + status.getUser().getScreenName() + ":" + status.getText());
         }
-
-        for(int i = 0; i < obj.length(); i++) {
-            Tweet tweet = new Tweet(
-                    ((JSONObject)obj.get(i)).get("from_user").toString(),
-                    ((JSONObject)obj.get(i)).get("text").toString(),
-                    ((JSONObject)obj.get(i)).get("profile_image_url").toString()
-            );
-            tweets.add(tweet);
-        }
-
-        return tweets;
+        adapter.notifyDataSetChanged();
     }
 
-    public class Tweet {
-        public String username;
-        public String message;
-        public String image_url;
-
-        public Tweet(String username, String message, String url) {
-            this.username = username;
-            this.message = message;
-            this.image_url = url;
-        }
-    }
 }
 

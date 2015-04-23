@@ -69,7 +69,6 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
             //view2.setVisibility(View.INVISIBLE);
         holder.room.setText("Room: " + item.getRoom());
         holder.session.setText("Session " + item.getSession());
-
         /*
             The following is used as a workaround to some trouble I'm having with cards other then those
             being clicked are opened.  However all cards will now hide the description tag when they are
@@ -186,7 +185,7 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
 
                     }
                     showMore.setVisibility(View.GONE);
-                    Log.d(TAG, currentItem.getName().toString());
+                    Log.d(TAG, currentItem.getName().toString() + " " +currentItem.getSession().toString());
                     //Log.d(TAG, view.currentItem.getName().toString());
                 }
             });

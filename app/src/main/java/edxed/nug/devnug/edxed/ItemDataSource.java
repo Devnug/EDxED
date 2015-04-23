@@ -55,12 +55,13 @@ public class ItemDataSource {
          Log.d(TAG, "open");
          else
          Log.d(TAG, "closed");
-
+        String nameHolder = item.getName();
         if(item.getName().indexOf("'") != -1) {
 
-            item.setName(item.getName().substring(0,item.getName().indexOf("'") + 1) + "'" + item.getName().substring(item.getName().indexOf("'") + 1));
+            nameHolder = item.getName().substring(0,item.getName().indexOf("'") + 1) + "'" + item.getName().substring(item.getName().indexOf("'") + 1);
             Log.d(TAG, "New name: " + item.getName());
         }
+        /*
         if(item.getTitle().indexOf("'") != -1) {
 
             item.setTitle(item.getTitle().substring(0,item.getTitle().indexOf("'") + 1) + "'" + item.getTitle().substring(item.getTitle().indexOf("'") + 1));
@@ -71,6 +72,7 @@ public class ItemDataSource {
             item.setDesc(item.getDesc().substring(0,item.getDesc().indexOf("'") + 1) + "'" + item.getDesc().substring(item.getDesc().indexOf("'") + 1));
             Log.d(TAG, "New desc: " + item.getDesc());
         }
+        */
 
 
 
@@ -88,9 +90,9 @@ public class ItemDataSource {
             values.put(ItemDbHelper.KEY_PIC, item.getImgString());
             values.put(ItemDbHelper.KEY_PIC2, item.getImgString2());
             Log.d(TAG, item.getImgString());
-            Log.d(TAG, "Updating " + item.getName() + " with room " + item.getRoom() + "with last update " + item.getLastUpdate());
+            Log.d(TAG, "Updating " + item.getName() + " with title " + item.getTitle() + " with room " + item.getRoom() + " with last update " + item.getLastUpdate());
 
-            int num = database.updateWithOnConflict(ItemDbHelper.CONVERSATION_TABLE_NAME, values, ItemDbHelper.KEY_NAME + " LIKE '" + item.getName() + "'", null, SQLiteDatabase.CONFLICT_REPLACE);
+            int num = database.updateWithOnConflict(ItemDbHelper.CONVERSATION_TABLE_NAME, values, ItemDbHelper.KEY_NAME + " LIKE '" + nameHolder + "'", null, SQLiteDatabase.CONFLICT_REPLACE);
             values.put(ItemDbHelper.COLUMN_ID, item.getId());
             values.put(ItemDbHelper.KEY_ATTENDING, "false");
             if(num == 0) {
@@ -221,7 +223,13 @@ public class ItemDataSource {
     public boolean canUpdateRow(ViewModel item) {
         //int lastUpdateColumn = cursor.getColumnIndex(edxed.nug.devnug.edxed.ItemDbHelper.KEY_LAST_UPDATE);
         //Log.d(TAG, "Column index: " + lastUpdateColumn);
-        Cursor cursor = database.query(ItemDbHelper.CONVERSATION_TABLE_NAME, allColumns, ItemDbHelper.KEY_NAME + " LIKE '" + item.getName() + "'", null, null, null, null);
+        String nameHolder = item.getName();
+        if(item.getName().indexOf("'") != -1) {
+
+            nameHolder = item.getName().substring(0,item.getName().indexOf("'") + 1) + "'" + item.getName().substring(item.getName().indexOf("'") + 1);
+            Log.d(TAG, "New name: " + item.getName());
+        }
+        Cursor cursor = database.query(ItemDbHelper.CONVERSATION_TABLE_NAME, allColumns, ItemDbHelper.KEY_NAME + " LIKE '" + nameHolder + "'", null, null, null, null);
         cursor.moveToFirst();
         //Log.d(TAG, "Cursor: " + cursor.getCount());
         if(cursor.getCount() == 0) {

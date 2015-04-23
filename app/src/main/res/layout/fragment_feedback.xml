@@ -32,33 +32,37 @@
                 android:paddingTop="6dp"
                 android:paddingBottom="6dp" />
 
-            <RadioButton
+            <RadioGroup
+                android:id="@+id/radio_group"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/feedback_radio1"
-                android:id="@+id/radioButton"
                 android:layout_below="@+id/about_title2"
                 android:layout_alignLeft="@+id/about_title2"
-                />
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/feedback_radio2"
-                android:id="@+id/radioButton2"
-                android:layout_alignTop="@+id/radioButton"
-                android:layout_centerHorizontal="true" />
+                android:orientation="horizontal">
 
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/feedback_radio1"
+                    android:id="@+id/radioButton"
+                    android:checked="true"/>
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/feedback_radio2"
+                    android:id="@+id/radioButton2" />
+            </RadioGroup>
             <EditText
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/details"
-                android:layout_below="@+id/radioButton"/>
+                android:layout_below="@+id/radio_group"/>
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/feedback_send"
-                android:id="@+id/button"
+                android:id="@+id/send_button"
                 android:layout_below="@+id/details"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true" />

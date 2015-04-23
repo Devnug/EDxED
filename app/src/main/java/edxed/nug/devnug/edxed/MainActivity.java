@@ -79,33 +79,33 @@ public class MainActivity extends ActionBarActivity
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
-        if(position == 0)
+        if (position == 0)
             fragmentManager.beginTransaction()
-                .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
-                .commit();
-        if(position == 1)
-            fragmentManager.beginTransaction()
-                    .replace(R.id.container, ActivityFeedFragment.newInstance(position + 1))
+                .replace(R.id.container, PlaceholderFragment.newInstance(position + 1)).addToBackStack(null)
                     .commit();
-        if(position == 2)
+        if (position == 1)
             fragmentManager.beginTransaction()
-                    .replace(R.id.container, ConversationFragment.newInstance(position + 1))
+                    .replace(R.id.container, ActivityFeedFragment.newInstance(position + 1)).addToBackStack(null)
                     .commit();
-        if(position == 3)
+        if (position == 2)
             fragmentManager.beginTransaction()
-                    .replace(R.id.container, FeedbackFragment.newInstance(position + 1))
+                    .replace(R.id.container, ConversationFragment.newInstance(position + 1)).addToBackStack(null)
                     .commit();
-        if(position == 4)
+        if (position == 3)
             fragmentManager.beginTransaction()
-                    .replace(R.id.container, OrganizersFragment.newInstance(position + 1))
+                    .replace(R.id.container, FeedbackFragment.newInstance(position + 1)).addToBackStack(null)
                     .commit();
-        if(position == 5)
+        if (position == 4)
             fragmentManager.beginTransaction()
-                    .replace(R.id.container, ScheduleFragment.newInstance(position + 1))
+                    .replace(R.id.container, OrganizersFragment.newInstance(position + 1)).addToBackStack(null)
+                    .commit();
+        if (position == 5)
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container, ScheduleFragment.newInstance(position + 1)).addToBackStack(null)
                     .commit();
         if(position == 6)
             fragmentManager.beginTransaction()
-                    .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
+                    .replace(R.id.container, PlaceholderFragment.newInstance(position + 1)).addToBackStack(null)
                     .commit();
     }
 
@@ -171,49 +171,15 @@ public class MainActivity extends ActionBarActivity
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    /*
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
-    /*
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-    /*
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
+    @Override
+    public void onBackPressed() {
+        if(getFragmentManager().getBackStackEntryCount() == 0) {
+            super.onBackPressed();
         }
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            return rootView;
-        }
-
-        @Override
-        public void onAttach(Activity activity) {
-            super.onAttach(activity);
-            ((MainActivity) activity).onSectionAttached(
-                    getArguments().getInt(ARG_SECTION_NUMBER));
+        else {
+            getFragmentManager().popBackStack();
         }
     }
-    **/
-
 
 
 }
