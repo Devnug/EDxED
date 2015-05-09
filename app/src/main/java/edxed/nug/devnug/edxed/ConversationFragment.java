@@ -38,6 +38,7 @@ import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -140,9 +141,12 @@ public class ConversationFragment extends Fragment {
             int eventIdColumn = c.getColumnIndex(ItemDbHelper.KEY_EVENT_ID);
             int picColumn = c.getColumnIndex(ItemDbHelper.KEY_PIC);
             int pic2Column = c.getColumnIndex(ItemDbHelper.KEY_PIC2);
-            Log.d(TAG, "Name: " + c.getString(nameColumn));
+            int cancelledColumn = c.getColumnIndex(ItemDbHelper.KEY_CANCELLED);
+            //Log.d(TAG, "Name: " + c.getString(nameColumn));
             do {
-                list.add(new ViewModel(c.getString(nameColumn),c.getString(titleColumn), c.getString(descColumn), c.getString(roomColumn), c.getString(attendingColumn), c.getString(sessionColumn), 0, c.getInt(idColumn), c.getString(picColumn), c.getString(pic2Column)));
+                //Log.d(TAG, "cancelled: " + c.getString(cancelledColumn));
+                if(c.getString(cancelledColumn) == null || !c.getString(cancelledColumn).equals("yes"))
+                    list.add(new ViewModel(c.getString(nameColumn),c.getString(titleColumn), c.getString(descColumn), c.getString(roomColumn), c.getString(attendingColumn), c.getString(sessionColumn), 0, c.getInt(idColumn), c.getString(picColumn), c.getString(pic2Column)));
 
             } while(c.moveToNext());
         }
@@ -200,6 +204,9 @@ public class ConversationFragment extends Fragment {
         else {
             db.updateAttending(item.getName());
             //final ViewModel viewItem = item;
+
+            // Adding to Google Calendar disabled until I can figure out an easy way to remove an event
+            /*
             AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
             builder.setMessage(R.string.add_to_cal)
                     .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
@@ -237,6 +244,7 @@ public class ConversationFragment extends Fragment {
                     });
             // Create the AlertDialog object and return it
             builder.create().show();
+            */
             return true;
         }
         return false;
@@ -283,5 +291,15 @@ public class ConversationFragment extends Fragment {
         */
 
     }
+
+    private static final String FRAGMENT_TITLE = "Conversations";
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((ActionBarActivity)getActivity()).getSupportActionBar().setTitle(FRAGMENT_TITLE);
+    }
+
+
 
 }

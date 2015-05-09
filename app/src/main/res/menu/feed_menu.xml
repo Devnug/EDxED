@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
     <!--<item android:id="@+id/action_example" android:title="@string/action_example"
         app:showAsAction="withText|ifRoom" /> -->
+    <item android:id="@+id/action_refresh" android:title="@string/action_refresh"
+        android:orderInCategory="99" app:showAsAction="always"
+        android:icon="@drawable/ic_popup_sync_1"/>
     <item android:id="@+id/action_about" android:title="@string/action_about"
         android:orderInCategory="100" app:showAsAction="never" />
 </menu>

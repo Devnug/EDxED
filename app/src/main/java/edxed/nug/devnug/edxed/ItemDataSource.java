@@ -25,9 +25,11 @@ public class ItemDataSource {
     private ItemDbHelper dbHelper;
     private String[] allColumns = { ItemDbHelper.COLUMN_ID,
             ItemDbHelper.KEY_NAME, ItemDbHelper.KEY_TITLE, ItemDbHelper.KEY_DESC, ItemDbHelper.KEY_ROOM, ItemDbHelper.KEY_SESSION,
-            ItemDbHelper.KEY_ATTENDING, ItemDbHelper.KEY_EVENT_ID, ItemDbHelper.KEY_PIC, ItemDbHelper.KEY_PIC2, ItemDbHelper.KEY_LAST_UPDATE, ItemDbHelper.KEY_STRAND};
+            ItemDbHelper.KEY_ATTENDING, ItemDbHelper.KEY_EVENT_ID, ItemDbHelper.KEY_PIC, ItemDbHelper.KEY_PIC2, ItemDbHelper.KEY_LAST_UPDATE, ItemDbHelper.KEY_STRAND, ItemDbHelper.KEY_CANCELLED};
     private String[] allOrgColumns = { ItemDbHelper.COLUMN_ID,
             ItemDbHelper.KEY_NAME, ItemDbHelper.KEY_JOB_TITLE, ItemDbHelper.KEY_TWITTER, ItemDbHelper.KEY_EMAIL, ItemDbHelper.KEY_PIC};
+    private String[] allScheduleColumns = { ItemDbHelper.COLUMN_ID,
+            ItemDbHelper.KEY_NAME, ItemDbHelper.KEY_ROOM, ItemDbHelper.KEY_TIME, ItemDbHelper.KEY_LAST_UPDATE};
     private static final String TAG = "ItemDataSource ::";
 
     public ItemDataSource(Context context) {
@@ -50,16 +52,17 @@ public class ItemDataSource {
     
     public void createItem(ViewModel item) {
         ContentValues values = new ContentValues();
-        
+        /*
          if(database.isOpen())
          Log.d(TAG, "open");
          else
          Log.d(TAG, "closed");
+         */
         String nameHolder = item.getName();
         if(item.getName().indexOf("'") != -1) {
 
             nameHolder = item.getName().substring(0,item.getName().indexOf("'") + 1) + "'" + item.getName().substring(item.getName().indexOf("'") + 1);
-            Log.d(TAG, "New name: " + item.getName());
+            //Log.d(TAG, "New name: " + item.getName());
         }
         /*
         if(item.getTitle().indexOf("'") != -1) {
@@ -89,8 +92,9 @@ public class ItemDataSource {
             values.put(ItemDbHelper.KEY_LAST_UPDATE, item.getLastUpdate());
             values.put(ItemDbHelper.KEY_PIC, item.getImgString());
             values.put(ItemDbHelper.KEY_PIC2, item.getImgString2());
-            Log.d(TAG, item.getImgString());
-            Log.d(TAG, "Updating " + item.getName() + " with title " + item.getTitle() + " with room " + item.getRoom() + " with last update " + item.getLastUpdate());
+            values.put(ItemDbHelper.KEY_CANCELLED, item.getCancelled());
+            //Log.d(TAG, item.getImgString());
+            //Log.d(TAG, "Updating " + item.getName() + " with title " + item.getTitle() + " with room " + item.getRoom() + " with last update " + item.getLastUpdate());
 
             int num = database.updateWithOnConflict(ItemDbHelper.CONVERSATION_TABLE_NAME, values, ItemDbHelper.KEY_NAME + " LIKE '" + nameHolder + "'", null, SQLiteDatabase.CONFLICT_REPLACE);
             values.put(ItemDbHelper.COLUMN_ID, item.getId());
@@ -101,7 +105,7 @@ public class ItemDataSource {
             //MainActivity.itemsUpdated++;
             //int num = database.updateWithOnConflict(edxed.nug.devnug.edxed.ItemDbHelper.DICTIONARY_TABLE_NAME, values, edxed.nug.devnug.edxed.ItemDbHelper.KEY_NAME + " LIKE '" + name + "'", null, SQLiteDatabase.CONFLICT_REPLACE);
 
-            Log.d(TAG, "num of rows affected: " + num);
+            //Log.d(TAG, "num of rows affected: " + num);
 	    }
         //return newItem;
     }
@@ -111,20 +115,20 @@ public class ItemDataSource {
         //Cursor cursor2 = database.query(edxed.nug.devnug.edxed.ItemDbHelper.DICTIONARY_TABLE_NAME, allColumns, edxed.nug.devnug.edxed.ItemDbHelper.KEY_NAME + " LIKE '%" + name + "%'", null, null, null, null);
         //cursor2.moveToFirst();
         //Initial Database
-        String sql = "INSERT INTO conversationlist (_id, name, title, description, room, session, attending, eventID, pic)  VALUES ('" + 1 + "','" + "HALLEY ANNE CURTIS" + "','" + "INTERNATIONAL TRAVEL" + "','" + "Traveling internationally expands students'' world views and brings classroom learning to life, so how can you bring this opportunity to your school? At this session, you''ll learn about the logistics of planning an international trip through the school system. Additionally, you''ll hear about how Hudson provided financial support to make travel possible for students from a variety of backgrounds. You''ll leave with the basic supports and inspiration you need to bring international travel to your students!" + "','" + "TBD" + "','" + "1" + "','" + "false" + "','" + "" + "','" + "" + "')";
+        String sql = "INSERT INTO conversationlist (_id, name, title, description, room, session, attending, cancelled, pic)  VALUES ('" + 1 + "','" + "HALLEY ANNE CURTIS" + "','" + "INTERNATIONAL TRAVEL" + "','" + "Traveling internationally expands students'' world views and brings classroom learning to life, so how can you bring this opportunity to your school? At this session, you''ll learn about the logistics of planning an international trip through the school system. Additionally, you''ll hear about how Hudson provided financial support to make travel possible for students from a variety of backgrounds. You''ll leave with the basic supports and inspiration you need to bring international travel to your students!" + "','" + "TBD" + "','" + "1" + "','" + "false" + "','" + "no" + "','" + "" + "')";
             this.database.execSQL(sql);
-            this.database.execSQL("INSERT INTO conversationlist (_id, name, title, description, room, session, attending, eventID, pic)  VALUES ('" + 2 + "','" + "JENNIFER GUNN" + "','" + "THE BIG IDEA PROJECT" + "','" + "The Big Idea Project is a student-designed passion project that allows students to discover their passions and conduct deep research and experimentation on topics they love or have yet to have the space to discover. This session will share The Big Idea Project model, as well as the lessons and successes we acquired along the way. Presentation participants will discuss practical solutions for launching a long-term independent project model with built-in supports and learning competencies. Furthermore, participants will gain access to our wealth of open-source materials." + "','" + "TBD" + "','" + "1" + "','" + "false" + "','" + "" + "','" + "" + "')");
-            this.database.execSQL("INSERT INTO conversationlist (_id, name, title, description, room, session, attending, eventID, pic)  VALUES ('" + 3 + "','" + "CHRISTOPHER PURCELL" + "','" + "MULTIPLE ACCESS POINTS" + "','" + "Incorporating multiple access points into our instruction allows all of our students the opportunity to engage in their learning of both knowledge and skills. Participants will examine strategies and resources in developing multiple access points for content, process, and product." + "','" + "TBD" + "','" + "1" + "','" + "false" + "','" + "" + "','" + "" + "')");
-            this.database.execSQL("INSERT INTO conversationlist (_id, name, title, description, room, session, attending, eventID, pic)  VALUES ('" + 4 + "','" + "SARAH KATZ" + "','" + "THE FUTURE PROJECT" + "','" + "The Future Project is dedicated to seeing students living lives of passion and purpose decades after they leave high school. So what does sustainable inspiration look like amongst young people? What is the Future Project methodology and how can the presence of a Dream Director and a Dream Team re-imagine school culture? Learn from students and staff who are part of the Future Project family." + "','" + "TBD" + "','" + "1" + "','" + "false" + "','" + "" + "','" + "" + "')");
-            this.database.execSQL("INSERT INTO conversationlist (_id, name, title, description, room, session, attending, eventID, pic)  VALUES ('" + 5 + "','" + "WALTER BROWN" + "','" + "INSTRUCTIONAL ROUNDS" + "','" + "Participants will share and discuss the strengths and benefits of establishing a culture of peer professional conversations. We will use David Allen''s \"Tuning Protocol\" as we look at several pieces of evidence and documents from the process." + "','" + "TBD" + "','" + "1" + "','" + "false" + "','" + "" + "','" + "" + "')");
-            this.database.execSQL("INSERT INTO conversationlist (_id, name, title, description, room, session, attending, eventID, pic)  VALUES ('" + 6 + "','" + "LEIA PETTY & MELISSA TORTORA" + "','" + "RESTORATIVE JUSTICE" + "','" + "Restorative Justice stems from the belief that conflict in a community can be repaired and relationships can be restored. It is an attempt to resolve conflict in a way that brings a community closer together rather than punitive models that alienate those in conflict from the larger community to whom they caused harm. Many teachers, support staff and administrators in their schools have used the restorative justice model to varying degrees. In this session, restorative justice faculty and student leaders at Hudson will walk you through the benefits of employing restorative justice, model a justice circle, and discuss how you can start a program at your school." + "','" + "TBD" + "','" + "1" + "','" + "false" + "','" + "" + "','" + "" + "')");
-            this.database.execSQL("INSERT INTO conversationlist (_id, name, title, description, room, session, attending, eventID, pic)  VALUES ('" + 7 + "','" + "TIM COMER" + "','" + "BLENDED LEARNING" + "','" + "What does blended learning look like? How does leveraging technology in this way fundamentally change the role of both the student and the teacher? In this session, teachers will begin to conceptualize and plan their digital classrooms to construct student paced blended learning lessons or units." + "','" + "TBD" + "','" + "1" + "','" + "false" + "','" + "" + "','" + "" + "')");
-            this.database.execSQL("INSERT INTO conversationlist (_id, name, title, description, room, session, attending, eventID, pic)  VALUES ('" + 8 + "','" + "MICHAEL PONELLA" + "','" + "ELECTIVE PROGRAMS" + "','" + "What are the best practices for administering an effective elective program in schools? In this session discussions will center around the Elective Exhibition, Elective Registration, student choice vs. teacher choice, the value of electives, and the goals for our elective classes. Come to this session and get a fresh new perspective on the administration of electives and enrichment." + "','" + "TBD" + "','" + "1" + "','" + "false" + "','" + "" + "','" + "" + "')");
-            this.database.execSQL("INSERT INTO conversationlist (_id, name, title, description, room, session, attending, eventID, pic)  VALUES ('" + 9 + "','" + "ANNE TALIAFERRO" + "','" + "GRADE-TEAM MEETINGS" + "','" + "In this session, educators will be sharing the use of grade teams within the school to examine student work and analyze student achievement data, including growth and gaps, to inform evidence-based adjustments to units, lessons and teaching practices, and ensure we are serving individual student needs. The discussion will center on the different uses of grade team meetings, and attempt to answer the questions \"How do grade teams help us develop as educators?\" and \"How does the use of grade team influence school culture?\"" + "','" + "TBD" + "','" + "1" + "','" + "false" + "','" + "" + "','" + "" + "')");
-            this.database.execSQL("INSERT INTO conversationlist (_id, name, title, description, room, session, attending, eventID, pic)  VALUES ('" + 10 + "','" + "PHIL LINDER" + "','" + "TEACHING THEMATICALLY IN SOCIAL STUDIES" + "','" + "The benefits of teaching Social Studies thematically (as opposed to chronologically) are well documented, and after years of teaching United States History in the traditional, chronological way, I have finally decided to make the switch. Join educators from around the city in an open conversation as we share ideas and examine the strengths and weaknesses of shifting pedagogical strategies to capture all types of diverse learners in today''s city." + "','" + "TBD" + "','" + "1" + "','" + "false" + "','" + "" + "','" + "" + "')");
-            this.database.execSQL("INSERT INTO conversationlist (_id, name, title, description, room, session, attending, eventID, pic)  VALUES ('" + 11 + "','" + "THOMAS RODNEY" + "','" + "TECHNOLOGY USE IN THE MATH CLASSROOM" + "','" + "Technology, such as calculators, standard software programs, and the Internet, can be effectively used to enhance instruction in a number of ways. Participants will share best practices and discuss the benefits and capabilities of technology in the classroom." + "','" + "TBD" + "','" + "1" + "','" + "false" + "','" + "" + "','" + "" + "')");
-            this.database.execSQL("INSERT INTO conversationlist (_id, name, title, description, room, session, attending, eventID, pic)  VALUES ('" + 12 + "','" + "GINA ANGELILLO" + "','" + "GOOGLE CLASSROOM" + "','" + "With Google Classroom, teachers can seamlessly integrate Google Docs, Google Drive, and Gmail to create assignments, provide feedback for in progress and completed work, and communicate with their students directly and with whole class announcements--all without using a single piece of paper. Participants will set up Google Classroom teacher accounts and learn how to create, assign, and collect student assignments digitally. " + "','" + "TBD" + "','" + "1" + "','" + "false" + "','" + "" + "','" + "" + "')");
-            this.database.execSQL("INSERT INTO conversationlist (_id, name, title, description, room, session, attending, eventID, pic)  VALUES ('" + 13 + "','" + "KATE SALUTE" + "','" + "CONTENT, PROCESS & PRODUCT" + "','" + "The conversation will be around students demonstrating their understanding in a variety of ways without compromising Common Core standards. This method engages students in the process, the content and drives them to produce quality work. Bring your best project assignments! Small content groups with hands on project starters and 10 slides in 100 seconds to present their product." + "','" + "TBD" + "','" + "1" + "','" + "false" + "','" + "" + "','" + "" + "')");
+            this.database.execSQL("INSERT INTO conversationlist (_id, name, title, description, room, session, attending, cancelled, pic)  VALUES ('" + 2 + "','" + "JENNIFER GUNN" + "','" + "THE BIG IDEA PROJECT" + "','" + "The Big Idea Project is a student-designed passion project that allows students to discover their passions and conduct deep research and experimentation on topics they love or have yet to have the space to discover. This session will share The Big Idea Project model, as well as the lessons and successes we acquired along the way. Presentation participants will discuss practical solutions for launching a long-term independent project model with built-in supports and learning competencies. Furthermore, participants will gain access to our wealth of open-source materials." + "','" + "TBD" + "','" + "1" + "','" + "false" + "','" + "no" + "','" + "" + "')");
+            this.database.execSQL("INSERT INTO conversationlist (_id, name, title, description, room, session, attending, cancelled, pic)  VALUES ('" + 3 + "','" + "CHRISTOPHER PURCELL" + "','" + "MULTIPLE ACCESS POINTS" + "','" + "Incorporating multiple access points into our instruction allows all of our students the opportunity to engage in their learning of both knowledge and skills. Participants will examine strategies and resources in developing multiple access points for content, process, and product." + "','" + "TBD" + "','" + "1" + "','" + "false" + "','" + "no" + "','" + "" + "')");
+            this.database.execSQL("INSERT INTO conversationlist (_id, name, title, description, room, session, attending, cancelled, pic)  VALUES ('" + 4 + "','" + "SARAH KATZ" + "','" + "THE FUTURE PROJECT" + "','" + "The Future Project is dedicated to seeing students living lives of passion and purpose decades after they leave high school. So what does sustainable inspiration look like amongst young people? What is the Future Project methodology and how can the presence of a Dream Director and a Dream Team re-imagine school culture? Learn from students and staff who are part of the Future Project family." + "','" + "TBD" + "','" + "1" + "','" + "false" + "','" + "no" + "','" + "" + "')");
+            this.database.execSQL("INSERT INTO conversationlist (_id, name, title, description, room, session, attending, cancelled, pic)  VALUES ('" + 5 + "','" + "WALTER BROWN" + "','" + "INSTRUCTIONAL ROUNDS" + "','" + "Participants will share and discuss the strengths and benefits of establishing a culture of peer professional conversations. We will use David Allen''s \"Tuning Protocol\" as we look at several pieces of evidence and documents from the process." + "','" + "TBD" + "','" + "1" + "','" + "false" + "','" + "no" + "','" + "" + "')");
+            this.database.execSQL("INSERT INTO conversationlist (_id, name, title, description, room, session, attending, cancelled, pic)  VALUES ('" + 6 + "','" + "LEIA PETTY & MELISSA TORTORA" + "','" + "RESTORATIVE JUSTICE" + "','" + "Restorative Justice stems from the belief that conflict in a community can be repaired and relationships can be restored. It is an attempt to resolve conflict in a way that brings a community closer together rather than punitive models that alienate those in conflict from the larger community to whom they caused harm. Many teachers, support staff and administrators in their schools have used the restorative justice model to varying degrees. In this session, restorative justice faculty and student leaders at Hudson will walk you through the benefits of employing restorative justice, model a justice circle, and discuss how you can start a program at your school." + "','" + "TBD" + "','" + "1" + "','" + "false" + "','" + "no" + "','" + "" + "')");
+            this.database.execSQL("INSERT INTO conversationlist (_id, name, title, description, room, session, attending, cancelled, pic)  VALUES ('" + 7 + "','" + "TIM COMER" + "','" + "BLENDED LEARNING" + "','" + "What does blended learning look like? How does leveraging technology in this way fundamentally change the role of both the student and the teacher? In this session, teachers will begin to conceptualize and plan their digital classrooms to construct student paced blended learning lessons or units." + "','" + "TBD" + "','" + "1" + "','" + "false" + "','" + "no" + "','" + "" + "')");
+            this.database.execSQL("INSERT INTO conversationlist (_id, name, title, description, room, session, attending, cancelled, pic)  VALUES ('" + 8 + "','" + "MICHAEL PONELLA" + "','" + "ELECTIVE PROGRAMS" + "','" + "What are the best practices for administering an effective elective program in schools? In this session discussions will center around the Elective Exhibition, Elective Registration, student choice vs. teacher choice, the value of electives, and the goals for our elective classes. Come to this session and get a fresh new perspective on the administration of electives and enrichment." + "','" + "TBD" + "','" + "1" + "','" + "false" + "','" + "no" + "','" + "" + "')");
+            this.database.execSQL("INSERT INTO conversationlist (_id, name, title, description, room, session, attending, cancelled, pic)  VALUES ('" + 9 + "','" + "ANNE TALIAFERRO" + "','" + "GRADE-TEAM MEETINGS" + "','" + "In this session, educators will be sharing the use of grade teams within the school to examine student work and analyze student achievement data, including growth and gaps, to inform evidence-based adjustments to units, lessons and teaching practices, and ensure we are serving individual student needs. The discussion will center on the different uses of grade team meetings, and attempt to answer the questions \"How do grade teams help us develop as educators?\" and \"How does the use of grade team influence school culture?\"" + "','" + "TBD" + "','" + "1" + "','" + "false" + "','" + "no" + "','" + "" + "')");
+            this.database.execSQL("INSERT INTO conversationlist (_id, name, title, description, room, session, attending, cancelled, pic)  VALUES ('" + 10 + "','" + "PHIL LINDER" + "','" + "TEACHING THEMATICALLY IN SOCIAL STUDIES" + "','" + "The benefits of teaching Social Studies thematically (as opposed to chronologically) are well documented, and after years of teaching United States History in the traditional, chronological way, I have finally decided to make the switch. Join educators from around the city in an open conversation as we share ideas and examine the strengths and weaknesses of shifting pedagogical strategies to capture all types of diverse learners in today''s city." + "','" + "TBD" + "','" + "1" + "','" + "false" + "','" + "no" + "','" + "" + "')");
+            this.database.execSQL("INSERT INTO conversationlist (_id, name, title, description, room, session, attending, cancelled, pic)  VALUES ('" + 11 + "','" + "THOMAS RODNEY" + "','" + "TECHNOLOGY USE IN THE MATH CLASSROOM" + "','" + "Technology, such as calculators, standard software programs, and the Internet, can be effectively used to enhance instruction in a number of ways. Participants will share best practices and discuss the benefits and capabilities of technology in the classroom." + "','" + "TBD" + "','" + "1" + "','" + "false" + "','" + "no" + "','" + "" + "')");
+            this.database.execSQL("INSERT INTO conversationlist (_id, name, title, description, room, session, attending, cancelled, pic)  VALUES ('" + 12 + "','" + "GINA ANGELILLO" + "','" + "GOOGLE CLASSROOM" + "','" + "With Google Classroom, teachers can seamlessly integrate Google Docs, Google Drive, and Gmail to create assignments, provide feedback for in progress and completed work, and communicate with their students directly and with whole class announcements--all without using a single piece of paper. Participants will set up Google Classroom teacher accounts and learn how to create, assign, and collect student assignments digitally. " + "','" + "TBD" + "','" + "1" + "','" + "false" + "','" + "no" + "','" + "" + "')");
+            this.database.execSQL("INSERT INTO conversationlist (_id, name, title, description, room, session, attending, cancelled, pic)  VALUES ('" + 13 + "','" + "KATE SALUTE" + "','" + "CONTENT, PROCESS & PRODUCT" + "','" + "The conversation will be around students demonstrating their understanding in a variety of ways without compromising Common Core standards. This method engages students in the process, the content and drives them to produce quality work. Bring your best project assignments! Small content groups with hands on project starters and 10 slides in 100 seconds to present their product." + "','" + "TBD" + "','" + "1" + "','" + "false" + "','" + "no" + "','" + "" + "')");
             //Log.d(TAG, item.getItemName());
             //int num = database.updateWithOnConflict(edxed.nug.devnug.edxed.ItemDbHelper.DICTIONARY_TABLE_NAME, values, edxed.nug.devnug.edxed.ItemDbHelper.KEY_NAME + " LIKE '" + name + "'", null, SQLiteDatabase.CONFLICT_REPLACE);
 
@@ -149,13 +153,13 @@ public class ItemDataSource {
         String sql = "INSERT INTO organizerslist (_id, name, job_title, twitter_handle, email, pic)  VALUES ('" + 1 + "','" + "NANCY AMLING" + "','" + "PRINCIPAL" + "','" + "@amlingnancy" + "','" + "" + "','" + "" + "')";
         this.database.execSQL(sql);
         this.database.execSQL("INSERT INTO organizerslist (_id, name, job_title, twitter_handle, email, pic)  VALUES ('" + 2 + "','" + "DR. GARY HABER" + "','" + "ASSISTANT PRINCIPAL" + "','" + "@garyhaberdc" + "','" + "" + "','" + "" + "')");
-        this.database.execSQL("INSERT INTO organizerslist (_id, name, job_title, twitter_handle, email, pic)  VALUES ('" + 3 + "','" + "WALTER BROWN" + "','" + "ASSISTANT PRINCIPAL, IA" + "','" + "@wbrownhhs" + "','" + "" + "','" + "" + "')");
+        this.database.execSQL("INSERT INTO organizerslist (_id, name, job_title, twitter_handle, email, pic)  VALUES ('" + 3 + "','" + "WALTER BROWN" + "','" + "ASSISTANT PRINCIPAL" + "','" + "@wbrownhhs" + "','" + "" + "','" + "" + "')");
         this.database.execSQL("INSERT INTO organizerslist (_id, name, job_title, twitter_handle, email, pic)  VALUES ('" + 4 + "','" + "PHIL LINDER" + "','" + "EDUCATOR" + "','" + "@thehistorydude" + "','" + "" + "','" + "" + "')");
         this.database.execSQL("INSERT INTO organizerslist (_id, name, job_title, twitter_handle, email, pic)  VALUES ('" + 5 + "','" + "THOMAS RODNEY" + "','" + "EDUCATOR" + "','" + "" + "','" + "trodney@hudsonhs.com" + "','" + "" + "')");
         this.database.execSQL("INSERT INTO organizerslist (_id, name, job_title, twitter_handle, email, pic)  VALUES ('" + 6 + "','" + "TIM COMER" + "','" + "EDUCATOR" + "','" + "@cambrianed" + "','" + "" + "','" + "" + "')");
         this.database.execSQL("INSERT INTO organizerslist (_id, name, job_title, twitter_handle, email, pic)  VALUES ('" + 7 + "','" + "CHRIS PURCELL" + "','" + "EDUCATOR" + "','" + "@mr_purcell" + "','" + "" + "','" + "" + "')");
         this.database.execSQL("INSERT INTO organizerslist (_id, name, job_title, twitter_handle, email, pic)  VALUES ('" + 8 + "','" + "VANESSA LETOURNEAU" + "','" + "EDUCATOR" + "','" + "@vletourneau437" + "','" + "" + "','" + "" + "')");
-        this.database.execSQL("INSERT INTO organizerslist (_id, name, job_title, twitter_handle, email, pic)  VALUES ('" + 9 + "','" + "JENNIFER GUNN" + "','" + "EDUCATOR" + "','" + "@jenniferlmgunn" + "','" + "" + "','" + "" + "')");
+        this.database.execSQL("INSERT INTO organizerslist (_id, name, job_title, twitter_handle, email, pic)  VALUES ('" + 9 + "','" + "JENNIFER L.M. GUNN" + "','" + "EDUCATOR" + "','" + "@jenniferlmgunn" + "','" + "" + "','" + "" + "')");
         this.database.execSQL("INSERT INTO organizerslist (_id, name, job_title, twitter_handle, email, pic)  VALUES ('" + 10 + "','" + "GINA ANGELILLO" + "','" + "EDUCATOR" + "','" + "@cultivatinggina" + "','" + "" + "','" + "" + "')");
         //Log.d(TAG, item.getItemName());
         //int num = database.updateWithOnConflict(edxed.nug.devnug.edxed.ItemDbHelper.DICTIONARY_TABLE_NAME, values, edxed.nug.devnug.edxed.ItemDbHelper.KEY_NAME + " LIKE '" + name + "'", null, SQLiteDatabase.CONFLICT_REPLACE);
@@ -170,6 +174,89 @@ public class ItemDataSource {
 	    cursor.close();
 	    */
 
+        //return newItem;
+    }
+
+    public void createScheduleBaseTable() {
+        ContentValues values = new ContentValues();
+        //Cursor cursor2 = database.query(edxed.nug.devnug.edxed.ItemDbHelper.DICTIONARY_TABLE_NAME, allColumns, edxed.nug.devnug.edxed.ItemDbHelper.KEY_NAME + " LIKE '%" + name + "%'", null, null, null, null);
+        //cursor2.moveToFirst();
+        //Initial Database
+        String sql = "INSERT INTO schedulelist (_id, name, room, time)  VALUES ('" + 1 + "','" + "Check-In, Registration, Networking" + "','" + "Lobby" + "','" + "8:15-9:00')";
+        this.database.execSQL(sql);
+        this.database.execSQL("INSERT INTO schedulelist (_id, name, job_title, twitter_handle, email, pic)  VALUES ('" + 2 + "','" + "Keynote Address: Marisol Bradbury" + "','" + "Auditorium" + "','" + "9:00-9:30')");
+        this.database.execSQL("INSERT INTO schedulelist (_id, name, job_title, twitter_handle, email, pic)  VALUES ('" + 3 + "','" + "Conversation Session 1" + "','" + "" + "','" + "9:30-11:00')");
+        this.database.execSQL("INSERT INTO schedulelist (_id, name, job_title, twitter_handle, email, pic)  VALUES ('" + 4 + "','" + "Lunch & Lightning Sessions" + "','" + "TBD" + "','" + "11:00-12:00')");
+        this.database.execSQL("INSERT INTO schedulelist (_id, name, job_title, twitter_handle, email, pic)  VALUES ('" + 5 + "','" + "Conversation Session 2" + "','" + "" + "','" + "12:00-1:30')");
+        this.database.execSQL("INSERT INTO schedulelist (_id, name, job_title, twitter_handle, email, pic)  VALUES ('" + 6 + "','" + "Conversation Session 3" + "','" + "" + "','" + "1:35-3:05')");
+        this.database.execSQL("INSERT INTO schedulelist (_id, name, job_title, twitter_handle, email, pic)  VALUES ('" + 7 + "','" + "Closing Remarks" + "','" + "Auditorium" + "','" + "3:05-3:30')");
+        //Log.d(TAG, item.getItemName());
+        //int num = database.updateWithOnConflict(edxed.nug.devnug.edxed.ItemDbHelper.DICTIONARY_TABLE_NAME, values, edxed.nug.devnug.edxed.ItemDbHelper.KEY_NAME + " LIKE '" + name + "'", null, SQLiteDatabase.CONFLICT_REPLACE);
+
+        //Log.d(TAG, "num of rows affected: " + num);
+	    /*
+	    Cursor cursor = database.query(edxed.nug.devnug.edxed.ItemDbHelper.DICTIONARY_TABLE_NAME,
+	        allColumns, edxed.nug.devnug.edxed.ItemDbHelper.COLUMN_ID + " = " + insertId, null,
+	        null, null, null);
+	    cursor.moveToFirst();
+	    Item newItem = cursorToItem(cursor);
+	    cursor.close();
+	    */
+
+        //return newItem;
+    }
+
+    public void createScheduleItem(ViewModel item) {
+        ContentValues values = new ContentValues();
+
+        if(database.isOpen())
+            Log.d(TAG, "open");
+        else
+            Log.d(TAG, "closed");
+        String nameHolder = item.getName();
+        if(item.getName().indexOf("'") != -1) {
+
+            nameHolder = item.getName().substring(0,item.getName().indexOf("'") + 1) + "'" + item.getName().substring(item.getName().indexOf("'") + 1);
+            Log.d(TAG, "New name: " + item.getName());
+        }
+        /*
+        if(item.getTitle().indexOf("'") != -1) {
+
+            item.setTitle(item.getTitle().substring(0,item.getTitle().indexOf("'") + 1) + "'" + item.getTitle().substring(item.getTitle().indexOf("'") + 1));
+            Log.d(TAG, "New title: " + item.getTitle());
+        }
+        if(item.getDesc().indexOf("'") != -1) {
+
+            item.setDesc(item.getDesc().substring(0,item.getDesc().indexOf("'") + 1) + "'" + item.getDesc().substring(item.getDesc().indexOf("'") + 1));
+            Log.d(TAG, "New desc: " + item.getDesc());
+        }
+        */
+
+
+
+        //Cursor cursor2 = database.query(edxed.nug.devnug.edxed.ItemDbHelper.DICTIONARY_TABLE_NAME, allColumns, edxed.nug.devnug.edxed.ItemDbHelper.KEY_NAME + " LIKE '%" + name + "%'", null, null, null, null);
+        //cursor2.moveToFirst();
+        if(canUpdateScheduleRow(item)) {
+
+            //values.put(ItemDbHelper.COLUMN_ID, item.getId());
+            values.put(ItemDbHelper.KEY_NAME, item.getName());
+            values.put(ItemDbHelper.KEY_ROOM, item.getRoom());
+            values.put(ItemDbHelper.KEY_TIME, item.getSession());
+            values.put(ItemDbHelper.KEY_LAST_UPDATE, item.getLastUpdate());
+            //Log.d(TAG, item.getImgString());
+            //Log.d(TAG, "Updating " + item.getName() + " with title " + item.getTitle() + " with room " + item.getRoom() + " with last update " + item.getLastUpdate());
+
+            int num = database.updateWithOnConflict(ItemDbHelper.SCHEDULE_TABLE_NAME, values, ItemDbHelper.KEY_NAME + " LIKE '" + nameHolder + "'", null, SQLiteDatabase.CONFLICT_REPLACE);
+            values.put(ItemDbHelper.COLUMN_ID, item.getId());
+            //values.put(ItemDbHelper.KEY_ATTENDING, "");
+            if(num == 0) {
+                database.insertWithOnConflict(ItemDbHelper.SCHEDULE_TABLE_NAME, "", values, SQLiteDatabase.CONFLICT_REPLACE);
+            }
+            //MainActivity.itemsUpdated++;
+            //int num = database.updateWithOnConflict(edxed.nug.devnug.edxed.ItemDbHelper.DICTIONARY_TABLE_NAME, values, edxed.nug.devnug.edxed.ItemDbHelper.KEY_NAME + " LIKE '" + name + "'", null, SQLiteDatabase.CONFLICT_REPLACE);
+
+            //Log.d(TAG, "num of rows affected: " + num);
+        }
         //return newItem;
     }
 
@@ -227,13 +314,53 @@ public class ItemDataSource {
         if(item.getName().indexOf("'") != -1) {
 
             nameHolder = item.getName().substring(0,item.getName().indexOf("'") + 1) + "'" + item.getName().substring(item.getName().indexOf("'") + 1);
-            Log.d(TAG, "New name: " + item.getName());
+            //Log.d(TAG, "New name: " + item.getName());
         }
         Cursor cursor = database.query(ItemDbHelper.CONVERSATION_TABLE_NAME, allColumns, ItemDbHelper.KEY_NAME + " LIKE '" + nameHolder + "'", null, null, null, null);
         cursor.moveToFirst();
         //Log.d(TAG, "Cursor: " + cursor.getCount());
         if(cursor.getCount() == 0) {
-            Log.d(TAG, "UPDATING NAME: " + item.getName());
+            //Log.d(TAG, "UPDATING NAME: " + item.getName());
+            return true;
+        }
+        // Old last update
+        int lastUpdateColumn = cursor.getColumnIndex(ItemDbHelper.KEY_LAST_UPDATE);
+        int lastUpdateCol = cursor.getInt(lastUpdateColumn);
+        // new update value
+        int lastUp = item.getLastUpdate();
+        //Log.d(TAG, "CURSOR COUNT = " + cursor.getCount());
+        if(lastUpdateCol == 1 && lastUp == 1 && cursor.getCount() == 1) {
+            //Log.d(TAG, "UPDATING NAME: " + item.getItemName());
+            return false;
+        }
+        cursor.close();
+        if(lastUp == 1) {
+            //Log.d(TAG, "UPDATING NAME: " + item.getName());
+            return true;
+        }
+        //Log.d(TAG, "Last update: " + Long.valueOf(lastUpdateCol).longValue() + "Item last Update: " + Long.valueOf(lastUp).longValue());
+        // MainActivity.lastUpdateLong < Long.valueOf(lastUp).longValue()
+        if(lastUpdateCol < lastUp) {
+            //Log.d(TAG, "UPDATING NAME: " + item.getName());
+            return true;
+        }
+        return false;
+    }
+
+    public boolean canUpdateScheduleRow(ViewModel item) {
+        //int lastUpdateColumn = cursor.getColumnIndex(edxed.nug.devnug.edxed.ItemDbHelper.KEY_LAST_UPDATE);
+        //Log.d(TAG, "Column index: " + lastUpdateColumn);
+        String nameHolder = item.getName();
+        if(item.getName().indexOf("'") != -1) {
+
+            nameHolder = item.getName().substring(0,item.getName().indexOf("'") + 1) + "'" + item.getName().substring(item.getName().indexOf("'") + 1);
+            //Log.d(TAG, "New name: " + item.getName());
+        }
+        Cursor cursor = database.query(ItemDbHelper.SCHEDULE_TABLE_NAME, allScheduleColumns, ItemDbHelper.KEY_NAME + " LIKE '" + nameHolder + "'", null, null, null, null);
+        cursor.moveToFirst();
+        //Log.d(TAG, "Cursor: " + cursor.getCount());
+        if(cursor.getCount() == 0) {
+            //Log.d(TAG, "UPDATING NAME: " + item.getName());
             return true;
         }
         int lastUpdateColumn = cursor.getColumnIndex(ItemDbHelper.KEY_LAST_UPDATE);
@@ -246,13 +373,13 @@ public class ItemDataSource {
         }
         cursor.close();
         if(lastUp == 1) {
-            Log.d(TAG, "UPDATING NAME: " + item.getName());
+            //Log.d(TAG, "UPDATING NAME: " + item.getName());
             return true;
         }
         //Log.d(TAG, "Last update: " + Long.valueOf(lastUpdateCol).longValue() + "Item last Update: " + Long.valueOf(lastUp).longValue());
         // MainActivity.lastUpdateLong < Long.valueOf(lastUp).longValue()
         if(lastUpdateCol < lastUp) {
-            Log.d(TAG, "UPDATING NAME: " + item.getName());
+            //Log.d(TAG, "UPDATING NAME: " + item.getName());
             return true;
         }
         return false;
@@ -290,13 +417,13 @@ public class ItemDataSource {
 
     public boolean hasEntries()
     {
-        Log.d(TAG, database.toString());
+        //Log.d(TAG, database.toString());
         try {
             Cursor cursor = database.query(ItemDbHelper.CONVERSATION_TABLE_NAME,
                     allColumns, null, null,
                     null, null, null);
             //cursor.moveToFirst();
-            Log.d(TAG, cursor.getCount() + "");
+            //Log.d(TAG, cursor.getCount() + "");
             if(cursor.getCount() == 0) {
                 cursor.close();
                 return false;
@@ -316,6 +443,15 @@ public class ItemDataSource {
         Cursor cursor = database.query(ItemDbHelper.CONVERSATION_TABLE_NAME,
                 allColumns, null, null,
                 null, null, ItemDbHelper.KEY_SESSION + " ASC");
+        return cursor;
+    }
+
+    public Cursor queryScheduleAll()
+    {
+        Cursor cursor = database.query(ItemDbHelper.SCHEDULE_TABLE_NAME,
+                allScheduleColumns, null, null,
+                null, null, null);
+        cursor.moveToFirst();
         return cursor;
     }
 
@@ -679,14 +815,14 @@ public class ItemDataSource {
     public void updatePic(TextView cName, Bitmap result) {
         ContentValues values = new ContentValues();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        Log.d(TAG, "Update Pic " + result + "\n for " + cName.getText());
+        //Log.d(TAG, "Update Pic " + result + "\n for " + cName.getText());
         if(result != null) {
             result.compress(Bitmap.CompressFormat.PNG, 100, baos);
             byte[] photo = baos.toByteArray();
             String name = ((String) cName.getText()).replace("'", "''");
             values.put(ItemDbHelper.KEY_PIC, photo);
-            Log.d(TAG, "photo = " + photo.toString());
-            System.out.println(database.update(ItemDbHelper.CONVERSATION_TABLE_NAME, values, ItemDbHelper.KEY_NAME + " LIKE '" + name + "'", null));
+            //Log.d(TAG, "photo = " + photo.toString());
+            //System.out.println(database.update(ItemDbHelper.CONVERSATION_TABLE_NAME, values, ItemDbHelper.KEY_NAME + " LIKE '" + name + "'", null));
         }
 
     }

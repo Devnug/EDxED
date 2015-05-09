@@ -1,4 +1,5 @@
-package edxed.nug.devnug.edxed; /**
+package edxed.nug.devnug.edxed;
+/**
  * Created by Nug on 3/21/2015.
  */
 
@@ -25,6 +26,7 @@ public class ItemDbHelper extends SQLiteOpenHelper {
     public static final String KEY_EVENT_ID = "eventId";
     public static final String KEY_LAST_UPDATE = "last_update";
     public static final String KEY_STRAND = "strand";
+    public static final String KEY_CANCELLED = "cancelled";
     public static final String CONVERSATION_TABLE_NAME = "conversationlist";
     public static final String CONVERSATION_TABLE_CREATE = "CREATE TABLE IF NOT EXISTS " + CONVERSATION_TABLE_NAME + " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + KEY_NAME + " TEXT, "
@@ -37,7 +39,8 @@ public class ItemDbHelper extends SQLiteOpenHelper {
             + KEY_PIC + " TEXT, "
             + KEY_PIC2 + " TEXT, "
             + KEY_LAST_UPDATE + " INT, "
-            + KEY_STRAND + " TEXT);";
+            + KEY_STRAND + " TEXT, "
+            + KEY_CANCELLED + " TEXT);";
 
     public static final String KEY_JOB_TITLE = "job_title";
     public static final String KEY_TWITTER = "twitter_handle";
@@ -49,6 +52,14 @@ public class ItemDbHelper extends SQLiteOpenHelper {
             + KEY_TWITTER + " TEXT, "
             + KEY_EMAIL + " TEXT, "
             + KEY_PIC + " BLOB);";
+
+    public static final String SCHEDULE_TABLE_NAME = "scheduletitles";
+    public static final String KEY_TIME = "time";
+    public static final String SCHEDULE_TABLE_CREATE = "CREATE TABLE IF NOT EXISTS " + SCHEDULE_TABLE_NAME + " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + KEY_NAME + " TEXT, "
+            + KEY_ROOM + " TEXT, "
+            + KEY_TIME + " TEXT, "
+            + KEY_LAST_UPDATE + " TEXT);";
 
     public static final String DEBUG_TAG = "edxed.nug.devnug.edxed.ItemDbHelper :: ";
 
@@ -66,16 +77,17 @@ public class ItemDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        Log.d(DEBUG_TAG, "onCreate");
+        //Log.d(DEBUG_TAG, "onCreate");
 
     }
 
     @Override
     public void onOpen(SQLiteDatabase db) {
-        Log.d(DEBUG_TAG, "onOpen");
+        //Log.d(DEBUG_TAG, "onOpen");
         //db.execSQL(UNUSUAL_TABLE_CREATE);
         db.execSQL(CONVERSATION_TABLE_CREATE);
         db.execSQL(ORGANIZERS_TABLE_CREATE);
+        db.execSQL(SCHEDULE_TABLE_CREATE);
 
     }
 
@@ -103,6 +115,7 @@ public class ItemDbHelper extends SQLiteOpenHelper {
         //db.execSQL("DROP TABLE IF EXISTS " + UNUSUAL_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + CONVERSATION_TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + ORGANIZERS_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + SCHEDULE_TABLE_NAME);
 
         //recreate tables
         //db.execSQL(CONVERSATION_TABLE_CREATE);

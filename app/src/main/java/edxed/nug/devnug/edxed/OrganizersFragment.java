@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -109,7 +110,7 @@ public class OrganizersFragment extends Fragment {
             int pictureColumn  = c.getColumnIndex(ItemDbHelper.KEY_PIC);
             int twitterColumn = c.getColumnIndex(ItemDbHelper.KEY_TWITTER);
             int emailColumn = c.getColumnIndex(ItemDbHelper.KEY_EMAIL);
-            Log.d(TAG, "Name: " + c.getString(nameColumn));
+            //Log.d(TAG, "Name: " + c.getString(nameColumn));
             do {
                 list.add(new ViewModel(c.getString(nameColumn),c.getString(jobTitleColumn), c.getString(twitterColumn), c.getString(emailColumn)));
 
@@ -227,5 +228,15 @@ public class OrganizersFragment extends Fragment {
         */
 
     }
+
+    private static final String FRAGMENT_TITLE = "Event Organizers";
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((ActionBarActivity)getActivity()).getSupportActionBar().setTitle(FRAGMENT_TITLE);
+    }
+
 
 }

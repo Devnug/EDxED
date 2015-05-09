@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.DrawerLayout;
+import android.widget.Toast;
 
 import edxed.nug.devnug.edxed.ItemDataSource;
 import edxed.nug.devnug.edxed.NavigationDrawerFragment;
@@ -13,7 +14,7 @@ import edxed.nug.devnug.edxed.R;
 /**
  * Created by Nug on 4/17/2015.
  */
-public class SplashScreen extends Activity implements LoadingTask.LoadingTaskFinishedListener {
+public class SplashScreen extends Activity implements LoadingTask.LoadingTaskFinishedListener, LoadingScheduleTask.LoadingScheduleTaskFinishedListener {
 
     ItemDataSource db;
 
@@ -30,7 +31,14 @@ public class SplashScreen extends Activity implements LoadingTask.LoadingTaskFin
 
     // This is the callback for when your async task has finished
     @Override
-    public void onTaskFinished() {
+    public void onTaskFinished(boolean error) {
+        //new LoadingScheduleTask(this,this).execute("");
+        if(error)
+            Toast.makeText(this, "Connection Error.  Data may not be up to date.", Toast.LENGTH_LONG);
+        completeSplash();
+    }
+
+    public void onScheduleTaskFinished() {
         completeSplash();
     }
 
@@ -57,7 +65,7 @@ public class SplashScreen extends Activity implements LoadingTask.LoadingTaskFin
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 SplashScreen.this.finish();
             }
-        }, 3000);
+        }, 1000);
     }
 
 }

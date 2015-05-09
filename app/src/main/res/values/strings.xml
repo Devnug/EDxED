@@ -14,9 +14,9 @@
 
     <string name="action_example">Example action</string>
 
-    <string name="action_settings">Settings</string>
+    <string name="action_about">About the Dev</string>
 
-    <string name="about_title">ABOUT EDxEDNYC 2015</string>
+    <string name="about_title">EDxEDNYC 2015</string>
     <string name="about_title2">EDxEDNYC CONFERENCE June 4, 2015</string>
     <string name="about_text">The mission of EDxEDNYC 2015 is to build best practices,
         network with other innovative thinkers within New York City and to continue conversations
@@ -42,6 +42,13 @@
     <string name="feedback_radio1">Suggestion</string>
     <string name="feedback_radio2">Problem</string>
     <string name="feedback_send">Send</string>
-    <string name="twitter_feed">Join the conversation by using #edxednyc</string>
+    <string name="twitter_feed">Join the conversation by using #EDxEDNYC</string>
+    <string name="no_connection">Unable to pull tweets at this time.</string>
+    <string name="action_refresh">Refresh</string>
+    <string name="about_the_dev">About the Developer</string>
+    <string name="dev_name">Patrick Breitwieser</string>
+    <string name="dev_title">Educator at HHSLT</string>
+    <string name="dev_twitter">\@pbreitwieser</string>
+    <string name="cancel">Cancel</string>
 
 </resources>

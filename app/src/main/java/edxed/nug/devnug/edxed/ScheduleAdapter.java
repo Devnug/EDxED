@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.koushikdutta.ion.Ion;
+
 import java.util.List;
 
 /**
@@ -23,6 +25,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
     private int titleLayout;
     private final FragmentActivity mActivity;
     public ItemDataSource db;
+    public static final String URL = "http://192.241.187.197/edxed/";
 
     private static final int VIEW_TYPE_FIRST  = 0;
     private static final int VIEW_TYPE_SECOND  = 1;
@@ -39,7 +42,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Log.d(TAG, "onCreateViewHolder viewType: " + viewType);
+        //Log.d(TAG, "onCreateViewHolder viewType: " + viewType);
         switch (viewType) {
             case VIEW_TYPE_FIRST:
                 View v = LayoutInflater.from(parent.getContext()).inflate(itemLayout, parent, false);
@@ -57,7 +60,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Log.d(TAG, "Position: " + position);
+        //Log.d(TAG, "Position: " + position);
         switch(getItemViewType(position)) {
             case VIEW_TYPE_FIRST:
                 ViewModel item = items.get(position);
@@ -69,19 +72,45 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
                 //holder.title.setText(item.getTitle());
                 holder.desc.setText(item.getDesc());
                 //holder.imageView.setImageResource(item.getImg());
+                /*
                 ImageView view1 = holder.imageView;
                 //holder.imageView.setImageResource(item.getImg());
-                //view1.setImageResource(item.getImg());
+                view1.setImageResource(item.getImg());
                 ImageView view2 = holder.imageView2;
                 //holder.imageView.setImageResource(item.getImg());
-                //view2.setImageResource(item.getImg2());
+                view2.setImageResource(item.getImg2());
                 Log.d(TAG, "img2 value: " + item.getImg2() + " for " + item.getName());
                 if(item.getImg2() != -1) {
                     view1.setImageResource(item.getImg2());
                     view2.setImageResource(item.getImg());
                 }
-
-                holder.room.setText("Room: " + item.getRoom());
+                */
+                ImageView view1 = holder.imageView;
+                view1.setImageDrawable(null);
+                ImageView view2 = holder.imageView2;
+                view2.setImageDrawable(null);
+                if(item.getImgString2().contains(".png")) {
+                    Ion.with(view2)
+                            // use a placeholder google_image if it needs to load from the network
+                            .placeholder(R.drawable.nopic)
+                                    // load the url
+                            .load(URL + item.getImgString());
+                    Ion.with(view1)
+                            // use a placeholder google_image if it needs to load from the network
+                            .placeholder(R.drawable.nopic)
+                                    // load the url
+                            .load(URL + item.getImgString2());
+                }
+                else
+                {
+                    Ion.with(view1)
+                            // use a placeholder google_image if it needs to load from the network
+                            .placeholder(R.drawable.nopic)
+                                    // load the url
+                            .load(URL + item.getImgString());
+                    //view2.setVisibility(View.INVISIBLE);
+                }
+                holder.room.setText("Room " + item.getRoom());
                 holder.session.setText("Session " + item.getSession());
                 /*
                 The following is used as a workaround to some trouble I'm having with cards other then those
@@ -98,16 +127,17 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
                 holder.divider = false;
                 break;
             case VIEW_TYPE_SECOND:
-                Log.d(TAG, "name: " + items.get(position).getName());
+                //Log.d(TAG, "name: " + items.get(position).getName());
                 ViewModel title = items.get(position);
+                Typeface type2 = Typeface.createFromAsset(mActivity.getAssets(), "fonts/PacificaCondensedRegular.ttf");
+                holder.name.setTypeface(type2);
                 holder.name.setText(title.getName());
                 //holder.title.setText(item.getTitle());
                 //holder.desc.setText(item.getDesc());
                 //holder.imageView.setImageResource(item.getImg());
-                if(!title.getRoom().equals("TBD"))
-                    holder.room.setText("Room: " + title.getRoom());
+                holder.room.setText(title.getRoom());
                 if(!title.getSession().equals(""))
-                    holder.session.setText("Time " + title.getSession());
+                    holder.session.setText("Time: " + title.getSession());
                 /*
                 The following is used as a workaround to some trouble I'm having with cards other then those
                 being clicked are opened.  However all cards will now hide the description tag when they are
@@ -127,7 +157,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
 
     @Override
     public int getItemViewType(int position) {
-        Log.d(TAG, "getItemViewType position: " + position);
+        //Log.d(TAG, "getItemViewType position: " + position);
         if(items.get(position).getTitle().equals(""))
             return 1;
         else
@@ -169,7 +199,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
 
                     @Override
                     public void onClick(View v) {
-                        Log.d(TAG, "Added to Schedule");
+                        //Log.d(TAG, "Added to Schedule");
                         final View contextView = v;
                         Toast.makeText(v.getContext(), "Added to Schedule", Toast.LENGTH_LONG).show();
                         googleCal.setVisibility(View.GONE);
@@ -185,7 +215,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
 
                     @Override
                     public void onClick(View v) {
-                        Log.d(TAG, "Removed from Schedule");
+                        //Log.d(TAG, "Removed from Schedule");
                         final View contextView = v;
                         Toast.makeText(v.getContext(), "Removed from Schedule", Toast.LENGTH_LONG).show();
                         currentItem.setAttending("false");
@@ -204,7 +234,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
                     @Override
                     public void onClick(View v) {
                         //ViewHolder view = new ViewHolder(v);
-                        Log.d(TAG, "currentItem attending: " + currentItem.getAttending());
+                        //Log.d(TAG, "currentItem attending: " + currentItem.getAttending());
                         //Log.d(TAG, "view attending: " + view.currentItem.getAttending());
                         if (currentItem.getAttending().equals("false")) {
                             desc.setVisibility(View.VISIBLE);
@@ -215,7 +245,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
 
                         }
                         showMore.setVisibility(View.GONE);
-                        Log.d(TAG, currentItem.getName().toString());
+                        //Log.d(TAG, currentItem.getName().toString());
                         //Log.d(TAG, view.currentItem.getName().toString());
                     }
                 });

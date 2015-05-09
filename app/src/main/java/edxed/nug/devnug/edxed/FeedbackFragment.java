@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,7 +60,7 @@ public class FeedbackFragment extends Fragment {
                 else
                     intent.putExtra(Intent.EXTRA_SUBJECT, "EdxEdNYC Feedback - Problem");
                 intent.putExtra(Intent.EXTRA_TEXT, details.getText().toString());
-                startActivity(Intent.createChooser(intent, "Choose an Email client :"));
+                startActivity(Intent.createChooser(intent, "Choose an Email client: "));
             }
         });
         return rootView;
@@ -71,5 +72,14 @@ public class FeedbackFragment extends Fragment {
         ((MainActivity) activity).onSectionAttached(
                 getArguments().getInt(ARG_SECTION_NUMBER));
     }
+
+    private static final String FRAGMENT_TITLE = "Feedback";
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((ActionBarActivity)getActivity()).getSupportActionBar().setTitle(FRAGMENT_TITLE);
+    }
+
 }
 

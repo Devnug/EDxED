@@ -7,6 +7,7 @@ import android.media.Image;
  */
 public class ViewModel {
 
+    private String cancelled;
     private String name;
     private String title;
     private String desc;
@@ -32,7 +33,7 @@ public class ViewModel {
         img = determineImg();
     }
 
-    public ViewModel(String theName, String theTitle, String theDesc, String theRoom, String theAttending, String theSession) {
+    public ViewModel(String theName, String theTitle, String theDesc, String theRoom, String theAttending, String theSession, String picUrl, String picUrl2) {
         name = theName;
         title = theTitle;
         desc = theDesc;
@@ -40,19 +41,25 @@ public class ViewModel {
         session = theSession;
         attending = theAttending;
         // Test with phil...for now...
+        imgString = picUrl;
+        imgString2 = picUrl2;
         img = determineImg();
         if(name.indexOf("&") != -1) {
             img2 = determineImg(name.substring(name.indexOf("&") + 1).trim());
         }
     }
 
+    // For organizers fragment
     public ViewModel(String theName, String theJobTitle, String theTwitterHandle, String theEmail) {
         name = theName;
         jobTitle = theJobTitle;
         twitterHandle = theTwitterHandle;
         email = theEmail;
         // Test with phil...for now...
-        img = determineImg();
+        if(!name.toLowerCase().contains("gina angelillo"))
+            img = determineImg();
+        else
+            img = R.drawable.gina;
 
     }
 
@@ -92,16 +99,33 @@ public class ViewModel {
         }
     }
 
+    public ViewModel(String theName, String newTitle, String newDesc, String newRoom, String newSession, int update, int theId, String theImgString, String theImgString2, String cancelled) {
+        name = theName;
+        title = newTitle;
+        desc = newDesc;
+        room = newRoom;
+        session = newSession;
+        lastUpdate = update;
+        id = theId;
+        //attending = theAttending;
+        imgString = theImgString;
+        imgString2 = theImgString2;
+        this.cancelled = cancelled;
+        // Test with phil...for now...
+        img = determineImg();
+        if(name.indexOf("&") != -1 && name.toLowerCase().indexOf("goulding") == -1) {
+            img2 = determineImg(name.substring(name.indexOf("&") + 1).trim());
+        }
+    }
+    /*
     public int determineImg() {
         if(name.toLowerCase().indexOf("anne taliaferro") != -1)
             return R.drawable.anne;
         if(name.toLowerCase().indexOf("christopher purcell") != -1 || name.toLowerCase().indexOf("chris purcell") != -1)
             return R.drawable.christopher;
-        if(name.toLowerCase().indexOf("gina angelillo") != -1)
-            return R.drawable.gina;
         if(name.toLowerCase().indexOf("halley anne curtis") != -1)
             return R.drawable.halley;
-        if(name.toLowerCase().indexOf("jennifer gunn") != -1)
+        if(name.toLowerCase().indexOf("jennifer l.m. gunn") != -1)
             return R.drawable.jennifer;
         if(name.toLowerCase().indexOf("kate salute") != -1)
             return R.drawable.kate;
@@ -123,7 +147,7 @@ public class ViewModel {
             return R.drawable.haber;
         if(name.toLowerCase().indexOf("vanessa letourneau") != -1)
             return R.drawable.vanessa;
-        if(name.toLowerCase().indexOf("ross burman") != -1)
+        if(name.toLowerCase().indexOf("ross berman") != -1)
             return R.drawable.ross;
         if(name.toLowerCase().indexOf("lori-stahl-van brackle") != -1)
             return R.drawable.lori_stahl;
@@ -149,14 +173,51 @@ public class ViewModel {
             return R.drawable.kyeatta;
         if(name.toLowerCase().indexOf("leia petty") != -1)
             return R.drawable.leia;
+        if(name.toLowerCase().indexOf("melissa boulter") != -1)
+            return R.drawable.melissa_b;
+        if(name.toLowerCase().indexOf("grace o'keeffe") != -1)
+            return R.drawable.grace;
+        if(name.toLowerCase().indexOf("david rothauser") != -1)
+            return R.drawable.david;
+        if(name.toLowerCase().indexOf("christopher lagares") != -1)
+            return R.drawable.chris_l;
+        return R.drawable.nopic;
+    }
+    */
+
+    public int determineImg() {
+        if(name.toLowerCase().indexOf("anne taliaferro") != -1)
+            return R.drawable.anne;
+        if(name.toLowerCase().indexOf("christopher purcell") != -1 || name.toLowerCase().indexOf("chris purcell") != -1)
+            return R.drawable.christopher;
+        if(name.toLowerCase().indexOf("jennifer l.m. gunn") != -1)
+            return R.drawable.jennifer;
+        if(name.toLowerCase().indexOf("phil linder") != -1)
+            return R.drawable.phil;
+        if(name.toLowerCase().indexOf("thomas rodney") != -1)
+            return R.drawable.thomas;
+        if(name.toLowerCase().indexOf("tim comer") != -1)
+            return R.drawable.tim;
+        if(name.toLowerCase().indexOf("walter brown") != -1)
+            return R.drawable.walter;
+        if(name.toLowerCase().indexOf("nancy amling") != -1)
+            return R.drawable.nancy;
+        if(name.toLowerCase().indexOf("dr. gary haber") != -1)
+            return R.drawable.haber;
+        if(name.toLowerCase().indexOf("vanessa letourneau") != -1)
+            return R.drawable.vanessa;
         return R.drawable.nopic;
     }
 
     public int determineImg(String name) {
+        /*
         if(name.toLowerCase().indexOf("robert kane") != -1)
                return R.drawable.robert;
         if(name.toLowerCase().indexOf("melissa tortora") != -1)
             return R.drawable.melissa;
+            */
+        if(name.toLowerCase().indexOf("gina angelillo") != -1)
+            return R.drawable.gina;
         return R.drawable.nopic;
     }
 
@@ -274,5 +335,13 @@ public class ViewModel {
 
     public void setImgString2(String imgString2) {
         this.imgString2 = imgString2;
+    }
+
+    public String getCancelled() {
+        return cancelled;
+    }
+
+    public void setCancelled(String cancelled) {
+        this.cancelled = cancelled;
     }
 }

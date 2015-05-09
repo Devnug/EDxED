@@ -1,5 +1,7 @@
 package edxed.nug.devnug.edxed;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
@@ -15,6 +17,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.koushikdutta.ion.Ion;
+
 import java.util.List;
 
 /**
@@ -26,6 +30,7 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
     private int itemLayout;
     private final FragmentActivity mActivity;
     public ItemDataSource db;
+    public static final String URL = "http://192.241.187.197/edxed/";
 
     private static final String TAG = "ConversationAdapter";
 
@@ -45,17 +50,42 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        ViewModel item = items.get(position);
+        final ViewModel item = items.get(position);
         Typeface type = Typeface.createFromAsset(mActivity.getAssets(), "fonts/PacificaCondensedRegular.ttf");
         holder.name.setTypeface(type);
         holder.name.setText(item.getName());
         holder.title.setTypeface(type);
         holder.title.setText(item.getTitle());
         holder.desc.setText(item.getDesc());
-        Log.d(TAG, "Img value: " + item.getImg());
+        //Log.d(TAG, "Img value: " + item.getImgString2());
         ImageView view1 = holder.imageView;
+        view1.setImageDrawable(null);
+        ImageView view2 = holder.imageView2;
+        view2.setImageDrawable(null);
+        if(item.getImgString2().contains(".png")) {
+            Ion.with(view2)
+                    // use a placeholder google_image if it needs to load from the network
+                    .placeholder(R.drawable.nopic)
+                            // load the url
+                    .load(URL + item.getImgString());
+            Ion.with(view1)
+                    // use a placeholder google_image if it needs to load from the network
+                    .placeholder(R.drawable.nopic)
+                            // load the url
+                    .load(URL + item.getImgString2());
+        }
+        else
+        {
+            Ion.with(view1)
+                    // use a placeholder google_image if it needs to load from the network
+                    .placeholder(R.drawable.nopic)
+                            // load the url
+                    .load(URL + item.getImgString());
+            //view2.setVisibility(View.INVISIBLE);
+        }
         //holder.imageView.setImageResource(item.getImg());
-        view1.setImageResource(item.getImg());
+        //view1.setImageResource(item.getImg());
+        /*
         ImageView view2 = holder.imageView2;
         //holder.imageView.setImageResource(item.getImg());
         view2.setImageResource(item.getImg2());
@@ -67,7 +97,8 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
         }
         //else
             //view2.setVisibility(View.INVISIBLE);
-        holder.room.setText("Room: " + item.getRoom());
+            */
+        holder.room.setText("Room " + item.getRoom());
         holder.session.setText("Session " + item.getSession());
         /*
             The following is used as a workaround to some trouble I'm having with cards other then those
@@ -89,6 +120,45 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
             holder.imageView2.setVisibility(View.VISIBLE);
         }
         */
+        final TextView gCal = holder.googleCal;
+        final TextView rGCal = holder.remGoogleCal;
+        /*
+        gCal.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                //Log.d(TAG, "Added to Schedule");
+                final View contextView = v;
+                if(!db.isOpenSpot(item.getSession())) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+                    builder.setMessage(R.string.conflict_on_cal)
+                            .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    ConversationFragment.removeEvent(item.getSession());
+                                    Toast.makeText(contextView.getContext(), "Added to Schedule", Toast.LENGTH_LONG).show();
+                                    gCal.setVisibility(View.GONE);
+                                    rGCal.setVisibility(View.VISIBLE);
+                                    item.setAttending("true");
+                                    ConversationFragment.addEvent(contextView.getContext(), item);
+                                }
+                            })
+                            .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+
+                                }
+                            });
+                    // Create the AlertDialog object and return it
+                    builder.create().show();
+                }
+                else {
+                    Toast.makeText(contextView.getContext(), "Added to Schedule", Toast.LENGTH_LONG).show();
+                    gCal.setVisibility(View.GONE);
+                    rGCal.setVisibility(View.VISIBLE);
+                    item.setAttending("true");
+                    ConversationFragment.addEvent(contextView.getContext(), item);
+                }
+            }
+        });*/
         holder.showMore.setVisibility(View.VISIBLE);
         holder.desc.setVisibility(View.GONE);
         holder.googleCal.setVisibility(View.GONE);
@@ -132,7 +202,7 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
 
                 @Override
                 public void onClick(View v) {
-                    Log.d(TAG, "Added to Schedule");
+                    //Log.d(TAG, "Added to Schedule");
                     final View contextView = v;
                     if(ConversationFragment.addEvent(v.getContext(),currentItem)) {
                         Toast.makeText(v.getContext(), "Added to Schedule", Toast.LENGTH_LONG).show();
@@ -149,7 +219,7 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
 
                 @Override
                 public void onClick(View v) {
-                    Log.d(TAG, "Removed from Schedule");
+                    //Log.d(TAG, "Removed from Schedule");
                     final View contextView = v;
                     Toast.makeText(v.getContext(), "Removed from Schedule", Toast.LENGTH_LONG).show();
                     currentItem.setAttending("false");
@@ -173,7 +243,7 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
                 @Override
                 public void onClick(View v) {
                     //ViewHolder view = new ViewHolder(v);
-                    Log.d(TAG, "currentItem attending: " + currentItem.getAttending());
+                    //Log.d(TAG, "currentItem attending: " + currentItem.getAttending());
                     //Log.d(TAG, "view attending: " + view.currentItem.getAttending());
                     if(currentItem.getAttending().equals("false") || currentItem.getAttending().equals(null)) {
                         desc.setVisibility(View.VISIBLE);
@@ -185,7 +255,7 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
 
                     }
                     showMore.setVisibility(View.GONE);
-                    Log.d(TAG, currentItem.getName().toString() + " " +currentItem.getSession().toString());
+                    //Log.d(TAG, currentItem.getName().toString() + " " +currentItem.getSession().toString());
                     //Log.d(TAG, view.currentItem.getName().toString());
                 }
             });

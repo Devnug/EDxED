@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -89,7 +90,9 @@ public class ScheduleFragment extends Fragment {
         ((MainActivity) activity).onSectionAttached(
                 getArguments().getInt(ARG_SECTION_NUMBER));
         db = new ItemDataSource(this.mActivity.getApplicationContext());
+        //populateList();
         createList();
+
     }
 
     @Override
@@ -104,78 +107,114 @@ public class ScheduleFragment extends Fragment {
 
     }
 
+    public void populateList(){
+        list = new ArrayList<ViewModel>();
+        Cursor c2 = db.queryScheduleAll();
+        //if(c2.moveToFirst()) {
+            int idColumn = c2.getColumnIndex(ItemDbHelper.COLUMN_ID);
+            int nameColumn = c2.getColumnIndex(ItemDbHelper.KEY_NAME);
+            int roomColumn = c2.getColumnIndex(ItemDbHelper.KEY_ROOM);
+            int timeColumn = c2.getColumnIndex(ItemDbHelper.KEY_TIME);
+            //int Column = c.getColumnIndex(ItemDbHelper.KEY_LAST_UPDATE);
+            do {
+                Log.d(TAG, "Adding to Schedule title: " + c2.getString(nameColumn));
+                list.add(new ViewModel(c2.getString(nameColumn), "", "", c2.getString(roomColumn), "", c2.getString(timeColumn), "", ""));
+
+            } while(c2.moveToNext());
+        //}
+        c2.close();
+
+    }
+
     //  Creates a base list and populates the ArrayList list to ensure that the cardview has entries
     public void createList() {
+
         list = new ArrayList<ViewModel>();
         boolean session1 = false;
         boolean session2 = false;
         boolean session3 = false;
-        list.add(new ViewModel("Check-In, Breakfast, Networking","", "", "", "true", "8:15-9:00"));
-        list.add(new ViewModel("Keynote - Marisol Bradbury","", "", "", "true", "9:00-9:30"));
-        list.add(new ViewModel("Conversation Session 1","", "", "", "true", "9:30-11:00"));
-        list.add(new ViewModel("Lunch & Lightning Sessions","", "", "", "true", "11:00-12:00"));
-        list.add(new ViewModel("Conversation Session 2","", "", "", "true", "12:00-1:30"));
-        list.add(new ViewModel("Conversation Session 3","", "", "", "true", "1:30-3:05"));
-        list.add(new ViewModel("Closing Remarks","", "", "", "true", "3:10-3:30"));
-        Log.d(TAG, list.get(0).getName());
+        list.add(new ViewModel("Check-In, Breakfast, Networking","", "", "Lobby", "true", "8:15-9:00", "", ""));
+        list.add(new ViewModel("Keynote Address: Marisol Bradbury","", " ", "Auditorium", "true", "9:00-9:30", "", ""));
+        list.add(new ViewModel("Conversation Session 1","", "", " ", "true", "9:30-11:00", "", ""));
+        list.add(new ViewModel("Lunch & Ignite Session","", "", "Auditorium", "true", "11:00-12:00", "", ""));
+        list.add(new ViewModel("Conversation Session 2","", "", " ", "true", "12:00-1:30", "", ""));
+        list.add(new ViewModel("Conversation Session 3","", "", " ", "true", "1:30-3:05", "", ""));
+        list.add(new ViewModel("Closing Remarks","", "", "Auditorium", "true", "3:10-3:30", "", ""));
+        /*
+        Cursor c2 = db.queryScheduleAll();
+        if(c2.moveToFirst()) {
+            int idColumn = c2.getColumnIndex(ItemDbHelper.COLUMN_ID);
+            int nameColumn = c2.getColumnIndex(ItemDbHelper.KEY_NAME);
+            int roomColumn = c2.getColumnIndex(ItemDbHelper.KEY_ROOM);
+            int timeColumn = c2.getColumnIndex(ItemDbHelper.KEY_TIME);
+            //int Column = c.getColumnIndex(ItemDbHelper.KEY_LAST_UPDATE);
+            do {
+                list.add(new ViewModel(c2.getString(nameColumn), "", "", c2.getString(roomColumn), "", c2.getString(timeColumn)));
+
+            } while(c2.moveToNext());
+        }
+        c2.close();
+        */
         Cursor c = db.queryAttending();
         if(c.moveToFirst()) {
             int nameColumn = c.getColumnIndex(ItemDbHelper.KEY_NAME);
             int titleColumn = c.getColumnIndex(ItemDbHelper.KEY_TITLE);
             int descColumn = c.getColumnIndex(ItemDbHelper.KEY_DESC);
             int roomColumn = c.getColumnIndex(ItemDbHelper.KEY_ROOM);
+            int picColumn = c.getColumnIndex(ItemDbHelper.KEY_PIC);
+            int pic2Column = c.getColumnIndex(ItemDbHelper.KEY_PIC2);
             int sessionColumn = c.getColumnIndex(ItemDbHelper.KEY_SESSION);
             int attendingColumn = c.getColumnIndex(ItemDbHelper.KEY_ATTENDING);
             int eventIdColumn = c.getColumnIndex(ItemDbHelper.KEY_EVENT_ID);
             do {
                 Log.d(TAG, "Name: " + c.getString(nameColumn) + " session: " + c.getString(sessionColumn) + " attending " + c.getString(attendingColumn));
                 if(c.getString(sessionColumn).equals("1")) {
-                    list.add(3, new ViewModel(c.getString(nameColumn), c.getString(titleColumn), c.getString(descColumn), c.getString(roomColumn), c.getString(attendingColumn), c.getString(sessionColumn)));
+                    list.add(3, new ViewModel(c.getString(nameColumn), c.getString(titleColumn), c.getString(descColumn), c.getString(roomColumn), c.getString(attendingColumn), c.getString(sessionColumn), c.getString(picColumn), c.getString(pic2Column)));
                     session1 = true;
-                    Log.d(TAG, "Session 1 Picked");
+                    //Log.d(TAG, "Session 1 Picked");
                 }
                 if(c.getString(sessionColumn).equals("2")) {
                     for(int i = 0; i < list.size(); i++) {
-                        Log.d(TAG, "Session: " + list.get(i).getName());
+                        //Log.d(TAG, "Session: " + list.get(i).getName());
                         if(list.get(i).getName().equals("Conversation Session 2")) {
-                            list.add(i+1, new ViewModel(c.getString(nameColumn), c.getString(titleColumn), c.getString(descColumn), c.getString(roomColumn), c.getString(attendingColumn), c.getString(sessionColumn)));
+                            list.add(i+1, new ViewModel(c.getString(nameColumn), c.getString(titleColumn), c.getString(descColumn), c.getString(roomColumn), c.getString(attendingColumn), c.getString(sessionColumn), c.getString(picColumn), c.getString(pic2Column)));
                             session2 = true;
-                            Log.d(TAG, "Session 2 Picked");
+                            //Log.d(TAG, "Session 2 Picked");
                         }
                     }
                 }
                 if(c.getString(sessionColumn).equals("3")) {
-                    Log.d(TAG, "Session 3 Here");
+                    //Log.d(TAG, "Session 3 Here");
                     for(int i = 0; i < list.size(); i++) {
                         if(list.get(i).getName().equals("Conversation Session 3")) {
-                            list.add(i+1, new ViewModel(c.getString(nameColumn), c.getString(titleColumn), c.getString(descColumn), c.getString(roomColumn), c.getString(attendingColumn), c.getString(sessionColumn)));
+                            list.add(i+1, new ViewModel(c.getString(nameColumn), c.getString(titleColumn), c.getString(descColumn), c.getString(roomColumn), c.getString(attendingColumn), c.getString(sessionColumn), c.getString(picColumn), c.getString(pic2Column)));
                             session3 = true;
-                            Log.d(TAG, "Session 3 Picked");
+                            //Log.d(TAG, "Session 3 Picked");
                         }
                     }
                 }
             } while(c.moveToNext());
             if(!session1) {
-                Log.d(TAG, "No session 1");
+                //Log.d(TAG, "No session 1");
                 for(int i = 0; i < list.size(); i++) {
                     if(list.get(i).getName().equals("Conversation Session 1")) {
-                        list.add(i+1, new ViewModel("You have not chosen a conversation yet for Session 1!", "", "", "", "", ""));
+                        list.add(i+1, new ViewModel("You have not chosen a conversation yet for Session 1!", "", "", " ", "", "", "", ""));
                     }
                 }
             }
             if(!session2) {
-                Log.d(TAG, "No session 2");
+                //Log.d(TAG, "No session 2");
                 for(int i = 0; i < list.size(); i++) {
                     if(list.get(i).getName().equals("Conversation Session 2")) {
-                        list.add(i+1, new ViewModel("You have not chosen a conversation yet for Session 2!", "", "", "", "", ""));
+                        list.add(i+1, new ViewModel("You have not chosen a conversation yet for Session 2!", "", "", " ", "", "", "", ""));
                     }
                 }
             }
             if(!session3) {
-                Log.d(TAG, "No session 3");
+                //Log.d(TAG, "No session 3");
                 for(int i = 0; i < list.size(); i++) {
                     if(list.get(i).getName().equals("Conversation Session 3")) {
-                        list.add(i+1, new ViewModel("You have not chosen a conversation yet for Session 3!", "", "", "", "", ""));
+                        list.add(i+1, new ViewModel("You have not chosen a conversation yet for Session 3!", "", "", " ", "", "", "", ""));
                     }
                 }
             }
@@ -184,21 +223,21 @@ public class ScheduleFragment extends Fragment {
             if(!session1) {
                 for(int i = 0; i < list.size(); i++) {
                     if(list.get(i).getName().equals("Conversation Session 1")) {
-                        list.add(i+1, new ViewModel("You have not chosen a conversation yet for Session 1!", "", "", "", "", ""));
+                        list.add(i+1, new ViewModel("You have not chosen a conversation yet for Session 1!", "", "", " ", "", "", "", ""));
                     }
                 }
             }
             if(!session2) {
                 for(int i = 0; i < list.size(); i++) {
                     if(list.get(i).getName().equals("Conversation Session 2")) {
-                        list.add(i+1, new ViewModel("You have not chosen a conversation yet for Session 2!", "", "", "", "", ""));
+                        list.add(i+1, new ViewModel("You have not chosen a conversation yet for Session 2!", "", "", " ", "", "", "", ""));
                     }
                 }
             }
             if(!session3) {
                 for(int i = 0; i < list.size(); i++) {
                     if(list.get(i).getName().equals("Conversation Session 3")) {
-                        list.add(i+1, new ViewModel("You have not chosen a conversation yet for Session 3!", "", "", "", "", ""));
+                        list.add(i+1, new ViewModel("You have not chosen a conversation yet for Session 3!", "", "", " ", "", "", "", ""));
                     }
                 }
             }
@@ -227,6 +266,28 @@ public class ScheduleFragment extends Fragment {
 
     public static void removeEvent(ViewModel item) {
         db.updateAttending(item.getName());
+        if(item.getSession().equals("1")) {
+            for(int i = 0; i < list.size(); i++) {
+                if(list.get(i).getName().equals("Conversation Session 1")) {
+                    list.add(i+1, new ViewModel("You have not chosen a conversation yet for Session 1!", "", "", " ", "", "", "", ""));
+                }
+            }
+        }
+        else if(item.getSession().equals("2")) {
+            for(int i = 0; i < list.size(); i++) {
+                if(list.get(i).getName().equals("Conversation Session 2")) {
+                    list.add(i+1, new ViewModel("You have not chosen a conversation yet for Session 2!", "", "", " ", "", "", "", ""));
+                }
+            }
+        }
+        else if(item.getSession().equals("3")) {
+            for(int i = 0; i < list.size(); i++) {
+                if(list.get(i).getName().equals("Conversation Session 3")) {
+                    list.add(i+1, new ViewModel("You have not chosen a conversation yet for Session 3!", "", "", " ", "", "", "", ""));
+                }
+            }
+        }
+
     }
 
     public static void removeCard(View v) {
@@ -282,6 +343,14 @@ public class ScheduleFragment extends Fragment {
         context.startActivity(intent);
         */
 
+    }
+
+    private static final String FRAGMENT_TITLE = "Schedule";
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((ActionBarActivity)getActivity()).getSupportActionBar().setTitle(FRAGMENT_TITLE);
     }
 
 }

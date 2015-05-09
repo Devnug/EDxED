@@ -42,10 +42,9 @@
             android:id="@+id/twitter"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/hor_div"
             android:autoLink="web"
-            android:layout_alignBottom="@+id/pic"
-            android:gravity="right"
+            android:layout_alignParentBottom="true"
+            android:gravity="end"
             android:textColor="@color/blue"
             android:paddingRight="6dp"/>
         <TextView
@@ -53,10 +52,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/hor_div"
-            android:layout_alignBottom="@+id/pic"
+            android:layout_alignParentBottom="true"
             android:textColor="@color/blue"
             android:autoLink="email"
-            android:gravity="right"
+            android:gravity="end"
             android:paddingRight="6dp"/>
     </RelativeLayout>
         </android.support.v7.widget.CardView>

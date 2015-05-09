@@ -3,7 +3,6 @@ package edxed.nug.devnug.edxed;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -28,33 +27,33 @@ import java.util.ArrayList;
 /**
  * Created by Nug on 4/19/2015.
  */
-public class LoadingTask extends AsyncTask<String, Integer, Integer> {
+public class LoadingScheduleTask extends AsyncTask<String, Integer, Integer> {
 
     ItemDataSource db;
-    public static final String TAG = "Loading Task";
+    public static final String TAG = "LoadingScheduleTask";
     public ArrayList<ViewModel> itemArray = new ArrayList<ViewModel>();
-    public boolean error = false;
 
-    public interface LoadingTaskFinishedListener {
-        void onTaskFinished(boolean isError); // If you want to pass something back to the listener add a param to this method
+    public interface LoadingScheduleTaskFinishedListener {
+        void onScheduleTaskFinished(); // If you want to pass something back to the listener add a param to this method
     }
 
     // This is the progress bar you want to update while the task is in progress
     //private final ProgressBar progressBar;
     // This is the listener that will be told when this task is finished
-    private final LoadingTaskFinishedListener finishedListener;
+    private final LoadingScheduleTaskFinishedListener finishedListener;
 
     /**
      * A Loading task that will load some resources that are necessary for the app to start
      * @param context - context of the application
      * @param finishedListener - the listener that will be told when this task is finished
      */
-    public LoadingTask(Context context, LoadingTaskFinishedListener finishedListener) {
+    public LoadingScheduleTask(Context context, LoadingScheduleTaskFinishedListener finishedListener) {
         //this.progressBar = progressBar;
         db = new ItemDataSource(context);
         if(!db.hasEntries()) {
             db.createBaseTable();
             db.createOrgBaseTable();
+            db.createScheduleBaseTable();
         }
         this.finishedListener = finishedListener;
     }
@@ -67,8 +66,7 @@ public class LoadingTask extends AsyncTask<String, Integer, Integer> {
                 downloadResources();
             }
             catch(IOException e) {
-                //Log.d(TAG, e.getStackTrace() + "");
-                error = true;
+                Log.d(TAG, e.getStackTrace() + "");
             }
         }
         // Perhaps you want to return something to your post execute
@@ -83,7 +81,7 @@ public class LoadingTask extends AsyncTask<String, Integer, Integer> {
 
     public void updateDatabase() {
         for(int i = 0; i <itemArray.size(); i++) {
-            db.createItem(itemArray.get(i));
+            db.createScheduleItem(itemArray.get(i));
         }
     }
 
@@ -100,42 +98,9 @@ public class LoadingTask extends AsyncTask<String, Integer, Integer> {
         int len = 500;
 
         try {
-	        	 /*
-	        	//Setup the parameters
-				ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-				nameValuePairs.add(new BasicNameValuePair("Username", "pUser"));
-				nameValuePairs.add(new BasicNameValuePair("Password", "pricelistapp"));
-				//Add more parameters as necessary
-
-				//Create the HTTP request
-				HttpParams httpParameters = new BasicHttpParams();
-
-				//Setup timeouts
-				HttpConnectionParams.setConnectionTimeout(httpParameters, 15000);
-				HttpConnectionParams.setSoTimeout(httpParameters, 15000);
-
-				HttpClient httpclient = new DefaultHttpClient(httpParameters);
-				HttpPost httppost = new HttpPost(priceListURL);
-				//httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-				HttpResponse response = httpclient.execute(httppost);
-				HttpEntity entity = response.getEntity();
-	            */
-
-            //URL url = new URL(priceListURL);
-            //Log.d(TAG,"TRYING");
-            //HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            //conn.setReadTimeout(10000 /* milliseconds */);
-            //conn.setConnectTimeout(15000 /* milliseconds */);
-            //conn.setRequestMethod("POST");
-            //String credentials = "pUser" + ":" + "pricelistapp";
-            //String base64EncodedCredentials = Base64.encodeToString(credentials.getBytes(), Base64.NO_WRAP);
-            //conn.setRequestProperty("Authorization", "Basic " + base64EncodedCredentials);
-            //conn.setDoInput(true);
-            // Starts the query
-            //conn.connect();
 
             ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-            nameValuePairs.add(new BasicNameValuePair("name", "name"));
+            nameValuePairs.add(new BasicNameValuePair("schedule", "schedule"));
             //Add more parameters as necessary
 
             //Create the HTTP request
@@ -164,12 +129,12 @@ public class LoadingTask extends AsyncTask<String, Integer, Integer> {
             for(int i = 0; i < jArray.length(); i++) {
                 JSONObject obj = jArray.getJSONObject(i);
                 //System.out.println("What is the tool? " + obj.getString("itemClass"));
-                //Log.d(TAG, obj.getString("name") + " " + obj.getString("title") + " " + obj.getString("desc") + " " + obj.getString("room") + " " + obj.getString("session") + " " + obj.getInt("last_update") + " " + obj.getString("pic") + " " + obj.getString("strand"));
-                itemArray.add(new ViewModel(obj.getString("name"), obj.getString("title"), obj.getString("desc"), obj.getString("room"), obj.getString("session"), obj.getInt("last_update"), obj.getInt("_id"), obj.getString("pic"), obj.getString("pic2"), obj.getString("cancelled")));
+                Log.d(TAG, obj.getString("name") + " " + " " + obj.getString("room") + " " + obj.getString("time"));
+                itemArray.add(new ViewModel(obj.getString("name"), "", "", obj.getString("room"), "true", obj.getString("time"), "", ""));
             }
             updateDatabase();
             //int response = entity..getResponseCode();
-            //Log.d(TAG, "The response is: " + response);
+            Log.d(TAG, "The response is: " + response);
             //is = conn.getInputStream();
 
             // Convert the InputStream into a string
@@ -178,11 +143,9 @@ public class LoadingTask extends AsyncTask<String, Integer, Integer> {
             // Makes sure that the InputStream is closed after the app is
             // finished using it.
         } catch (JSONException e) {
-            //Toast.makeText(this, "Connection Error.  Data may not be up to date.", Toast.LENGTH_LONG);
             // TODO Auto-generated catch block
             e.printStackTrace();
-            error = true;
-            //Log.d(TAG, "Error when reading json");
+            Log.d(TAG, "Error when reading json");
         } finally {
             if (is != null) {
                 is.close();
@@ -200,6 +163,6 @@ public class LoadingTask extends AsyncTask<String, Integer, Integer> {
     @Override
     protected void onPostExecute(Integer result) {
         super.onPostExecute(result);
-        finishedListener.onTaskFinished(error);// Tell whoever was listening we have finished
+        finishedListener.onScheduleTaskFinished();// Tell whoever was listening we have finished
     }
 }

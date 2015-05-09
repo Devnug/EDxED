@@ -1,6 +1,7 @@
 package edxed.nug.devnug.edxed;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
@@ -43,7 +44,9 @@ public class OrganizersAdapter extends RecyclerView.Adapter<OrganizersAdapter.Vi
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         ViewModel item = items.get(position);
-        holder.name.setText( item.getName());
+        Typeface type = Typeface.createFromAsset(mActivity.getAssets(), "fonts/PacificaCondensedRegular.ttf");
+        holder.name.setTypeface(type);
+        holder.name.setText(item.getName());
         //holder.title.setText(item.getTitle());
         holder.jobTitle.setText(item.getJobTitle());
         holder.imageView.setImageResource(item.getImg());
@@ -97,7 +100,7 @@ public class OrganizersAdapter extends RecyclerView.Adapter<OrganizersAdapter.Vi
 
                     @Override
                     public void onClick(View v) {
-                        Log.d(TAG, "To Twitter");
+                        //Log.d(TAG, "To Twitter");
                         final View contextView = v;
                         Uri address= Uri.parse("http://www.twitter.com/" + currentItem.getTwitterHandle().substring(1));
                         Intent browser= new Intent(Intent.ACTION_VIEW, address);

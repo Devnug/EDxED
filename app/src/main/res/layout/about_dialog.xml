@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/about_the_dev"
+        android:text="@string/about_the_dev"
+        android:paddingLeft="6dp"
+        android:paddingTop="6dp"
+        android:textStyle="bold"
+        android:textSize="18sp"/>
+    <ImageView
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:id="@+id/image"
+        android:layout_below="@+id/about_the_dev"
+        android:padding="6dp" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/dev_name"
+        android:id="@+id/dev_name"
+        android:textSize="16sp"
+        android:layout_below="@+id/about_the_dev"
+        android:layout_toRightOf="@+id/image" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/dev_title"
+        android:id="@+id/dev_title"
+        android:layout_toRightOf="@+id/image"
+        android:layout_below="@+id/dev_name"
+        android:paddingTop="6dp" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/dev_twitter"
+        android:id="@+id/dev_twitter"
+        android:textColor="@color/blue"
+        android:layout_toRightOf="@+id/image"
+        android:layout_below="@+id/dev_title"
+        android:paddingTop="6dp" />
+
+</RelativeLayout>

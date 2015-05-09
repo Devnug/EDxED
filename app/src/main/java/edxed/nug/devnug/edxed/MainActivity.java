@@ -1,8 +1,14 @@
 package edxed.nug.devnug.edxed;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
+import android.provider.CalendarContract;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -19,8 +25,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.GregorianCalendar;
 
 
 public class MainActivity extends ActionBarActivity
@@ -42,6 +51,7 @@ public class MainActivity extends ActionBarActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        restoreActionBar();
         mContext = this.getApplicationContext();
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
@@ -68,7 +78,7 @@ public class MainActivity extends ActionBarActivity
         //Log.d(DEBUG_TAG, stringUrl);
         if (networkInfo != null && networkInfo.isConnected()) {
             new DownloadWebpageText(this).execute("");
-            Log.d(TAG, "true");
+            //Log.d(TAG, "true");
         } else {
             Toast.makeText(this, "No network connection available", Toast.LENGTH_LONG).show();
             //Toast.makeText(this, textView.setText("No network connection available.");
@@ -83,10 +93,12 @@ public class MainActivity extends ActionBarActivity
             fragmentManager.beginTransaction()
                 .replace(R.id.container, PlaceholderFragment.newInstance(position + 1)).addToBackStack(null)
                     .commit();
-        if (position == 1)
+        if (position == 1) {
+            this.invalidateOptionsMenu();
             fragmentManager.beginTransaction()
                     .replace(R.id.container, ActivityFeedFragment.newInstance(position + 1)).addToBackStack(null)
                     .commit();
+        }
         if (position == 2)
             fragmentManager.beginTransaction()
                     .replace(R.id.container, ConversationFragment.newInstance(position + 1)).addToBackStack(null)
@@ -103,10 +115,12 @@ public class MainActivity extends ActionBarActivity
             fragmentManager.beginTransaction()
                     .replace(R.id.container, ScheduleFragment.newInstance(position + 1)).addToBackStack(null)
                     .commit();
+        /*
         if(position == 6)
             fragmentManager.beginTransaction()
                     .replace(R.id.container, PlaceholderFragment.newInstance(position + 1)).addToBackStack(null)
                     .commit();
+                    */
     }
 
     public void onSectionAttached(int number) {
@@ -136,7 +150,7 @@ public class MainActivity extends ActionBarActivity
     }
 
     public void restoreActionBar() {
-        ActionBar actionBar = getSupportActionBar();
+        ActionBar actionBar = this.getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle(mTitle);
@@ -164,21 +178,58 @@ public class MainActivity extends ActionBarActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_about) {
+            createAboutDialog();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+    private void createAboutDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        //builder.setTitle("About the Developer");
+        //builder.setIcon(R.drawable.patrick);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialoglayout = inflater.inflate(R.layout.about_dialog, null);
+        ImageView image = (ImageView) dialoglayout.findViewById(R.id.image);
+        image.setImageResource(R.drawable.patrick);
+        final TextView twitter = (TextView) dialoglayout.findViewById(R.id.dev_twitter);
+        twitter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Log.d(TAG, "To Twitter");
+                final View contextView = v;
+                Uri address= Uri.parse("http://www.twitter.com/" + twitter.getText().toString().substring(1));
+                Intent browser= new Intent(Intent.ACTION_VIEW, address);
+                v.getContext().startActivity(browser);
+            }
+        });
+        builder.setView(dialoglayout);
+        //builder.setMessage(R.string.about_the_dev)
+        builder.setPositiveButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+
+                    }
+                });
+        // Create the AlertDialog object and return it
+        builder.create().show();
+    }
+
     @Override
     public void onBackPressed() {
-        if(getFragmentManager().getBackStackEntryCount() == 0) {
+        if(getSupportFragmentManager().getBackStackEntryCount() == 1) {
             super.onBackPressed();
+            finish();
+            //this.onDestroy();
+            //Log.d(TAG, "No fragments in backstack");
         }
         else {
-            getFragmentManager().popBackStack();
+            //Log.d(TAG, "Fragments in backstack");
+            getSupportFragmentManager().popBackStack();
+            //restoreActionBar();
         }
+
     }
 
 
