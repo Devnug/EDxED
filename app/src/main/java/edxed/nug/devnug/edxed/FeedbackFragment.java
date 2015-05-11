@@ -54,7 +54,7 @@ public class FeedbackFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
-                        "mailto", "pbreitwieser@hudsonhs.com", null));
+                        "mailto", "devnug@gmail.com", null));
                 if(suggestionButton.isChecked())
                     intent.putExtra(Intent.EXTRA_SUBJECT, "EdxEdNYC Feedback - Suggestion");
                 else

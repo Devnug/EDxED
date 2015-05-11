@@ -62,26 +62,27 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
         view1.setImageDrawable(null);
         ImageView view2 = holder.imageView2;
         view2.setImageDrawable(null);
-        if(item.getImgString2().contains(".png")) {
-            Ion.with(view2)
-                    // use a placeholder google_image if it needs to load from the network
-                    .placeholder(R.drawable.nopic)
-                            // load the url
-                    .load(URL + item.getImgString());
-            Ion.with(view1)
-                    // use a placeholder google_image if it needs to load from the network
-                    .placeholder(R.drawable.nopic)
-                            // load the url
-                    .load(URL + item.getImgString2());
-        }
-        else
-        {
-            Ion.with(view1)
-                    // use a placeholder google_image if it needs to load from the network
-                    .placeholder(R.drawable.nopic)
-                            // load the url
-                    .load(URL + item.getImgString());
-            //view2.setVisibility(View.INVISIBLE);
+        //Log.d(TAG, "img string: a" + item.getImgString2() + "b");
+        if(item.getImgString2() != null) {
+            if (item.getImgString2().contains(".png")) {
+                Ion.with(view2)
+                        // use a placeholder google_image if it needs to load from the network
+                        .placeholder(R.drawable.nopic)
+                                // load the url
+                        .load(URL + item.getImgString());
+                Ion.with(view1)
+                        // use a placeholder google_image if it needs to load from the network
+                        .placeholder(R.drawable.nopic)
+                                // load the url
+                        .load(URL + item.getImgString2());
+            } else {
+                Ion.with(view1)
+                        // use a placeholder google_image if it needs to load from the network
+                        .placeholder(R.drawable.nopic)
+                                // load the url
+                        .load(URL + item.getImgString());
+                //view2.setVisibility(View.INVISIBLE);
+            }
         }
         //holder.imageView.setImageResource(item.getImg());
         //view1.setImageResource(item.getImg());

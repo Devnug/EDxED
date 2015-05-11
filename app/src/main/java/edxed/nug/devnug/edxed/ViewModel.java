@@ -206,6 +206,8 @@ public class ViewModel {
             return R.drawable.haber;
         if(name.toLowerCase().indexOf("vanessa letourneau") != -1)
             return R.drawable.vanessa;
+        if(name.toLowerCase().indexOf("gina angelillo") != -1)
+            return R.drawable.gina;
         return R.drawable.nopic;
     }
 
@@ -216,8 +218,8 @@ public class ViewModel {
         if(name.toLowerCase().indexOf("melissa tortora") != -1)
             return R.drawable.melissa;
             */
-        if(name.toLowerCase().indexOf("gina angelillo") != -1)
-            return R.drawable.gina;
+        //if(name.toLowerCase().indexOf("gina angelillo") != -1)
+        //    return R.drawable.gina;
         return R.drawable.nopic;
     }
 
