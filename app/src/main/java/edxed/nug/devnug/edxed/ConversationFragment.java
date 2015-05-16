@@ -151,26 +151,20 @@ public class ConversationFragment extends Fragment {
             } while(c.moveToNext());
         }
         c.close();
+        boolean twoFound = false;
+        boolean threeFound = false;
+        list.add(0, new ViewModel("Session 1", "", "", " ", "true", "9:30-11:00", "", ""));
+        for(int i = 0; i < list.size(); i++) {
+            if(list.get(i).getSession().equals("2") && !twoFound) {
+                list.add(i, new ViewModel("Session 2", "", "", " ", "true", "12:00-1:30", "", ""));
+                twoFound = true;
+            }
+            if(list.get(i).getSession().equals("3") && !threeFound) {
+                list.add(i, new ViewModel("Session 3", "", "", " ", "true", "1:30-3:00", "", ""));
+                threeFound = true;
+            }
+        }
     }
-    /*
-    private ArrayList<ViewModel> createMockList() {
-        list = new ArrayList<ViewModel>();
-        list.add(new ViewModel("HALLEY ANNE CURTIS","INTERNATIONAL TRAVEL", "Traveling internationally expands students' world views and brings classroom learning to life, so how can you bring this opportunity to your school? At this session, you'll learn about the logistics of planning an international trip through the school system. Additionally, you'll hear about how Hudson provided financial support to make travel possible for students from a variety of backgrounds. You'll leave with the basic supports and inspiration you need to bring international travel to your students!","no img"));
-        list.add(new ViewModel("JENNIFER GUNN","THE BIG IDEA PROJECT", "The Big Idea Project is a student-designed passion project that allows students to discover their passions and conduct deep research and experimentation on topics they love or have yet to have the space to discover. This session will share The Big Idea Project model, as well as the lessons and successes we acquired along the way. Presentation participants will discuss practical solutions for launching a long-term independent project model with built-in supports and learning competencies. Furthermore, participants will gain access to our wealth of open-source materials.","no img"));
-        list.add(new ViewModel("CHRISTOPHER PURCELL","MULTIPLE ACCESS POINTS", "Incorporating multiple access points into our instruction allows all of our students the opportunity to engage in their learning of both knowledge and skills. Participants will examine strategies and resources in developing multiple access points for content, process, and product.","no img"));
-        list.add(new ViewModel("SARAH KATZ","THE FUTURE PROJECT", "The Future Project is dedicated to seeing students living lives of passion and purpose decades after they leave high school. So what does sustainable inspiration look like amongst young people? What is the Future Project methodology and how can the presence of a Dream Director and a Dream Team re-imagine school culture? Learn from students and staff who are part of the Future Project family.","no img"));
-        list.add(new ViewModel("WALTER BROWN","INSTRUCTIONAL ROUNDS", "Participants will share and discuss the strengths and benefits of establishing a culture of peer professional conversations. We will use David Allen's \"Tuning Protocol\" as we look at several pieces of evidence and documents from the process..","no img"));
-        list.add(new ViewModel("LEIA PETTY & MELISSA TORTORA","RESTORATIVE JUSTICE", "Restorative Justice stems from the belief that conflict in a community can be repaired and relationships can be restored. It is an attempt to resolve conflict in a way that brings a community closer together rather than punitive models that alienate those in conflict from the larger community to whom they caused harm. Many teachers, support staff and administrators in their schools have used the restorative justice model to varying degrees. In this session, restorative justice faculty and student leaders at Hudson will walk you through the benefits of employing restorative justice, model a justice circle, and discuss how you can start a program at your school.","no img"));
-        list.add(new ViewModel("TIM COMER","BLENDED LEARNING", "What does blended learning look like? How does leveraging technology in this way fundamentally change the role of both the student and the teacher? In this session, teachers will begin to conceptualize and plan their digital classrooms to construct student paced blended learning lessons or units.","no img"));
-        list.add(new ViewModel("MICHAEL PONELLA","ELECTIVE PROGRAMS", "What are the best practices for administering an effective elective program in schools? In this session discussions will center around the Elective Exhibition, Elective Registration, student choice vs. teacher choice, the value of electives, and the goals for our elective classes. Come to this session and get a fresh new perspective on the administration of electives and enrichment.","no img"));
-        list.add(new ViewModel("ANNE TALIAFERRO","GRADE-TEAM MEETINGS", "In this session, educators will be sharing the use of grade teams within the school to examine student work and analyze student achievement data, including growth and gaps, to inform evidence-based adjustments to units, lessons and teaching practices, and ensure we are serving individual student needs. The discussion will center on the different uses of grade team meetings, and attempt to answer the questions \"How do grade teams help us develop as educators?\" and \"How does the use of grade team influence school culture?\"","no img"));
-        list.add(new ViewModel("PHIL LINDER","TEACHING THEMATICALLY IN SOCIAL STUDIES", "The benefits of teaching Social Studies thematically (as opposed to chronologically) are well documented, and after years of teaching United States History in the traditional, chronological way, I have finally decided to make the switch. Join educators from around the city in an open conversation as we share ideas and examine the strengths and weaknesses of shifting pedagogical strategies to capture all types of diverse learners in today's city.","no img"));
-        list.add(new ViewModel("THOMAS RODNEY","TECHNOLOGY USE IN THE MATH CLASSROOM", "Technology, such as calculators, standard software programs, and the Internet, can be effectively used to enhance instruction in a number of ways. Participants will share best practices and discuss the benefits and capabilities of technology in the classroom.","no img"));
-        list.add(new ViewModel("GINA ANGELILLO","GOOGLE CLASSROOM", "With Google Classroom, teachers can seamlessly integrate Google Docs, Google Drive, and Gmail to create assignments, provide feedback for in progress and completed work, and communicate with their students directly and with whole class announcements--all without using a single piece of paper. Participants will set up Google Classroom teacher accounts and learn how to create, assign, and collect student assignments digitally.","no img"));
-        list.add(new ViewModel("KATE SALUTE","CONTENT, PROCESS & PRODUCT", "The conversation will be around students demonstrating their understanding in a variety of ways without compromising Common Core standards. This method engages students in the process, the content and drives them to produce quality work. Bring your best project assignments! Small content groups with hands on project starters and 10 slides in 100 seconds to present their product.","no img"));
-        return list;
-    }
-    */
 
     public static void removeEvent(ViewModel item) {
         db.updateAttending(item.getName());
@@ -178,6 +172,7 @@ public class ConversationFragment extends Fragment {
 
     public static void removeEvent(String session) { db.removeSession(session); }
 
+    // Unusued as of Version 1.0
     public static boolean addEvent(final Context context, ViewModel item) {
         // Intent calIntent = new Intent(Intent.ACTION_INSERT);
         // calIntent.setData(CalendarContract.Events.CONTENT_URI);

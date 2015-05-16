@@ -110,8 +110,10 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
                             .load(URL + item.getImgString());
                     //view2.setVisibility(View.INVISIBLE);
                 }
+
                 holder.room.setText("Room " + item.getRoom());
                 holder.session.setText("Session " + item.getSession());
+
                 /*
                 The following is used as a workaround to some trouble I'm having with cards other then those
                 being clicked are opened.  However all cards will now hide the description tag when they are
