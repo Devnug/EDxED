@@ -182,7 +182,7 @@ public class ItemDataSource {
         //Cursor cursor2 = database.query(edxed.nug.devnug.edxed.ItemDbHelper.DICTIONARY_TABLE_NAME, allColumns, edxed.nug.devnug.edxed.ItemDbHelper.KEY_NAME + " LIKE '%" + name + "%'", null, null, null, null);
         //cursor2.moveToFirst();
         //Initial Database
-        String sql = "INSERT INTO schedulelist (_id, name, room, time)  VALUES ('" + 1 + "','" + "Check-In, Registration, Networking" + "','" + "Lobby" + "','" + "8:15-9:00')";
+        String sql = "INSERT INTO schedulelist (_id, name, room, time)  VALUES ('" + 1 + "','" + "Check-In, Registration, Networking" + "','" + "Lobby & Outside Room 101" + "','" + "8:15-9:00')";
         this.database.execSQL(sql);
         this.database.execSQL("INSERT INTO schedulelist (_id, name, job_title, twitter_handle, email, pic)  VALUES ('" + 2 + "','" + "Keynote Address: Marisol Bradbury" + "','" + "Auditorium" + "','" + "9:00-9:30')");
         this.database.execSQL("INSERT INTO schedulelist (_id, name, job_title, twitter_handle, email, pic)  VALUES ('" + 3 + "','" + "Conversation Session 1" + "','" + "" + "','" + "9:30-11:00')");
@@ -289,6 +289,11 @@ public class ItemDataSource {
 
     public void updateAttending(String name) {
         ContentValues values = new ContentValues();
+        if(name.indexOf("'") != -1) {
+
+            name = name.replaceAll("'", "''");
+            Log.d(TAG, "New name: " + name);
+        }
         Cursor c = database.query(ItemDbHelper.CONVERSATION_TABLE_NAME, allColumns, ItemDbHelper.KEY_NAME + " LIKE '" + name + "'", null, null, null, null);
         c.moveToFirst();
         //Log.d(TAG,"attending originally set to: " + c.getString(c.getColumnIndex("attending")));

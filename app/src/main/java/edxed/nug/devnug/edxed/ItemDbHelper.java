@@ -78,6 +78,9 @@ public class ItemDbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         //Log.d(DEBUG_TAG, "onCreate");
+        db.execSQL(CONVERSATION_TABLE_CREATE);
+        db.execSQL(ORGANIZERS_TABLE_CREATE);
+        db.execSQL(SCHEDULE_TABLE_CREATE);
 
     }
 

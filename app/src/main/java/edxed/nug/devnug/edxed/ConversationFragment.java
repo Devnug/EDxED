@@ -295,6 +295,4 @@ public class ConversationFragment extends Fragment {
         ((ActionBarActivity)getActivity()).getSupportActionBar().setTitle(FRAGMENT_TITLE);
     }
 
-
-
 }

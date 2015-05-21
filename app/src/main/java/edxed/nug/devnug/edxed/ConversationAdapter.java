@@ -30,7 +30,7 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
     private int itemLayout;
     private int titleLayout;
     private final FragmentActivity mActivity;
-    public ItemDataSource db;
+    public static ItemDataSource db;
     public static final String URL = "http://192.241.187.197/edxed/";
 
     private static final int VIEW_TYPE_FIRST  = 0;
@@ -194,6 +194,28 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
                     public void onClick(View v) {
                         //Log.d(TAG, "Added to Schedule");
                         final View contextView = v;
+                        if(!db.isOpenSpot(currentItem.getSession())) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(contextView.getContext());
+                            builder.setMessage(R.string.conflict_on_cal)
+                                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            // Too much work on the main thread.  Need to fix
+                                            ConversationFragment.removeEvent(currentItem.getSession());
+                                            ConversationFragment.addEvent(contextView.getContext(), currentItem);
+                                            Toast.makeText(contextView.getContext(), "Added to Schedule", Toast.LENGTH_LONG).show();
+                                            googleCal.setVisibility(View.GONE);
+                                            remGoogleCal.setVisibility(View.VISIBLE);
+                                            currentItem.setAttending("true");
+                                        }
+                                    })
+                                    .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+
+                                        }
+                                    });
+                            // Create the AlertDialog object and return it
+                            builder.create().show();
+                            /*
                         if (ConversationFragment.addEvent(v.getContext(), currentItem)) {
                             Toast.makeText(v.getContext(), "Added to Schedule", Toast.LENGTH_LONG).show();
                             googleCal.setVisibility(View.GONE);
@@ -201,6 +223,16 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
                             currentItem.setAttending("true");
                             //ConversationFragment.addEvent(v.getContext(), currentItem);
                         }
+                        */
+                        }
+                        else {
+                            Toast.makeText(v.getContext(), "Added to Schedule", Toast.LENGTH_LONG).show();
+                            googleCal.setVisibility(View.GONE);
+                            remGoogleCal.setVisibility(View.VISIBLE);
+                            currentItem.setAttending("true");
+                            ConversationFragment.addEvent(v.getContext(), currentItem);
+                        }
+
 
                     }
                 });
